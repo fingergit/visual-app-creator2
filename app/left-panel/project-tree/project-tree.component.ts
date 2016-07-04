@@ -6,6 +6,7 @@ declare var $;
 @Component({
     selector: 'vac-project-tree'
     ,templateUrl: 'app/left-panel/project-tree/project-tree.component.html'
+    ,styleUrls: ['app/left-panel/project-tree/project-tree.component.css']
     // ,directives: [ROUTER_DIRECTIVES]
     // ,providers: [HeroService, DialogService]
 })

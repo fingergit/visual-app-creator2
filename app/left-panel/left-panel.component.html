@@ -8,7 +8,50 @@
         <span class="navbar-brand">Menu</span>
     </div><!-- /.navbar-header -->
     <div class="collapse navbar-collapse">
-        <vac-project-tree></vac-project-tree>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            页面
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <vac-project-tree></vac-project-tree>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            控件
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#widgetPage" data-toggle="tab">控件</a></li>
+                <li><a href="#templatePage" data-toggle="tab">模板</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="widgetPage">
+                    dddd
+                </div>
+                <div id="templatePage" class="tab-pane">
+                    wolaiye
+                </div>
+            </div>
+        </div>
+
         <!--<ul class="nav navbar-nav">-->
             <!--<li><a href="#">Home</a></li>-->
             <!--<li><a href="#">How  It Works</a></li>-->
