@@ -1,0 +1,37 @@
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#1" data-toggle="tab">开始</a></li>
+        <li><a href="#tt" data-toggle="tab">Profile</a></li>
+        <li><a href="#3" data-toggle="tab">Messages</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="1">
+            <div class="btn-toolbar" role="toolbar" aria-label="toolbar">
+                <div class="btn-group" role="group" aria-label="theGroup.name" *ngFor="let theGroup of toolItems">
+                    <button type="button" class="btn btn-default" title="{{toolItem.name}}" (click)="toolItem.onClick()"
+                            *ngFor="let toolItem of theGroup.items" [class.disabled]="!toolItem.enable">
+                        {{toolItem.name}}
+                    </button>
+                </div>
+                <!--<div class="btn-group" role="group" aria-label="...">-->
+                    <!--<button type="button" class="btn btn-default">Left</button>-->
+                    <!--<button type="button" class="btn btn-default">Middle</button>-->
+                    <!--<button type="button" class="btn btn-default">Right</button>-->
+                <!--</div>-->
+                <!--<div class="btn-group" role="group" aria-label="...">-->
+                    <!--<button type="button" class="btn btn-default">Left</button>-->
+                    <!--<button type="button" class="btn btn-default">Middle</button>-->
+                    <!--<button type="button" class="btn btn-default">Right</button>-->
+                <!--</div>-->
+                <!--<div class="btn-group" role="group" aria-label="...">-->
+                    <!--<button type="button" class="btn btn-default">Left</button>-->
+                    <!--<button type="button" class="btn btn-default">Middle</button>-->
+                    <!--<button type="button" class="btn btn-default">Right</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div id="tt" class="tab-pane">
+            wolaiye
+        </div>
+    </div>
+</div>
