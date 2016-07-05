@@ -15,24 +15,17 @@
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             页面
                         </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        <vac-project-tree></vac-project-tree>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            控件
+                        <a role="button" data-parent="#accordion" class="btn btn-default btn-sm" (click)="addGroup()">
+                            添加组
+                        </a>
+                        <a role="button" data-parent="#accordion" class="btn btn-default btn-sm" (click)="addPage()">
+                            添加页
                         </a>
                     </h4>
                 </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="panel-body">
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body padding0">
+                        <vac-project-tree></vac-project-tree>
                     </div>
                 </div>
             </div>

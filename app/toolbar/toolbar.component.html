@@ -1,16 +1,14 @@
 <div class="tabbable">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#1" data-toggle="tab">开始</a></li>
-        <li><a href="#tt" data-toggle="tab">Profile</a></li>
-        <li><a href="#3" data-toggle="tab">Messages</a></li>
+        <li class="active"><a href="#toolbar-start" data-toggle="tab">开始</a></li>
+        <li><a href="#toolbar-config" data-toggle="tab">配置</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="1">
+        <div class="tab-pane active" id="toolbar-start">
             <div class="btn-toolbar" role="toolbar" aria-label="toolbar">
                 <div class="btn-group" role="group" aria-label="theGroup.name" *ngFor="let theGroup of toolItems">
-                    <button type="button" class="btn btn-default" title="{{toolItem.name}}" (click)="toolItem.onClick()"
+                    <button type="button" id="{{toolItem.id}}" class="btn btn-default fa f-toolbar-item {{toolItem.icon}}" title="{{toolItem.name + '(' + (isMac?toolItem.hotkeyMac:toolItem.hotkeyWin) + ')'}}" (click)="toolItem.doCommand()"
                             *ngFor="let toolItem of theGroup.items" [class.disabled]="!toolItem.enable">
-                        {{toolItem.name}}
                     </button>
                 </div>
                 <!--<div class="btn-group" role="group" aria-label="...">-->
@@ -30,7 +28,7 @@
                 <!--</div>-->
             </div>
         </div>
-        <div id="tt" class="tab-pane">
+        <div id="toolbar-config" class="tab-pane">
             wolaiye
         </div>
     </div>

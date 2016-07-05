@@ -41,6 +41,9 @@
 		checkedIcon: 'glyphicon glyphicon-check',
 		uncheckedIcon: 'glyphicon glyphicon-unchecked',
 
+		nodeName: 'text', // lvaj
+		nodesName: 'children', // lvaj
+
 		color: undefined, // '#000000',
 		backColor: undefined, // '#FFFFFF',
 		borderColor: undefined, // '#dddddd',
@@ -149,7 +152,7 @@
 	Tree.prototype.init = function (options) {
 
 		this.tree = [];
-		this.nodes = [];
+		this.children = [];
 
 		if (options.data) {
 			if (typeof options.data === 'string') {
@@ -162,7 +165,7 @@
 
 		this.destroy();
 		this.subscribeEvents();
-		this.setInitialStates({ nodes: this.tree }, 0);
+		this.setInitialStates({ children: this.tree }, 0);
 		this.render();
 	};
 
@@ -249,22 +252,22 @@
 	};
 
 	/*
-		Recurse the tree structure and ensure all nodes have
+		Recurse the tree structure and ensure all children have
 		valid initial states.  User defined states will be preserved.
 		For performance we also take this opportunity to
-		index nodes in a flattened structure
+		index children in a flattened structure
 	*/
 	Tree.prototype.setInitialStates = function (node, level) {
 
-		if (!node.nodes) return;
+		if (!node.children) return;
 		level += 1;
 
 		var parent = node;
 		var _this = this;
-		$.each(node.nodes, function checkStates(index, node) {
+		$.each(node.children, function checkStates(index, node) {
 
 			// nodeId : unique, incremental identifier
-			node.nodeId = _this.nodes.length;
+			node.nodeId = _this.children.length;
 
 			// parentId : transversing up the tree
 			node.parentId = parent.nodeId;
@@ -291,7 +294,7 @@
 			if (!node.state.hasOwnProperty('expanded')) {
 				if (!node.state.disabled &&
 						(level < _this.options.levels) &&
-						(node.nodes && node.nodes.length > 0)) {
+						(node.children && node.children.length > 0)) {
 					node.state.expanded = true;
 				}
 				else {
@@ -304,11 +307,11 @@
 				node.state.selected = false;
 			}
 
-			// index nodes in a flattened structure for use later
-			_this.nodes.push(node);
+			// index children in a flattened structure for use later
+			_this.children.push(node);
 
-			// recurse child nodes and transverse the tree
-			if (node.nodes) {
+			// recurse child children and transverse the tree
+			if (node.children) {
 				_this.setInitialStates(node, level);
 			}
 		});
@@ -321,7 +324,7 @@
 		var target = $(event.target);
 		var node = this.findNode(target);
 		if (!node || node.state.disabled) return;
-		
+
 		var classList = target.attr('class') ? target.attr('class').split(' ') : [];
 		if ((classList.indexOf('expand-icon') !== -1)) {
 
@@ -329,12 +332,12 @@
 			this.render();
 		}
 		else if ((classList.indexOf('check-icon') !== -1)) {
-			
+
 			this.toggleCheckedState(node, _default.options);
 			this.render();
 		}
 		else {
-			
+
 			if (node.selectable) {
 				this.toggleSelectedState(node, _default.options);
 			} else {
@@ -350,7 +353,7 @@
 	Tree.prototype.findNode = function (target) {
 
 		var nodeId = target.closest('li.list-group-item').attr('data-nodeid');
-		var node = this.nodes[nodeId];
+		var node = this.children[nodeId];
 
 		if (!node) {
 			console.log('Error: node does not exist');
@@ -367,7 +370,7 @@
 
 		if (state === node.state.expanded) return;
 
-		if (state && node.nodes) {
+		if (state && node.children) {
 
 			// Expand a node
 			node.state.expanded = true;
@@ -383,9 +386,9 @@
 				this.$element.trigger('nodeCollapsed', $.extend(true, {}, node));
 			}
 
-			// Collapse child nodes
-			if (node.nodes && !options.ignoreChildren) {
-				$.each(node.nodes, $.proxy(function (index, node) {
+			// Collapse child children
+			if (node.children && !options.ignoreChildren) {
+				$.each(node.children, $.proxy(function (index, node) {
 					this.setExpandedState(node, false, options);
 				}, this));
 			}
@@ -503,20 +506,20 @@
 
 	// Starting from the root node, and recursing down the
 	// structure we build the tree one node at a time
-	Tree.prototype.buildTree = function (nodes, level) {
+	Tree.prototype.buildTree = function (children, level) {
 
-		if (!nodes) return;
+		if (!children) return;
 		level += 1;
 
 		var _this = this;
-		$.each(nodes, function addNodes(id, node) {
+		$.each(children, function addNodes(id, node) {
 
 			var treeItem = $(_this.template.item)
 				.addClass('node-' + _this.elementId)
 				.addClass(node.state.checked ? 'node-checked' : '')
 				.addClass(node.state.disabled ? 'node-disabled': '')
 				.addClass(node.state.selected ? 'node-selected' : '')
-				.addClass(node.searchResult ? 'search-result' : '') 
+				.addClass(node.searchResult ? 'search-result' : '')
 				.attr('data-nodeid', node.nodeId)
 				.attr('style', _this.buildStyleOverride(node));
 
@@ -527,7 +530,7 @@
 
 			// Add expand, collapse or empty spacer icons
 			var classList = [];
-			if (node.nodes) {
+			if (node.children) {
 				classList.push('expand-icon');
 				if (node.state.expanded) {
 					classList.push(_this.options.collapseIcon);
@@ -548,13 +551,13 @@
 
 			// Add node icon
 			if (_this.options.showIcon) {
-				
+
 				var classList = ['node-icon'];
 
 				classList.push(node.icon || _this.options.nodeIcon);
 				if (node.state.selected) {
 					classList.pop();
-					classList.push(node.selectedIcon || _this.options.selectedIcon || 
+					classList.push(node.selectedIcon || _this.options.selectedIcon ||
 									node.icon || _this.options.nodeIcon);
 				}
 
@@ -569,7 +572,7 @@
 
 				var classList = ['check-icon'];
 				if (node.state.checked) {
-					classList.push(_this.options.checkedIcon); 
+					classList.push(_this.options.checkedIcon);
 				}
 				else {
 					classList.push(_this.options.uncheckedIcon);
@@ -587,13 +590,13 @@
 				treeItem
 					.append($(_this.template.link)
 						.attr('href', node.href)
-						.append(node.text)
+						.append(node[_this.options.nodeName])
 					);
 			}
 			else {
 				// otherwise just text
 				treeItem
-					.append(node.text);
+					.append(node[_this.options.nodeName]);
 			}
 
 			// Add tags as badges
@@ -610,8 +613,8 @@
 			_this.$wrapper.append(treeItem);
 
 			// Recursively add child ndoes
-			if (node.nodes && node.state.expanded && !node.state.disabled) {
-				return _this.buildTree(node.nodes, level);
+			if (node.children && node.state.expanded && !node.state.disabled) {
+				return _this.buildTree(node.children, level);
 			}
 		});
 	};
@@ -704,7 +707,7 @@
 		@return {Object} node - Matching node
 	*/
 	Tree.prototype.getNode = function (nodeId) {
-		return this.nodes[nodeId];
+		return this.children[nodeId];
 	};
 
 	/**
@@ -714,82 +717,82 @@
 	*/
 	Tree.prototype.getParent = function (identifier) {
 		var node = this.identifyNode(identifier);
-		return this.nodes[node.parentId];
+		return this.children[node.parentId];
 	};
 
 	/**
-		Returns an array of sibling nodes for a given node, if valid otherwise returns undefined.
+		Returns an array of sibling children for a given node, if valid otherwise returns undefined.
 		@param {Object|Number} identifier - A valid node or node id
-		@returns {Array} nodes - Sibling nodes
+		@returns {Array} children - Sibling children
 	*/
 	Tree.prototype.getSiblings = function (identifier) {
 		var node = this.identifyNode(identifier);
 		var parent = this.getParent(node);
-		var nodes = parent ? parent.nodes : this.tree;
-		return nodes.filter(function (obj) {
+		var children = parent ? parent.children : this.tree;
+		return children.filter(function (obj) {
 				return obj.nodeId !== node.nodeId;
 			});
 	};
 
 	/**
-		Returns an array of selected nodes.
-		@returns {Array} nodes - Selected nodes
+		Returns an array of selected children.
+		@returns {Array} children - Selected children
 	*/
 	Tree.prototype.getSelected = function () {
 		return this.findNodes('true', 'g', 'state.selected');
 	};
 
 	/**
-		Returns an array of unselected nodes.
-		@returns {Array} nodes - Unselected nodes
+		Returns an array of unselected children.
+		@returns {Array} children - Unselected children
 	*/
 	Tree.prototype.getUnselected = function () {
 		return this.findNodes('false', 'g', 'state.selected');
 	};
 
 	/**
-		Returns an array of expanded nodes.
-		@returns {Array} nodes - Expanded nodes
+		Returns an array of expanded children.
+		@returns {Array} children - Expanded children
 	*/
 	Tree.prototype.getExpanded = function () {
 		return this.findNodes('true', 'g', 'state.expanded');
 	};
 
 	/**
-		Returns an array of collapsed nodes.
-		@returns {Array} nodes - Collapsed nodes
+		Returns an array of collapsed children.
+		@returns {Array} children - Collapsed children
 	*/
 	Tree.prototype.getCollapsed = function () {
 		return this.findNodes('false', 'g', 'state.expanded');
 	};
 
 	/**
-		Returns an array of checked nodes.
-		@returns {Array} nodes - Checked nodes
+		Returns an array of checked children.
+		@returns {Array} children - Checked children
 	*/
 	Tree.prototype.getChecked = function () {
 		return this.findNodes('true', 'g', 'state.checked');
 	};
 
 	/**
-		Returns an array of unchecked nodes.
-		@returns {Array} nodes - Unchecked nodes
+		Returns an array of unchecked children.
+		@returns {Array} children - Unchecked children
 	*/
 	Tree.prototype.getUnchecked = function () {
 		return this.findNodes('false', 'g', 'state.checked');
 	};
 
 	/**
-		Returns an array of disabled nodes.
-		@returns {Array} nodes - Disabled nodes
+		Returns an array of disabled children.
+		@returns {Array} children - Disabled children
 	*/
 	Tree.prototype.getDisabled = function () {
 		return this.findNodes('true', 'g', 'state.disabled');
 	};
 
 	/**
-		Returns an array of enabled nodes.
-		@returns {Array} nodes - Enabled nodes
+		Returns an array of enabled children.
+		@returns {Array} children - Enabled children
 	*/
 	Tree.prototype.getEnabled = function () {
 		return this.findNodes('false', 'g', 'state.disabled');
@@ -837,7 +840,7 @@
 
 
 	/**
-		Collapse all tree nodes
+		Collapse all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.collapseAll = function (options) {
@@ -863,7 +866,7 @@
 	};
 
 	/**
-		Expand all tree nodes
+		Expand all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.expandAll = function (options) {
@@ -890,21 +893,21 @@
 	Tree.prototype.expandNode = function (identifiers, options) {
 		this.forEachIdentifier(identifiers, options, $.proxy(function (node, options) {
 			this.setExpandedState(node, true, options);
-			if (node.nodes && (options && options.levels)) {
-				this.expandLevels(node.nodes, options.levels-1, options);
+			if (node.children && (options && options.levels)) {
+				this.expandLevels(node.children, options.levels-1, options);
 			}
 		}, this));
 
 		this.render();
 	};
 
-	Tree.prototype.expandLevels = function (nodes, level, options) {
+	Tree.prototype.expandLevels = function (children, level, options) {
 		options = $.extend({}, _default.options, options);
 
-		$.each(nodes, $.proxy(function (index, node) {
+		$.each(children, $.proxy(function (index, node) {
 			this.setExpandedState(node, (level > 0) ? true : false, options);
-			if (node.nodes) {
-				this.expandLevels(node.nodes, level-1, options);
+			if (node.children) {
+				this.expandLevels(node.children, level-1, options);
 			}
 		}, this));
 	};
@@ -927,7 +930,7 @@
 	};
 
 	/**
-		Toggles a nodes expanded state; collapsing if expanded, expanding if collapsed.
+		Toggles a children expanded state; collapsing if expanded, expanding if collapsed.
 		@param {Object|Number} identifiers - A valid node, node id or array of node identifiers
 		@param {optional Object} options
 	*/
@@ -941,7 +944,7 @@
 
 
 	/**
-		Check all tree nodes
+		Check all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.checkAll = function (options) {
@@ -967,7 +970,7 @@
 	};
 
 	/**
-		Uncheck all tree nodes
+		Uncheck all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.uncheckAll = function (options) {
@@ -993,7 +996,7 @@
 	};
 
 	/**
-		Toggles a nodes checked state; checking if unchecked, unchecking if checked.
+		Toggles a children checked state; checking if unchecked, unchecking if checked.
 		@param {Object|Number} identifiers - A valid node, node id or array of node identifiers
 		@param {optional Object} options
 	*/
@@ -1007,7 +1010,7 @@
 
 
 	/**
-		Disable all tree nodes
+		Disable all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.disableAll = function (options) {
@@ -1033,7 +1036,7 @@
 	};
 
 	/**
-		Enable all tree nodes
+		Enable all tree children
 		@param {optional Object} options
 	*/
 	Tree.prototype.enableAll = function (options) {
@@ -1059,7 +1062,7 @@
 	};
 
 	/**
-		Toggles a nodes disabled state; disabling is enabled, enabling if disabled.
+		Toggles a children disabled state; disabling is enabled, enabling if disabled.
 		@param {Object|Number} identifiers - A valid node, node id or array of node identifiers
 		@param {optional Object} options
 	*/
@@ -1093,15 +1096,15 @@
 	*/
 	Tree.prototype.identifyNode = function (identifier) {
 		return ((typeof identifier) === 'number') ?
-						this.nodes[identifier] :
+						this.children[identifier] :
 						identifier;
 	};
 
 	/**
-		Searches the tree for nodes (text) that match given criteria
+		Searches the tree for children (text) that match given criteria
 		@param {String} pattern - A given string to match against
 		@param {optional Object} options - Search criteria options
-		@return {Array} nodes - Matching nodes
+		@return {Array} children - Matching children
 	*/
 	Tree.prototype.search = function (pattern, options) {
 		options = $.extend({}, _default.searchOptions, options);
@@ -1122,7 +1125,7 @@
 
 			results = this.findNodes(pattern, modifier);
 
-			// Add searchResult property to all matching nodes
+			// Add searchResult property to all matching children
 			// This will be used to apply custom styles
 			// and when identifying result to be cleared
 			$.each(results, function (index, node) {
@@ -1163,11 +1166,11 @@
 	};
 
 	/**
-		Find nodes that match a given criteria
+		Find children that match a given criteria
 		@param {String} pattern - A given string to match against
 		@param {optional String} modifier - Valid RegEx modifiers
 		@param {optional String} attribute - Attribute to compare pattern against
-		@return {Array} nodes - Nodes that match your criteria
+		@return {Array} children - Nodes that match your criteria
 	*/
 	Tree.prototype.findNodes = function (pattern, modifier, attribute) {
 
@@ -1175,7 +1178,7 @@
 		attribute = attribute || 'text';
 
 		var _this = this;
-		return $.grep(this.nodes, function (node) {
+		return $.grep(this.children, function (node) {
 			var val = _this.getNodeValue(node, attribute);
 			if (typeof val === 'string') {
 				return val.match(new RegExp(pattern, modifier));

@@ -43,6 +43,10 @@ iframe{
   margin-right: auto;
 }
 
+.panel-group{
+  margin-bottom: 10px;
+}
+
 label{
   color: #a8aeb7;
   font-weight: normal;
@@ -89,4 +93,14 @@ label{
 
 .form-horizontal .panel-title{
   font-size: 14px;
+}
+
+/* 控制tab项高度*/
+.nav-tabs>li>a{
+  padding: 4px 10px;
+}
+
+/* project tree每条不加边*/
+.node-tree{
+  border: none;
 }

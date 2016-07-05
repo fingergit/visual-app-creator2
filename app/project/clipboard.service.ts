@@ -1,4 +1,4 @@
-import {ProjectModel} from "./project.model";
+import {VacProject} from "../model/project.model";
 import {Injectable} from "@angular/core";
 import {LogService} from "../common/log.service";
 /**
@@ -7,7 +7,7 @@ import {LogService} from "../common/log.service";
 
 @Injectable()
 export class ClipboardService {
-    curProject: ProjectModel = null;
+    curProject: VacProject = null;
 
     constructor(private log: LogService){
 

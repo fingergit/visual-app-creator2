@@ -1,25 +1,36 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
-import {ToolbarItem,ToolbarItemGroup} from "./toolbar-item";
+import {ToolbarItemGroup} from "./toolbar-item";
 import {ProjectService} from "../project/project.service";
 import {ActionService} from "../action/action.service";
 import {LogService} from "../common/log.service";
+import {CommandService} from "../common/command.service";
+import {PlatformService, PlatformType} from "../common/platform.service";
 
 @Component({
     selector: 'vac-toolbar'
     ,templateUrl: 'app/toolbar/toolbar.component.html'
+    ,styleUrls: ['app//toolbar/toolbar.component.css']
     // ,directives: [ROUTER_DIRECTIVES]
     // ,providers: [HeroService, DialogService]
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit{
+    isMac:boolean = false;
+    
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
                 ,private logger: LogService
+                ,private commandService: CommandService
+                ,private platformService: PlatformService
     ){
-        actionService.actionChanged.subscribe(() => {
+    }
+
+    ngOnInit(){
+        this.isMac = this.platformService.detectOS() === PlatformType.Mac;
+        this.actionService.actionChanged.subscribe(() => {
             this.logger.d('generatorOrNext');
-            this.undoItem.enable = this.projectService.canUndo();
-            this.redoItem.enable = this.projectService.canRedo();
+            this.commandService.undo.enable = this.actionService.canUndo();
+            this.commandService.redo.enable = this.actionService.canRedo();
         }, ()=>{
             this.logger.d('error');
         }, ()=>{
@@ -27,24 +38,21 @@ export class ToolbarComponent {
         });
     }
 
-    undoItem: ToolbarItem = new ToolbarItem('Undo', 'fa-mail-reply', 'undo', () => {this.projectService.undo();}, this.projectService.canUndo());
-    redoItem: ToolbarItem = new ToolbarItem('Redo', 'fa-mail-forward', 'redo', () => {this.projectService.redo();}, this.projectService.canRedo());
-
     toolItems : ToolbarItemGroup[] = [
         new ToolbarItemGroup('file', [
-            new ToolbarItem('新建项目', 'fa-file', 'newProject', () => {this.projectService.newProject();}, true)
-            ,new ToolbarItem('打开项目', 'fa-folder-open', 'openProject', () => {this.projectService.openProject();}, true)
-            ,new ToolbarItem('保存项目', 'fa-save', 'saveProject', () => {this.projectService.saveProject();}, true)
+            this.commandService.newProject
+            ,this.commandService.openProject
+            ,this.commandService.saveProject
         ])
         ,new ToolbarItemGroup('action', [
-            this.undoItem
-            ,this.redoItem
+            this.commandService.undo
+            ,this.commandService.redo
         ])
         ,new ToolbarItemGroup('edit', [
-            new ToolbarItem('复制', 'fa-copy', 'copy', () => {this.projectService.copy();}, true)
-            ,new ToolbarItem('剪切', 'fa-cut', 'cut', () => {this.projectService.cut();}, true)
-            ,new ToolbarItem('粘贴', 'fa-paste', 'paste', () => {this.projectService.paste();}, true)
-            ,new ToolbarItem('删除', 'fa-remove', 'remove', () => {this.projectService.remove();}, true)
+            this.commandService.copy
+            ,this.commandService.cut
+            ,this.commandService.paste
+            ,this.commandService.remove
         ])
 
         // ,[{name: 'Undo', icon: 'fa-mail-reply', itemId: 'undo', onClick: $rootScope.undo, enable: $rootScope.canUndo}
