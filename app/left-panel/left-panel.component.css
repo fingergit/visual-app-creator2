@@ -69,3 +69,13 @@
 .padding0{
     padding: 0;
 }
+
+#tree-ctrls{
+    display: inline-block;
+    text-align: right;
+    float: right;
+}
+
+.clear{
+    clear: both;
+}

@@ -5,6 +5,8 @@ import {ClipboardService} from "./clipboard.service";
 import {ActionService} from "../action/action.service";
 import {MathAction, g_result} from "../action/math-action";
 import {EVacProjectElemType} from "../model/project-element";
+import {DialogService} from "../common/dialog.service";
+declare var $;
 
 @Injectable()
 export class ProjectService {
@@ -12,7 +14,8 @@ export class ProjectService {
     curProject: VacProject = new VacProject('Untitled');
 
     constructor(private logger: LogService
-        , private clipboard: ClipboardService){
+        , private clipboard: ClipboardService
+        ,private dialog: DialogService){
         console.log('log: ' + this.logger);
     }
 
@@ -55,6 +58,13 @@ export class ProjectService {
         // var action = new MathAction("求和", 12);
         // this.actionService.addAction(action);
         // this.logger.d('g_result: ' + g_result);
+
+        DialogService.input('请输入项目名称', '', '项目名称', (text: string) => {
+            DialogService.alert('你输入了' + text);
+        });
+        // DialogService.warn('警告', 'bdsssddddd', () => {
+        //     this.logger.d('ok clicked');
+        // });
     }
 
     openProject(){
@@ -64,28 +74,6 @@ export class ProjectService {
     saveProject(){
         this.logger.d('saveProject');
     }
-
-    undo(){
-        // if (this.actionService.canUndo()){
-        //     this.actionService.undo();
-        //     this.logger.d('g_result: ' + g_result);
-        // }
-    }
-
-    redo(){
-        // if (this.actionService.canRedo()){
-        //     this.actionService.redo();
-        //     this.logger.d('g_result: ' + g_result);
-        // }
-    }
-    //
-    // canUndo() : boolean{
-    //     return this.actionService.canUndo();
-    // }
-    //
-    // canRedo(): boolean{
-    //     return this.actionService.canRedo();
-    // }
 
     copy(){
         this.clipboard.copy();

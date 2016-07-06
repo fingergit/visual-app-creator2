@@ -4,7 +4,10 @@ import {VacAction} from "./action";
 import {ActionManager} from "./action-manager";
 import {AddProjectElemAction} from "./add-project-elem-action";
 import {ProjectService} from "../project/project.service";
-import {EVacProjectElemType} from "../model/project-element";
+import {EVacProjectElemType, VacProjectElem} from "../model/project-element";
+import {DialogService} from "../common/dialog.service";
+import {VacProject} from "../model/project.model";
+import {RemoveProjectElemAction} from "./remove-project-elem-action";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -51,12 +54,36 @@ export class ActionService {
     }
 
     addGroup(){
-        let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, '组', EVacProjectElemType.GROUP);
-        this.addAction(action);
+        DialogService.input("请输入组名", '', '组名', (text:string) => {
+            let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, text, EVacProjectElemType.GROUP);
+            this.addAction(action);
+        });
     }
 
     addPage(){
-        let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, '页面', EVacProjectElemType.PAGE);
-        this.addAction(action);
+        DialogService.input("请输入组名", '', '组名', (text:string) => {
+            let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, text, EVacProjectElemType.PAGE);
+            this.addAction(action);
+        });
+    }
+
+    deleteElement(){
+        let curProj: VacProject = this.projectService.curProject;
+        let selElem:VacProjectElem = curProj.currentWidget ? curProj.currentWidget :
+                                     curProj.currentPage ? curProj.currentPage :
+                                         curProj.currentGroup ? curProj.currentGroup : null;
+        if (null == selElem){
+            DialogService.alert("请选择一个元素。");
+            return;
+        }
+        else if (selElem === curProj.root){
+            DialogService.error("不能删除根元素。");
+            return;
+        }
+        
+        DialogService.confirm("删除",  "确定要删除" + selElem.name + "吗？", () => {
+            let action:RemoveProjectElemAction = new RemoveProjectElemAction(this.projectService.curProject, selElem);
+            this.addAction(action);
+        });
     }
 }

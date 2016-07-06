@@ -2,6 +2,7 @@
 body{
   padding: 0;
   margin: 0;
+  font-family: "Microsoft YaHei", Arial,sans-serif, "Helvetica Neue",Helvetica, "\5fae\8f6f\96c5\9ed1";
 }
 
 iframe{
@@ -103,4 +104,8 @@ label{
 /* project tree每条不加边*/
 .node-tree{
   border: none;
+}
+
+.panel-heading{
+  padding:4px 10px;
 }

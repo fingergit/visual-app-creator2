@@ -4,7 +4,7 @@ import {VacProject} from "../model/project.model";
 /**
  * Created by laj on 2016/7/4.
  */
-export class AddProjectElemAction extends VacAction{
+export class RemoveProjectElemAction extends VacAction{
     parent: VacProjectElem = null;
 
     constructor(private proj: VacProject
@@ -29,12 +29,12 @@ export class AddProjectElemAction extends VacAction{
     private update(){
         switch (this.elem.elemType){
             case EVacProjectElemType.GROUP:
-                this.updatePropPanel = true;
+                this.updateProjectTree = true;
                 this.updateEditView = true;
                 this.updatePropPanel = true;
                 break;
             case EVacProjectElemType.PAGE:
-                this.updatePropPanel = true;
+                this.updateProjectTree = true;
                 this.updateEditView = true;
                 this.updatePropPanel = true;
                 break;

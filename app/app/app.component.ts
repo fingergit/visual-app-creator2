@@ -10,13 +10,14 @@ import {ActionService} from "../action/action.service";
 import {HotkeyService} from "./hotkey.service";
 import {PlatformService} from "../common/platform.service";
 import {CommandService} from "../common/command.service";
+import {DialogService} from "../common/dialog.service";
 
 @Component({
     selector: 'my-app'
     ,templateUrl: 'app/app/app.component.html'
     // ,directives: [ROUTER_DIRECTIVES]
     ,directives: [ToolbarComponent, LeftPanelComponent]
-    ,providers: [LogService, ActionService, ClipboardService, ProjectService, HotkeyService,CommandService, PlatformService]
+    ,providers: [LogService, ActionService, ClipboardService, ProjectService, HotkeyService,CommandService, PlatformService, DialogService]
 })
 export class AppComponent {
     title = 'Visual Application Creator';

@@ -4,7 +4,7 @@
 
 export enum EVacProjectElemType{
     BEGIN = 0,
-    GROUP,
+    GROUP = BEGIN,
     PAGE,
     WIDGET,
     END
@@ -13,14 +13,14 @@ export enum EVacProjectElemType{
 export class VacProjectElemStatus{
     // checked: boolean = false;
     // disabled: boolean = false;
-    // expanded: boolean = false;
+    expanded: boolean = false;
     selected: boolean = false;
 
     clone():VacProjectElemStatus{
         let status = new VacProjectElemStatus();
         // status.checked = this.checked;
         // status.disabled = this.disabled;
-        // status.expanded = this.expanded;
+        status.expanded = this.expanded;
         status.selected = this.selected;
 
         return status;
@@ -122,6 +122,7 @@ export class VacProjectElem{
     clone():VacProjectElem{
         let newElem: VacProjectElem = new VacProjectElem(this.name, this.elemType, this.isContainer);
         newElem.parent = null; // 新克隆的没有父对象。
+        newElem.id = this.id;
 
         newElem.state = this.state.clone();
 

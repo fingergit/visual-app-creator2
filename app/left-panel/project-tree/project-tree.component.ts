@@ -17,6 +17,7 @@ declare var $;
     // ,providers: [HeroService, DialogService]
 })
 export class ProjectTreeComponent implements OnInit{
+    treeCtrl:any = null;
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
                 ,private logger: LogService
@@ -61,22 +62,59 @@ export class ProjectTreeComponent implements OnInit{
         // this.projectToTreeObj(this.projectService.curProject.root);
         let treeProj:VacProjectElem = this.projectService.curProject.root.clone();
         this.projectToTreeObj(treeProj);
-        $('#tree').treeview({data: [treeProj], nodeName: 'name'});
 
-        $('#tree').on('nodeSelected', (event, data) => {
+        let treeCtrl = $('#tree');
+        treeCtrl.treeview({data: [treeProj], nodeName: 'name'});
+
+        treeCtrl.on('nodeSelected', (event, data) => {
             this.onNodeSelect(data);
+        });
+        treeCtrl.on('nodeUnselected', (event, data) => {
+            this.onNodeSelect(data);
+        });
+        treeCtrl.on('nodeCollapsed', (event, data) => {
+            this.onNodeExpand(data);
+        });
+        treeCtrl.on('nodeExpanded', (event, data) => {
+            this.onNodeExpand(data);
         });
 
         this.actionService.actionChanged.subscribe((action:VacAction) => {
-            this.logger.d('generatorOrNext');
             if (action.updateProjectTree){
+
+                // 获取展开的节点，设置给project。
+                let expandNodes = treeCtrl.treeview('getExpanded');
+                this.logger.d(Json.stringify(expandNodes));
+                for (let node in expandNodes){
+                    if (!expandNodes.hasOwnProperty(node)){
+                        continue;
+                    }
+                    let item = expandNodes[node];
+
+                    let elem = this.projectService.curProject.findElementById(item.id, item.elemType, this.projectService.curProject.root);
+                    if (elem){
+                        elem.state.expanded = true;
+                    }
+                }
+
+
                 let treeProj:VacProjectElem = this.projectService.curProject.root.clone();
                 this.projectToTreeObj(treeProj);
 
                 // this.logger.d(Json.stringify(this.projectService.curProject.root));
-                $('#tree').treeview({data: [treeProj], nodeName: 'name'});
-                $('#tree').on('nodeSelected', (event, data) => {
+
+                treeCtrl.treeview({data: [treeProj], nodeName: 'name'});
+                treeCtrl.on('nodeSelected', (event, data) => {
                     this.onNodeSelect(data);
+                });
+                treeCtrl.on('nodeUnselected', (event, data) => {
+                    this.onNodeSelect(data);
+                });
+                treeCtrl.on('nodeCollapsed', (event, data) => {
+                    this.onNodeExpand(data);
+                });
+                treeCtrl.on('nodeExpanded', (event, data) => {
+                    this.onNodeExpand(data);
                 });
             }
         }, ()=>{
@@ -98,7 +136,8 @@ export class ProjectTreeComponent implements OnInit{
     onNodeSelect(data){
         let elem = this.projectService.curProject.findElementById(data.id, data.elemType, this.projectService.curProject.root);
         if (elem){
-            elem.state.selected = true;
+            elem.state.selected = data.state.selected;
+            this.logger.d("selected: " + elem.name + elem.id);
 
             switch (data.elemType){
                 case EVacProjectElemType.GROUP:
@@ -120,6 +159,13 @@ export class ProjectTreeComponent implements OnInit{
                     this.projectService.curProject.currentWidget = elem;
                     break;
             }
+        }
+    }
+    
+    onNodeExpand(data:any){
+        let elem = this.projectService.curProject.findElementById(data.id, data.elemType, this.projectService.curProject.root);
+        if (elem) {
+            elem.state.expanded = data.state.expanded;
         }
     }
 }

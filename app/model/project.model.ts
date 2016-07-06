@@ -73,6 +73,7 @@ export class VacProject{
             this.currentWidget.state.selected = false;
         }
         elem.state.selected = true;
+        parent.state.expanded = true;
         switch (type){
             case EVacProjectElemType.GROUP:
                 this.currentGroup = elem;
