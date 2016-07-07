@@ -27,7 +27,7 @@ export class VacProjectElemStatus{
     }
 }
 
-export class VacProjectElem{
+export abstract class VacProjectElem{
     children: Array<VacProjectElem> = null;
     parent: VacProjectElem = null;
     state: VacProjectElemStatus = new VacProjectElemStatus(); // 用于树状态表中选中。
@@ -119,25 +119,36 @@ export class VacProjectElem{
         return retIdx;
     }
 
+    abstract newInstance():VacProjectElem;
+
     clone():VacProjectElem{
-        let newElem: VacProjectElem = new VacProjectElem(this.name, this.elemType, this.isContainer);
-        newElem.parent = null; // 新克隆的没有父对象。
-        newElem.id = this.id;
-
-        newElem.state = this.state.clone();
-
-        if (this.children){
-            for (let i = 0; i < this.children.length; i++){
-                let child : VacProjectElem = this.children[i];
-                let newChild = child.clone();
-                if (!newElem.children){
-                    newElem.children = [];
-                }
-                newElem.children.push(newChild);
-                newChild.parent = newElem;
-            }
-        }
+        let newElem = this.newInstance();
+        newElem.copyFrom(this);
 
         return newElem;
+    }
+
+    copyFrom(src:VacProjectElem){
+        this.name = src.name;
+        this.elemType = src.elemType;
+        this.isContainer = src.isContainer;
+        this.id = src.id;
+
+        this.parent = null; // 新克隆的没有父对象。
+        this.children = null;
+
+        this.state = src.state.clone();
+
+        if (src.children){
+            for (let i = 0; i < src.children.length; i++){
+                let child : VacProjectElem = src.children[i];
+                let newChild = child.clone();
+                if (!this.children){
+                    this.children = [];
+                }
+                this.children.push(newChild);
+                newChild.parent = this;
+            }
+        }
     }
 }

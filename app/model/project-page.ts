@@ -10,8 +10,12 @@ export class VacProjectPage extends VacProjectElem{
     ){
         super(name, EVacProjectElemType.PAGE, id, true);
     }
-    
-    clone(){
-        return super.clone();
+
+    newInstance():VacProjectElem{
+        return new VacProjectPage(this.name, this.id);
+    }
+
+    copyFrom(src:VacProjectElem){
+        super.copyFrom(src);
     }
 }

@@ -38,7 +38,11 @@ export class DialogService {
             title: title,
             content: content,
             confirm: confirmCallback,
-            cancel: cancelCallback
+            cancel: cancelCallback,
+            onOpen: function(){
+                var that = this;
+                this.$confirmButton.focus();
+            },
         }));
     }
 
@@ -51,7 +55,11 @@ export class DialogService {
             icon: icon,
             title: title,
             content: content,
-            confirm: confirmCallback
+            confirm: confirmCallback,
+            onOpen: function(){
+                var that = this;
+                this.$confirmButton.focus();
+            },
         }));
     }
 
@@ -72,16 +80,16 @@ export class DialogService {
                 '<br><input class="form-control" type="text" id="dialog-input" value="' +
                 (defaultValue?defaultValue:'') +
                 '" placeholder="' + placeholder + '" autofocus="autofocus"/>',
-            onOpen: function(){
-                var that = this;
-                this.$content.find('#dialog-input').on('keypress', (event) => {
-                    if (event.keyCode==13){
-                        event.preventDefault();
-                        that.$confirmButton.click();
-                        return false;
-                    }
-                });
-            },
+            // onOpen: function(){
+            //     var that = this;
+            //     this.$content.find('#dialog-input').on('keypress', (event) => {
+            //         if (event.keyCode==13){
+            //             event.preventDefault();
+            //             that.$confirmButton.click();
+            //             return false;
+            //         }
+            //     });
+            // },
             cancel: cancelCallback,
             confirm: function () {
                 let text = $('#dialog-input').val();

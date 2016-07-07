@@ -420,9 +420,10 @@ var jconfirm, Jconfirm;
                 return false;
 
             var key = e.which;
+            // lvaj: 不明白为什么要做这种限定，将其注释掉。以便于输入对话框按回车键可以关闭。
             // Do not react if Enter/Space is pressed on input elements
-            if (this.contentDiv.find(':input').is(':focus') && /13|32/.test(key))
-                return false;
+            // if (this.contentDiv.find(':input').is(':focus') && /13|32/.test(key))
+            //     return false;
 
             if ($.inArray(key, this.cancelKeys) !== -1) {
                 /*

@@ -10,8 +10,13 @@ export class VacProjectGroup extends VacProjectElem{
     ){
         super(name, EVacProjectElemType.GROUP, id, true);
     }
-    
-    clone(){
-        return super.clone();
+
+
+    newInstance():VacProjectElem{
+        return new VacProjectGroup(this.name, this.id);
+    }
+
+    copyFrom(src:VacProjectElem){
+        super.copyFrom(src);
     }
 }

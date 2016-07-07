@@ -16,7 +16,6 @@ export class ProjectService {
     constructor(private logger: LogService
         , private clipboard: ClipboardService
         ,private dialog: DialogService){
-        console.log('log: ' + this.logger);
     }
 
     getProjects() {
@@ -68,7 +67,7 @@ export class ProjectService {
     }
 
     openProject(){
-        this.logger.d('openProject');
+        DialogService.alert("haha");
     }
 
     saveProject(){

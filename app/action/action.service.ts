@@ -54,8 +54,11 @@ export class ActionService {
     }
 
     addGroup(){
+        this.log.d('addGroup');
+
         DialogService.input("请输入组名", '', '组名', (text:string) => {
             let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, text, EVacProjectElemType.GROUP);
+            this.log.d('addAction by dlg');
             this.addAction(action);
         });
     }

@@ -1,0 +1,6 @@
+<div>ddd</div>
+<div class="widget-icon" [vac-drag]="theWidget.widget.name" *ngFor="let theWidget of widgetTemplate.templates.values()">
+    <!--(mouseenter)="widget.hover=true" (mouseleave)="widget.hover=false" [style.backgroundPositionY]="widget.hover?widget.iconHoverPos:widget.iconNormalPos">-->
+    <div class="widget"  (mouseenter)="theWidget.hover=true" (mouseleave)="theWidget.hover=false" ></div>
+    <div class="widget-name">{{theWidget.widget.name}}</div>
+</div>

@@ -6,6 +6,7 @@ import {ActionService} from "../action/action.service";
 import {AddProjectElemAction} from "../action/add-project-elem-action";
 import {EVacProjectElemType} from "../model/project-element";
 import {Observer, Observable, Subscription} from "rxjs/Rx";
+import {WidgetPanelComponent} from "./widget-panel/widget-panel.component";
 
 declare var $;
 
@@ -13,7 +14,7 @@ declare var $;
     selector: 'vac-left-panel'
     ,templateUrl: 'app/left-panel/left-panel.component.html'
     ,styleUrls: ['app/left-panel/left-panel.component.css']
-    ,directives: [ProjectTreeComponent]
+    ,directives: [ProjectTreeComponent,WidgetPanelComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class LeftPanelComponent implements OnInit{
@@ -48,13 +49,5 @@ export class LeftPanelComponent implements OnInit{
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
     ){
-    }
-
-    addGroup(){
-        this.actionService.addGroup();
-    }
-
-    addPage(){
-        this.actionService.addPage();
     }
 }

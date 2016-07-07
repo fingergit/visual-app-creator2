@@ -6,6 +6,7 @@ import {VacAction} from "../../action/action";
 import {LogService} from "../../common/log.service";
 import {Json} from "@angular/core/esm/src/facade/lang";
 import {VacProjectElem, EVacProjectElemType} from "../../model/project-element";
+import {ProjectElemUtils} from "../../utils/project-elem-utils";
 
 declare var $;
 
@@ -84,7 +85,7 @@ export class ProjectTreeComponent implements OnInit{
 
                 // 获取展开的节点，设置给project。
                 let expandNodes = treeCtrl.treeview('getExpanded');
-                this.logger.d(Json.stringify(expandNodes));
+                // this.logger.d(Json.stringify(expandNodes));
                 for (let node in expandNodes){
                     if (!expandNodes.hasOwnProperty(node)){
                         continue;
@@ -129,6 +130,7 @@ export class ProjectTreeComponent implements OnInit{
         for (let i = 0; i < parent.children.length; i++){
             let elem = parent.children[i];
             elem.parent = null;
+            elem.icon = ProjectElemUtils.getTreeViewIcon(elem.elemType);
             this.projectToTreeObj(elem);
         }
     }
@@ -137,7 +139,7 @@ export class ProjectTreeComponent implements OnInit{
         let elem = this.projectService.curProject.findElementById(data.id, data.elemType, this.projectService.curProject.root);
         if (elem){
             elem.state.selected = data.state.selected;
-            this.logger.d("selected: " + elem.name + elem.id);
+            // this.logger.d("selected: " + elem.name + elem.id);
 
             switch (data.elemType){
                 case EVacProjectElemType.GROUP:

@@ -1,0 +1,35 @@
+
+.widget-panel{
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.widget-icon{
+    width: 90px;
+    display: inline-block;
+}
+
+.widget{
+    width: 90px;
+    height: 50px;
+    background: no-repeat transparent center top url("public/img/widget-icons.png");
+    background-size: 90px;
+
+    transition-property: opacity, transform;
+    transform: scale3d(1, 1, 1);
+    transition-duration: .25s;
+    transition-timing-function: linear, cubic-bezier(0.33, 2, 0.66, 1);
+}
+
+.widget:hover{
+    background-position-y: -50px;
+    transform: scale3d(1.15, 1.15, 1);
+}
+
+.widget-name{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}

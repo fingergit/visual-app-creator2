@@ -5,14 +5,26 @@
 import {VacProjectElem, EVacProjectElemType} from "./project-element";
 
 export class VacProjectWidget extends VacProjectElem{
-    constructor(public name: string
-                ,public id: string
-                ,public widgetType: string
+    constructor(public widgetType: string
+                ,name: string
+                ,id: string
+                ,isContainer: boolean
+                ,public htmlText: string
     ){
-        super(name, EVacProjectElemType.PAGE, id, true);
+        super(name, EVacProjectElemType.PAGE, id, isContainer);
     }
 
-    clone(){
-        return super.clone();
+    newInstance():VacProjectElem{
+        return new VacProjectWidget(this.name, this.id, this.isContainer, this.widgetType, this.htmlText);
+    }
+
+    copyFrom(src:VacProjectElem){
+        super.copyFrom(src);
+        if (src instanceof VacProjectWidget){
+            let src2:VacProjectWidget = <VacProjectWidget>src;
+
+            this.widgetType = src2.widgetType;
+            this.htmlText = src2.htmlText;
+        }
     }
 }
