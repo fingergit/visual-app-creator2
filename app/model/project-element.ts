@@ -119,6 +119,39 @@ export abstract class VacProjectElem{
         return retIdx;
     }
 
+    /**
+     *
+     * @param children
+     * @param elemType: child的elemType。
+     * @param id: child的id。
+     * @returns {VacProjectElem}
+     */
+    getChild(children: Array<VacProjectElem>, elemType: EVacProjectElemType, id: string){
+        let child:VacProjectElem = null;
+        if (null == children){
+            children = this.children;
+        }
+
+        for (let idx in children){
+            if (!children.hasOwnProperty(idx)){
+                continue;
+            }
+            let item:VacProjectElem = children[idx];
+            if (item.id === id){
+                child = item;
+                break;
+            }
+            if (item.children){
+                child = this.getChild(item.children, elemType, id);
+                if (child){
+                    break;
+                }
+            }
+        }
+
+        return child;
+    }
+
     abstract newInstance():VacProjectElem;
 
     clone():VacProjectElem{

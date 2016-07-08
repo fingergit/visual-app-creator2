@@ -3,15 +3,20 @@
  */
 
 import {VacProjectElem, EVacProjectElemType} from "./project-element";
+import {VacWidgetAttrs, VacWidgetAttr} from "./widget-attr";
+import {VacProjectPage} from "./project-page";
 
 export class VacProjectWidget extends VacProjectElem{
+    attrs: VacWidgetAttrs = null;
     constructor(public widgetType: string
                 ,name: string
                 ,id: string
                 ,isContainer: boolean
                 ,public htmlText: string
+                ,customAttr?: VacWidgetAttr
     ){
-        super(name, EVacProjectElemType.PAGE, id, isContainer);
+        super(name, EVacProjectElemType.WIDGET, id, isContainer);
+        this.attrs = new VacWidgetAttrs(customAttr);
     }
 
     newInstance():VacProjectElem{
@@ -25,6 +30,27 @@ export class VacProjectWidget extends VacProjectElem{
 
             this.widgetType = src2.widgetType;
             this.htmlText = src2.htmlText;
+            this.attrs = src2.attrs.clone();
+        }
+    }
+
+    getPage():VacProjectPage{
+        return this._getPage(null);
+    }
+
+    private _getPage(elem: VacProjectElem):VacProjectPage{
+        if (elem == null){
+            elem = this;
+        }
+
+        if (elem.parent instanceof VacProjectPage){
+            return <VacProjectPage>elem.parent;
+        }
+        else if (!elem.parent){
+            return null;
+        }
+        else{
+            return this._getPage(elem.parent);
         }
     }
 }

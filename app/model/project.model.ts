@@ -170,6 +170,21 @@ export class VacProject{
         return true;
     }
 
+    addWidget(widget: VacProjectElem, parent: VacProjectElem, changeId: boolean) : boolean{
+        if (!parent || parent.elemType == EVacProjectElemType.GROUP || !parent.isContainer){
+            console.log("Invalid parent");
+            return false;
+        }
+        if (changeId){
+            widget.id = this.nextId[widget.elemType];
+            this.nextId[widget.elemType] ++;
+        }
+
+        parent.addChild(widget, -1);
+        this.currentWidget = widget;
+        return true;
+    }
+
     findElementById(id:string, type: EVacProjectElemType, parent: VacProjectElem):VacProjectElem{
         if (!parent || !parent.children){
             return null;

@@ -1,0 +1,27 @@
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#attr-custom" data-toggle="tab" *ngIf="attrs?.custom">{{attrs?.custom?.name}}</a></li>
+        <li><a href="#attr-text" data-toggle="tab" *ngIf="attrs?.text">{{attrs?.text?.name}}</a></li>
+        <li><a href="#attr-position" data-toggle="tab" *ngIf="attrs?.position">{{attrs?.position?.name}}</a></li>
+        <li><a href="#attr-border" data-toggle="tab" *ngIf="attrs?.border">{{attrs?.border?.name}}</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="attr-custom" *ngIf="attrs?.custom">
+            <form class="form-horizontal">
+                <div *ngFor="let attr of customAttrs">
+                    <span [ngSwitch]="attr.type">
+                        <span *ngSwitchCase="EVacWidgetAttrType.text">
+                            <vac-input-item [attr]="attr"></vac-input-item>
+                        </span>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div id="attr-text" class="tab-pane" *ngIf="attrs?.text">
+        </div>
+        <div id="attr-position" class="tab-pane" *ngIf="attrs?.position">
+        </div>
+        <div id="attr-border" class="tab-pane" *ngIf="attrs?.border">
+        </div>
+    </div>
+</div>

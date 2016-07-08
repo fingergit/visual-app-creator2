@@ -7,6 +7,9 @@ import {LogService} from "../../common/log.service";
 import {Json} from "@angular/core/esm/src/facade/lang";
 import {VacProjectElem, EVacProjectElemType} from "../../model/project-element";
 import {ProjectElemUtils} from "../../utils/project-elem-utils";
+import {VacProject} from "../../model/project.model";
+import {VacProjectPage} from "../../model/project-page";
+import {VacProjectWidget} from "../../model/project-widget";
 
 declare var $;
 
@@ -136,32 +139,59 @@ export class ProjectTreeComponent implements OnInit{
     }
 
     onNodeSelect(data){
-        let elem = this.projectService.curProject.findElementById(data.id, data.elemType, this.projectService.curProject.root);
+        let curProj:VacProject = this.projectService.curProject;
+        let elem = curProj.findElementById(data.id, data.elemType, curProj.root);
         if (elem){
             elem.state.selected = data.state.selected;
             // this.logger.d("selected: " + elem.name + elem.id);
 
             switch (data.elemType){
                 case EVacProjectElemType.GROUP:
-                    if (this.projectService.curProject.currentGroup){
-                        this.projectService.curProject.currentGroup.state.selected = false;
+                    if (curProj.currentGroup && curProj.currentGroup !== elem){
+                        curProj.currentGroup.state.selected = false;
                     }
-                    this.projectService.curProject.currentGroup = elem;
+                    if (curProj.currentGroup !== elem){
+                        curProj.currentGroup = elem;
+                        if (curProj.currentPage){
+                            curProj.currentPage.state.selected = false;
+                            curProj.currentPage = null;
+                        }
+                        if (curProj.currentWidget){
+                            curProj.currentWidget.state.selected = false;
+                            curProj.currentWidget = null;
+                        }
+                    }
+
                     break;
                 case EVacProjectElemType.PAGE:
-                    if (this.projectService.curProject.currentPage){
-                        this.projectService.curProject.currentPage.state.selected = false;
+                    if (curProj.currentPage && curProj.currentPage !== elem){
+                        curProj.currentPage.state.selected = false;
                     }
-                    this.projectService.curProject.currentPage = elem;
+                    if (curProj.currentPage !== elem){
+                        curProj.currentPage = elem;
+                        if (curProj.currentWidget){
+                            curProj.currentWidget.state.selected = false;
+                            curProj.currentWidget = null;
+                        }
+                    }
                     break;
                 case EVacProjectElemType.WIDGET:
-                    if (this.projectService.curProject.currentWidget){
-                        this.projectService.curProject.currentWidget.state.selected = false;
+                    if (curProj.currentWidget && curProj.currentWidget !== elem){
+                        curProj.currentWidget.state.selected = false;
                     }
-                    this.projectService.curProject.currentWidget = elem;
+                    let page:VacProjectPage = (<VacProjectWidget>elem).getPage();
+                    if (curProj.currentPage !== page){
+                        curProj.currentPage.state.selected = false;
+                        page.state.selected = true;
+                        curProj.currentPage = page;
+                    }
+
+                    curProj.currentWidget = elem;
                     break;
             }
         }
+
+        this.actionService.emitSelectChanged(elem);
     }
     
     onNodeExpand(data:any){

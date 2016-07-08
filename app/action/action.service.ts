@@ -15,6 +15,7 @@ import {RemoveProjectElemAction} from "./remove-project-elem-action";
 export class ActionService {
     actionManager:ActionManager;
     @Output() actionChanged: EventEmitter<any> = new EventEmitter();
+    @Output() selectChanged: EventEmitter<any> = new EventEmitter();
 
     constructor(private log:LogService
                 ,private projectService: ProjectService) {
@@ -88,5 +89,9 @@ export class ActionService {
             let action:RemoveProjectElemAction = new RemoveProjectElemAction(this.projectService.curProject, selElem);
             this.addAction(action);
         });
+    }
+
+    emitSelectChanged(elem: VacProjectElem){
+        this.selectChanged.emit(elem);
     }
 }

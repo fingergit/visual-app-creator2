@@ -109,3 +109,13 @@ label{
 .panel-heading{
   padding:4px 10px;
 }
+
+/* project tree每条变窄些*/
+.list-group-item{
+  padding: 4px 10px;
+}
+
+/* widget选中时的效果*/
+.widget-selected{
+  border: dashed red 1px;
+}

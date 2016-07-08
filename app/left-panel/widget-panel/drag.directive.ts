@@ -36,9 +36,9 @@ export class DragDirective{
     @HostListener('dragstart', ['$event']) onDragStart(e) {
         // var text = '<label class="toggle"><input type="checkbox"><div class="track"><div class="handle"></div></div></label>';
         let target = e.srcElement || e.target;
-        let tempText = Json.stringify(this.templateService.templates.get(this.widgetType));
+        // let tempText = Json.stringify(this.templateService.templates.get(this.widgetType));
         // this.logger.d(tempText);
-        e.dataTransfer.setData('text/plain', tempText);
+        e.dataTransfer.setData('text/plain', this.widgetType);
 
         // var backImg = $(e.target).find(".widget:first-child").css("background-image");
         // backImg = backImg.slice(5,backImg.length-2);

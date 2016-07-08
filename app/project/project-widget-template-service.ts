@@ -1,6 +1,7 @@
 import {VacProjectWidget} from "../model/project-widget";
 import {Injectable} from "@angular/core";
 import {VacMap} from "../common/map";
+import {VacButtonAttr} from "../model/widgets/button-attr";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -21,7 +22,9 @@ export class VacProjectWidgetTemplateService{
 
     constructor(){
         this.templates.set('button', new VacProjectWidgetTemplate(
-            new VacProjectWidget('button', 'button', '0', false, `<button id="{{widget.id}}" class="button button-positive">{{widget.name}}</button>`),
+            new VacProjectWidget('button', 'button', '0', false,
+                `<button id="{{widget.id}}" class="button button-positive">{{widget.name}}</button>`,
+                new VacButtonAttr()),
             '', ''));
         this.templates.set('radio', new VacProjectWidgetTemplate(
             new VacProjectWidget(
@@ -75,5 +78,9 @@ export class VacProjectWidgetTemplateService{
             ),
             '', ''
         ));
+    }
+
+    get(widgetType: string):VacProjectWidgetTemplate{
+        return this.templates.get(widgetType);
     }
 }
