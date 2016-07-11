@@ -25,9 +25,20 @@ import {VacProjectWidget} from "../model/project-widget";
 export class EditPanelComponent implements OnInit{
     containerId: string = 'widget-container';
     container: JQuery;
+    appFrame: HTMLElement;
     ngOnInit() {
-        this.container = $("#widget-container");
-        this.logger.d(this.container.text());
+        this.appFrame = window.frames['app-frame'];
+
+        if (this.appFrame.attachEvent){
+            this.appFrame.attachEvent("onload", ()=>{
+                this.initFrame(this.appFrame);
+            });
+        } else {
+            this.appFrame.onload = ()=>{
+                this.initFrame(this.appFrame);
+            };
+        }
+
         this.actionService.actionChanged.subscribe((action:VacAction) => {
             if (action.updateEditView) {
                 this.logger.d("now update editview");
@@ -47,62 +58,98 @@ export class EditPanelComponent implements OnInit{
     ){
     }
 
-    @HostListener('dragover', ['$event']) onDragOver(e) {
-        e.preventDefault();
-        return false;
-    }
+    initFrame(appFrame:HTMLElement){
+        let $doc:HTMLDocument = appFrame.contentDocument;
+        let $appFrameBody:JQuery = $($doc.body);
+        this.container = $appFrameBody.find("#widget-container");
 
-    @HostListener('drop', ['$event']) onDrop(e) {
-        let widgetType = e.dataTransfer.getData('text/plain');
-        // widgetType = JSON.parse(widgetType);
-        // this.logger.d(widgetType);
+        $appFrameBody.on('dragover', (e) => {
+            e = e.originalEvent;
+            e.preventDefault();
 
-        let curProj:VacProject = this.projectService.curProject;
-        let curPage:VacProjectPage = curProj.currentPage;
-        if (!curPage){
-            DialogService.alert("请选中一个页面。");
-            return;
-        }
+            return false;
+        });
 
-        let widgetTemplate: VacProjectWidgetTemplate = this.widgetTemplateService.get(widgetType);
-        // let $widget = $(widgetTemplate.widget.htmlText);
-        // this.container.append($widget);
+        let that = this;
+        $appFrameBody.on('drop', (e) => {
+            e = e.originalEvent;
+            let widgetType = e.dataTransfer.getData('text/plain');
 
-        // 要添加的widget。
-        let widget:VacProjectElem = widgetTemplate.widget.clone();
+            let curProj:VacProject = that.projectService.curProject;
+            let curPage:VacProjectPage = curProj.currentPage;
+            if (!curPage){
+                DialogService.alert("请选中一个页面。");
+                return;
+            }
 
-        // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
-        let $target = $(e.srcElement || e.target);
-        let targetId:string = $target.attr("id");
-        let targetIdAry:Array = targetId.split('-');
-        targetId = targetIdAry[targetIdAry.length-1];
+            let widgetTemplate: VacProjectWidgetTemplate = that.widgetTemplateService.get(widgetType);
 
-        let parentElem:VacProjectElem = null;
-        if (targetId === this.containerId){
-            parentElem = curPage;
-        }
-        else{
-            parentElem = curPage.getChild(curPage.children, EVacProjectElemType.WIDGET, targetId);
-            if (null == parentElem || !parentElem.isContainer){
+            // 要添加的widget。
+            let widget:VacProjectElem = widgetTemplate.widget.clone();
+
+            // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
+            let $target = $(e.srcElement || e.target);
+            let targetId:string = $target.attr("id");
+            let targetIdAry:Array = targetId.split('-');
+            targetId = targetIdAry[targetIdAry.length-1];
+
+            let parentElem:VacProjectElem = null;
+            if (targetId === that.containerId){
                 parentElem = curPage;
             }
-        }
+            else{
+                parentElem = curPage.getChild(curPage.children, EVacProjectElemType.WIDGET, targetId);
+                if (null == parentElem || !parentElem.isContainer){
+                    parentElem = curPage;
+                }
+            }
 
-        let action:AddWidgetByTemplateAction = new AddWidgetByTemplateAction(parentElem, widget, curProj);
-        this.actionService.addAction(action);
+            let action:AddWidgetByTemplateAction = new AddWidgetByTemplateAction(parentElem, widget, curProj);
+            that.actionService.addAction(action);
+        });
 
-        // var attr = SFinWidgetAttr.newInstance(EFinProjWidgetDesc[widgetType].attr ? eval(EFinProjWidgetDesc[widgetType].attr) : null);
-        // var newWidget = SFinProject.newWidget('added' + $rootScope.idx, $rootScope.project, widgetType, attr);
-        // var html = SFinProject.renderPage(newWidget);
-        //
-        // var okHtml = window.frames[frameName].compileElement(html);
-        // var $elem = $(okHtml);
-        // $elem.appendTo($(target));
-        //
-        // var action = new AddWidgetAction($rootScope, '添加控件', newWidget, $rootScope.selectedElem);
-        // ActionManager.addAction(action);
-        // $rootScope.idx ++;
     }
+
+    // @HostListener('dragover', ['$event']) onDragOver(e) {
+    //     e.preventDefault();
+    //     return false;
+    // }
+    //
+    // @HostListener('drop', ['$event']) onDrop(e) {
+    //     let widgetType = e.dataTransfer.getData('text/plain');
+    //
+    //     let curProj:VacProject = this.projectService.curProject;
+    //     let curPage:VacProjectPage = curProj.currentPage;
+    //     if (!curPage){
+    //         DialogService.alert("请选中一个页面。");
+    //         return;
+    //     }
+    //
+    //     let widgetTemplate: VacProjectWidgetTemplate = this.widgetTemplateService.get(widgetType);
+    //
+    //     // 要添加的widget。
+    //     let widget:VacProjectElem = widgetTemplate.widget.clone();
+    //
+    //     // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
+    //     let $target = $(e.srcElement || e.target);
+    //     let targetId:string = $target.attr("id");
+    //     let targetIdAry:Array = targetId.split('-');
+    //     targetId = targetIdAry[targetIdAry.length-1];
+    //
+    //     let parentElem:VacProjectElem = null;
+    //     if (targetId === this.containerId){
+    //         parentElem = curPage;
+    //     }
+    //     else{
+    //         parentElem = curPage.getChild(curPage.children, EVacProjectElemType.WIDGET, targetId);
+    //         if (null == parentElem || !parentElem.isContainer){
+    //             parentElem = curPage;
+    //         }
+    //     }
+    //
+    //     let action:AddWidgetByTemplateAction = new AddWidgetByTemplateAction(parentElem, widget, curProj);
+    //     this.actionService.addAction(action);
+    // }
 
     private updateEditView(){
         let curProj:VacProject = this.projectService.curProject;
@@ -130,13 +177,19 @@ export class EditPanelComponent implements OnInit{
 
             let theCompile = Handlebars.compile(widget.htmlText);
             let context = {
-                widget: {
-                    name: widget.name
-                    ,id: widget.widgetType + '-' + widget.id
-                }
+                widget: widget
+                // widget: {
+                //     name: widget.name
+                //     ,id: widget.widgetType + '-' + widget.id
+                // }
             };
             let htmlText = theCompile(context);
-            let $widget:JQuery = $(htmlText);
+
+            // ionic编译
+            let okHtml = this.appFrame.contentWindow.compileElement(htmlText);
+
+
+            let $widget:JQuery = $(okHtml);
 
             if (widget.state.selected){
                 $widget.addClass("widget-selected");

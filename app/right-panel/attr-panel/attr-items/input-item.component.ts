@@ -4,6 +4,7 @@ import {ActionService} from "../../../action/action.service";
 import {ProjectService} from "../../../project/project.service";
 import {VacAction} from "../../../action/action";
 import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../../model/attr-type";
+import {ChangeAttrAction} from "../../../action/change-attr-action";
 
 @Component({
     selector: 'vac-input-item'
@@ -21,5 +22,9 @@ export class InputItemComponent implements OnInit{
                 ,private actionService: ActionService
     ){
         this.attr = new VacWidgetAttrValue('', '');
+    }
+
+    handleChange($event){
+        this.actionService.changAttr(this.attr, $event, false);
     }
 }

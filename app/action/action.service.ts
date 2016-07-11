@@ -8,6 +8,8 @@ import {EVacProjectElemType, VacProjectElem} from "../model/project-element";
 import {DialogService} from "../common/dialog.service";
 import {VacProject} from "../model/project.model";
 import {RemoveProjectElemAction} from "./remove-project-elem-action";
+import {VacWidgetAttrValue} from "../model/attr-type";
+import {ChangeAttrAction} from "./change-attr-action";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -15,6 +17,7 @@ import {RemoveProjectElemAction} from "./remove-project-elem-action";
 export class ActionService {
     actionManager:ActionManager;
     @Output() actionChanged: EventEmitter<any> = new EventEmitter();
+    // 当选择集发生变化时触发。
     @Output() selectChanged: EventEmitter<any> = new EventEmitter();
 
     constructor(private log:LogService
@@ -91,7 +94,16 @@ export class ActionService {
         });
     }
 
+    changAttr(attr: VacWidgetAttrValue, newValue:any, updatePropPanel:boolean){
+        let action:ChangeAttrAction = new ChangeAttrAction(attr, newValue, updatePropPanel);
+        this.addAction(action);
+    }
+
     emitSelectChanged(elem: VacProjectElem){
         this.selectChanged.emit(elem);
+    }
+
+    emitAttrChanged(attr: VacWidgetAttrValue, newValue: any){
+        this.attrChanged.emit(attr, newValue);
     }
 }

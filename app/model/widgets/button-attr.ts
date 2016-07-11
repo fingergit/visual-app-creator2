@@ -6,13 +6,15 @@ import {VacMap} from "../../common/map";
  */
 
 export class EVacButtonAttrStyleRange{
-    static default = new VacAttrEnumComboxItem('default', 'default');
-    static primary = new VacAttrEnumComboxItem('primary', 'primary');
-    static success = new VacAttrEnumComboxItem('success', 'success');
-    static info = new VacAttrEnumComboxItem('info', 'info');
-    static warning = new VacAttrEnumComboxItem('warning', 'warning');
-    static danger = new VacAttrEnumComboxItem('danger', 'danger');
-    static link = new VacAttrEnumComboxItem('link', 'link');
+    static light = new VacAttrEnumComboxItem('light', 'light');
+    static stable = new VacAttrEnumComboxItem('stable', 'stable');
+    static positive = new VacAttrEnumComboxItem('positive', 'positive');
+    static calm = new VacAttrEnumComboxItem('calm', 'calm');
+    static balanced = new VacAttrEnumComboxItem('balanced', 'balanced');
+    static energized = new VacAttrEnumComboxItem('energized', 'energized');
+    static assertive = new VacAttrEnumComboxItem('assertive', 'assertive');
+    static royal = new VacAttrEnumComboxItem('royal', 'royal');
+    static dark = new VacAttrEnumComboxItem('dark', 'dark');
 }
 
 export class VacButtonAttr extends VacWidgetAttr{
@@ -38,7 +40,7 @@ export class VacButtonAttr extends VacWidgetAttr{
         }
 
         this.text = new VacWidgetAttrValue('名称', '按钮', EVacWidgetAttrType.text, null);
-        this.style = new VacWidgetAttrValue('样式', EVacButtonAttrStyleRange.default, EVacWidgetAttrType.enumCombBox, VacButtonAttr.STYLE_RANGE);
+        this.style = new VacWidgetAttrValue('样式', EVacButtonAttrStyleRange.light, EVacWidgetAttrType.enumCombBox, VacButtonAttr.STYLE_RANGE);
     }
 
     newInstance(){

@@ -119,3 +119,7 @@ label{
 .widget-selected{
   border: dashed red 1px;
 }
+
+#app-frame{
+  border: 1px #a9a9a9 solid;
+}
