@@ -6,11 +6,13 @@ import {ActionService} from "../action/action.service";
 import {MathAction, g_result} from "../action/math-action";
 import {EVacProjectElemType} from "../model/project-element";
 import {DialogService} from "../common/dialog.service";
+import {Json} from "@angular/core/esm/src/facade/lang";
 declare var $;
 
 @Injectable()
 export class ProjectService {
     projects: Array<VacProject> = [];
+    isUntitled: boolean = true;
     curProject: VacProject = new VacProject('Untitled');
 
     constructor(private logger: LogService
@@ -44,11 +46,23 @@ export class ProjectService {
     }
 
     loadProjects(){
-        this.logger.d('loadProjects');
+        var storage = window.localStorage;
+        var projNameList = [];
+        for (var item in storage){
+            if (!storage.hasOwnProperty(item)){
+                continue;
+            }
+            if (item.substring(0, 5) === 'proj-'){
+                projNameList.push(item.substring(5));
+            }
+        }
+
+        this.logger.d(projNameList);
+
+        return projNameList;
     }
 
     saveProjects(){
-        this.logger.d('saveProjects');
     }
 
     newProject(){
@@ -58,20 +72,37 @@ export class ProjectService {
         // this.actionService.addAction(action);
         // this.logger.d('g_result: ' + g_result);
 
-        DialogService.input('请输入项目名称', '', '项目名称', (text: string) => {
-            DialogService.alert('你输入了' + text);
+        DialogService.input('请输入新项目名称', '', '项目名称', (text: string) => {
+            this.curProject = new VacProject(text);
         });
-        // DialogService.warn('警告', 'bdsssddddd', () => {
-        //     this.logger.d('ok clicked');
-        // });
     }
 
     openProject(){
-        DialogService.alert("haha");
     }
 
     saveProject(){
-        this.logger.d('saveProject');
+        if (!this.curProject){
+            return;
+        }
+
+        if (this.isUntitled){
+            DialogService.input('请输入项目名称', '', '项目名称', (text: string) => {
+                this.curProject.name = text;
+                this._saveProject();
+                this.isUntitled = false;
+            });
+        }
+        else{
+            this._saveProject();
+        }
+    }
+
+    private _saveProject(){
+        this.curProject.root.unlinkParents(null);
+        let jsonText:string = Json.stringify(this.curProject);
+
+        window.localStorage['proj-' + this.curProject.name] = jsonText;
+        this.curProject.root.relinkParents(null, null);
     }
 
     copy(){

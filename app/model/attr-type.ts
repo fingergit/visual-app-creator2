@@ -1,3 +1,4 @@
+import {VacMap} from "../common/map";
 /**
  * Created by laj on 2016/7/5.
  */
@@ -18,7 +19,7 @@ export class VacWidgetAttrValue{
     constructor(public name: string
                 ,public value: any
                 ,public type: string
-                ,public valueRange: Array<any>
+                ,public valueRange: VacMap<any>
     ){}
 
     newInstance(){

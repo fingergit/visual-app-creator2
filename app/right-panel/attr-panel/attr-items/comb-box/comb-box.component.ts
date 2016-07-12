@@ -23,6 +23,6 @@ export class CombBoxComponent implements OnInit{
     handleChange(value){
         console.debug(value);
         // this.actionService.changAttr(this.attr, value, false);
-        this.actionService.changAttr(this.attr, this.attr.valueRange[value], false);
+        this.actionService.changAttr(this.attr, this.attr.valueRange.get(value), false);
     }
 }

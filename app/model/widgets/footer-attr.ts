@@ -13,36 +13,36 @@ export class EVacTextAlignRange{
 }
 
 export class VacFooterAttr extends VacWidgetAttr{
-    static STYLE_RANGE: Array<EVacButtonAttrStyleRange>;
-    static ALIGN_RANGE: Array<EVacTextAlignRange>;
+    static STYLE_RANGE: VacMap<EVacButtonAttrStyleRange>;
+    static ALIGN_RANGE: VacMap<EVacTextAlignRange>;
 
     public title: VacWidgetAttrValue;
     public style: VacWidgetAttrValue;
     public alignTitle: VacWidgetAttrValue;
 
     constructor(){
-        super('按钮');
+        super('底部栏');
 
         if (!VacFooterAttr.STYLE_RANGE){
-            VacFooterAttr.STYLE_RANGE = [];
+            VacFooterAttr.STYLE_RANGE = new VacMap<EVacButtonAttrStyleRange>();
             for (let key in EVacButtonAttrStyleRange){
                 if (!EVacButtonAttrStyleRange.hasOwnProperty(key)){
                     continue;
                 }
                 let item = EVacButtonAttrStyleRange[key];
-                VacFooterAttr.STYLE_RANGE.push(item);
+                VacFooterAttr.STYLE_RANGE.set(key, item);
             }
 
         }
 
         if (!VacFooterAttr.ALIGN_RANGE){
-            VacFooterAttr.ALIGN_RANGE = [];
+            VacFooterAttr.ALIGN_RANGE = new VacMap<EVacTextAlignRange>();
             for (let key in EVacTextAlignRange){
                 if (!EVacTextAlignRange.hasOwnProperty(key)){
                     continue;
                 }
                 let item = EVacTextAlignRange[key];
-                VacFooterAttr.ALIGN_RANGE.push(item);
+                VacFooterAttr.ALIGN_RANGE.set(key, item);
             }
 
         }

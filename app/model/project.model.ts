@@ -192,7 +192,7 @@ export class VacProject{
 
         for (let i = 0; i < parent.children.length; i++){
             let child:VacProjectElem = parent.children[i];
-            if (child.elemType === type && child.id === id){
+            if (child.elemType == type && child.id == id){
                 return child;
             }
 

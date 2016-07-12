@@ -2,6 +2,7 @@
  * Created by laj on 2016/7/4.
  */
 
+import _for = require("core-js/fn/symbol/for");
 export enum EVacProjectElemType{
     BEGIN = 0,
     GROUP = BEGIN,
@@ -137,7 +138,7 @@ export abstract class VacProjectElem{
                 continue;
             }
             let item:VacProjectElem = children[idx];
-            if (item.id === id){
+            if (item.id == id){
                 child = item;
                 break;
             }
@@ -181,6 +182,43 @@ export abstract class VacProjectElem{
                 }
                 this.children.push(newChild);
                 newChild.parent = this;
+            }
+        }
+    }
+
+    unlinkParents(children: Array<VacProjectElem>){
+        if (!children){
+            children = this.children;
+        }
+
+        for (let idx in children){
+            if (!children.hasOwnProperty(idx)){
+                continue;
+            }
+            let child = children[idx];
+
+            child.parent = null;
+            if (child.children){
+                this.unlinkParents(child.children);
+            }
+        }
+    }
+
+    relinkParents(children: Array<VacProjectElem>, parent:VacProjectElem){
+        if (!children){
+            children = this.children;
+            parent = this;
+        }
+
+        for (let idx in children){
+            if (!children.hasOwnProperty(idx)){
+                continue;
+            }
+            let child = children[idx];
+            child.parent = parent;
+
+            if (child.children){
+                this.relinkParents(child.children, child);
             }
         }
     }

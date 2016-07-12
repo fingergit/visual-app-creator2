@@ -5,6 +5,7 @@ import {VacButtonAttr} from "../model/widgets/button-attr";
 import {VacWidgetAttr} from "../model/widget-attr";
 import {VacHeaderAttr} from "../model/widgets/header-attr";
 import {VacFooterAttr} from "../model/widgets/footer-attr";
+import {VacContentAttr} from "../model/widgets/content-attr";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -26,14 +27,14 @@ export class VacProjectWidgetTemplateService{
     constructor(){
         this.templates.set('button', new VacProjectWidgetTemplate(
             new VacProjectWidget('button', '按钮', '0', false,
-                `<button id="{{widget.id}}" class="button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,
+                `<button id="{{widget.id}}" class="vac-widget button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,
                 new VacButtonAttr()),
             '', ''));
 
         this.templates.set('header', new VacProjectWidgetTemplate(
             new VacProjectWidget('header', '标题栏', '0', false,
                 `
-<div id="{{widget.id}}" class="bar bar-header bar-{{widget.attrs.custom.style.value.value}}">
+<div id="{{widget.id}}" class="vac-widget bar bar-header bar-{{widget.attrs.custom.style.value.value}}">
     <h1 class="title">{{widget.attrs.custom.title.value}}</h1>
 </div>`,
                 new VacHeaderAttr()),
@@ -57,7 +58,7 @@ export class VacProjectWidgetTemplateService{
                 'range',
                 '0',
                 false,
-                `haha`
+                `<div>haha</div>`
             ),
             '', ''
         ));
@@ -71,28 +72,28 @@ export class VacProjectWidgetTemplateService{
         //     ),
         //     '', ''
         // ));
-        this.templates.set('content', new VacProjectWidgetTemplate(
-            new VacProjectWidget(
-                'content',
-                '内容区',
-                '0',
-                true,
-                `<ion-content id="{{widget.id}}" class="has-header">{{{widgets.html}}</ion-content>`
-            ),
-            '', ''
-        ));
+        this.templates.set('content',
+            new VacProjectWidgetTemplate(
+                new VacProjectWidget(
+                    'content',
+                    '内容区',
+                    '0',
+                    true,
+                    `<ion-content id="{{widget.id}}" class="vac-widget has-header" delegate-handle="{{widget.attrs.custom.delegateHandle.value}}" direction="{{widget.attrs.custom.direction.value.value}}" locking="{{widget.attrs.custom.locking.value}}"></ion-content>`,
+                    new VacContentAttr()
+                ),
+                '', ''
+            )
+        );
         this.templates.set('footer', new VacProjectWidgetTemplate(
             new VacProjectWidget(
                 'footer',
                 '底部栏',
                 '0',
                 true,
-                `<ion-footer-bar id="{{widget.id}}" align-title="{{widget.attrs.custom.alignTitle.value.value}}" class="bar-{{widget.attrs.custom.style.value.value}}"><h1 class="title">{{widget.attrs.custom.title.value}}</h1></ion-footer-bar>`,
-//                 `
-// <div id="{{widget.id}}" class="bar bar-footer bar-{{widget.attrs.custom.style.value.value}}">
-//     <h1 class="title">{{widget.attrs.custom.title.value}}</h1>
-// </div>`,
-                new VacFooterAttr()),
+                `<ion-footer-bar id="{{widget.id}}" align-title="{{widget.attrs.custom.alignTitle.value.value}}" class="vac-widget bar-{{widget.attrs.custom.style.value.value}}"><h1 class="title">{{widget.attrs.custom.title.value}}</h1></ion-footer-bar>`,
+                new VacFooterAttr()
+            ),
             '', ''
         ));
     }

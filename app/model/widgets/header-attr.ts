@@ -7,22 +7,22 @@ import {EVacButtonAttrStyleRange} from "./button-attr";
  */
 
 export class VacHeaderAttr extends VacWidgetAttr{
-    static STYLE_RANGE: Array<EVacButtonAttrStyleRange>;
+    static STYLE_RANGE: VacMap<EVacButtonAttrStyleRange>;
 
     public title: VacWidgetAttrValue;
     public style: VacWidgetAttrValue;
 
     constructor(){
-        super('按钮');
+        super('标题栏');
 
         if (!VacHeaderAttr.STYLE_RANGE){
-            VacHeaderAttr.STYLE_RANGE = [];
+            VacHeaderAttr.STYLE_RANGE = new VacMap<EVacButtonAttrStyleRange>();
             for (let key in EVacButtonAttrStyleRange){
                 if (!EVacButtonAttrStyleRange.hasOwnProperty(key)){
                     continue;
                 }
                 let item = EVacButtonAttrStyleRange[key];
-                VacHeaderAttr.STYLE_RANGE.push(item);
+                VacHeaderAttr.STYLE_RANGE.set(key, item);
                 console.log(item);
             }
 

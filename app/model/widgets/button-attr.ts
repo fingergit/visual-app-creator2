@@ -18,7 +18,7 @@ export class EVacButtonAttrStyleRange{
 }
 
 export class VacButtonAttr extends VacWidgetAttr{
-    static STYLE_RANGE: Array<EVacButtonAttrStyleRange>;
+    static STYLE_RANGE: VacMap<EVacButtonAttrStyleRange>;
 
     public text: VacWidgetAttrValue;
     public style: VacWidgetAttrValue;
@@ -27,13 +27,13 @@ export class VacButtonAttr extends VacWidgetAttr{
         super('按钮');
 
         if (!VacButtonAttr.STYLE_RANGE){
-            VacButtonAttr.STYLE_RANGE = [];
+            VacButtonAttr.STYLE_RANGE = new VacMap<EVacButtonAttrStyleRange>();
             for (let key in EVacButtonAttrStyleRange){
                 if (!EVacButtonAttrStyleRange.hasOwnProperty(key)){
                     continue;
                 }
                 let item = EVacButtonAttrStyleRange[key];
-                VacButtonAttr.STYLE_RANGE.push(item);
+                VacButtonAttr.STYLE_RANGE.set(key, item);
                 console.log(item);
             }
 

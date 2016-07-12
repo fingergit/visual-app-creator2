@@ -14,6 +14,7 @@ import {InputItemComponent} from "./attr-items/input-item.component";
 import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../model/attr-type";
 import {VacProjectElem} from "../../model/project-element";
 import {CombBoxComponent} from "./attr-items/comb-box/comb-box.component";
+import {SwitchComponent} from "./attr-items/switch/switch.component";
 
 declare var $;
 
@@ -21,7 +22,7 @@ declare var $;
     selector: 'vac-attr-panel'
     ,templateUrl: 'app/right-panel/attr-panel/attr-panel.component.html'
     ,styleUrls: ['app/right-panel/attr-panel/attr-panel.component.css']
-    ,directives: [InputItemComponent,CombBoxComponent]
+    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class AttrPanelComponent implements OnInit{

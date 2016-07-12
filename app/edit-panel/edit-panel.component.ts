@@ -24,8 +24,8 @@ import {VacProjectWidget} from "../model/project-widget";
 })
 export class EditPanelComponent implements OnInit{
     containerId: string = 'widget-container';
-    container: JQuery;
-    appFrame: HTMLElement;
+    $container: JQuery;
+    appFrame: HTMLFrameElement;
     ngOnInit() {
         this.appFrame = window.frames['app-frame'];
 
@@ -61,7 +61,7 @@ export class EditPanelComponent implements OnInit{
     initFrame(appFrame:HTMLElement){
         let $doc:HTMLDocument = appFrame.contentDocument;
         let $appFrameBody:JQuery = $($doc.body);
-        this.container = $appFrameBody.find("#widget-container");
+        this.$container = $appFrameBody.find("#widget-container");
 
         $appFrameBody.on('dragover', (e) => {
             e = e.originalEvent;
@@ -89,9 +89,7 @@ export class EditPanelComponent implements OnInit{
 
             // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
             let $target = $(e.srcElement || e.target);
-            let targetId:string = $target.attr("id");
-            let targetIdAry:Array = targetId.split('-');
-            targetId = targetIdAry[targetIdAry.length-1];
+            let targetId:string = EditPanelComponent._getElemIdFromHtmlElement($target);
 
             let parentElem:VacProjectElem = null;
             if (targetId === that.containerId){
@@ -108,6 +106,43 @@ export class EditPanelComponent implements OnInit{
             that.actionService.addAction(action);
         });
 
+        this.$container.on("mouseover mouseout", ".vac-widget", (event:jQuery.Event)=>{
+            let oriEvent = event.originalEvent;
+            let $target = $(oriEvent.srcElement || oriEvent.target);
+            if(event.type == "mouseover"){
+                if ($target.hasClass('widget-selected')){
+                    // 已选中，什么都不做。
+                    return true;
+                }
+                //鼠标悬浮
+                $(event.originalEvent.target).addClass('widget-hover');
+            }else if(event.type == "mouseout"){
+                //鼠标离开
+                $(event.originalEvent.target).removeClass('widget-hover');
+            }
+            return false;
+        });
+
+        this.$container.on("click", ".vac-widget", (event:jQuery.Event)=>{
+            event.stopImmediatePropagation();
+
+            let oriEvent = event.originalEvent;
+            let $target = $(oriEvent.srcElement || oriEvent.target);
+
+            // $target.removeClass('widget-hover');
+            // $target.addClass('widget-selected');
+
+            let targetId:string = EditPanelComponent._getElemIdFromHtmlElement($target);
+            this.actionService.selectElem(targetId, EVacProjectElemType.WIDGET, true);
+
+            return false;
+        });
+
+        this.$container.on("click", (event:jQuery.Event)=>{
+            event.originalEvent.stopPropagation();
+            event.originalEvent.preventDefault();
+            return false;
+        });
     }
 
     // @HostListener('dragover', ['$event']) onDragOver(e) {
@@ -154,17 +189,17 @@ export class EditPanelComponent implements OnInit{
     private updateEditView(){
         let curProj:VacProject = this.projectService.curProject;
         let curPage:VacProjectPage = curProj.currentPage;
-        this.container.empty();
+        this.$container.empty();
         if (!curPage){
         }
         else{
-            this._addElements(curPage.children, this.container);
+            this._addElements(curPage.children, this.$container);
         }
     }
 
     private _addElements(children: Array<VacProjectElem>, $container:JQuery){
         if (!$container){
-            $container = this.container;
+            $container = this.$container;
         }
 
         for (let idx in children){
@@ -188,7 +223,6 @@ export class EditPanelComponent implements OnInit{
             // ionic编译
             let okHtml = this.appFrame.contentWindow.compileElement(htmlText);
 
-
             let $widget:JQuery = $(okHtml);
 
             if (widget.state.selected){
@@ -197,8 +231,16 @@ export class EditPanelComponent implements OnInit{
 
             $container.append($widget);
             if (item.children && item.isContainer){
-                this._addElement(item.children, $widget);
+                this._addElements(item.children, $widget);
             }
         }
+    }
+
+    static _getElemIdFromHtmlElement($element:JQuery){
+        let targetId:string = $element.attr("id");
+        let targetIdAry:Array = targetId.split('-');
+        targetId = targetIdAry[targetIdAry.length-1];
+
+        return targetId;
     }
 }

@@ -115,11 +115,17 @@ label{
   padding: 4px 10px;
 }
 
-/* widget选中时的效果*/
-.widget-selected{
-  border: dashed red 1px;
-}
-
 #app-frame{
   border: 1px #a9a9a9 solid;
+}
+
+/* bootstrap-switch高度缺省为100%，修改为auto*/
+.bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-label{
+  height: auto;
+}
+
+/* 让switch右对齐*/
+.bootstrap-switch{
+  position: absolute;
+  right: 0;
 }

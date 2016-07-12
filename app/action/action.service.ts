@@ -10,6 +10,8 @@ import {VacProject} from "../model/project.model";
 import {RemoveProjectElemAction} from "./remove-project-elem-action";
 import {VacWidgetAttrValue} from "../model/attr-type";
 import {ChangeAttrAction} from "./change-attr-action";
+import {VacProjectWidget} from "../model/project-widget";
+import {VacProjectPage} from "../model/project-page";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -97,6 +99,62 @@ export class ActionService {
     changAttr(attr: VacWidgetAttrValue, newValue:any, updatePropPanel:boolean){
         let action:ChangeAttrAction = new ChangeAttrAction(attr, newValue, updatePropPanel);
         this.addAction(action);
+    }
+
+    selectElem(elemId: string, elemType: string, selected: boolean){
+        let curProj:VacProject = this.projectService.curProject;
+        let elem = curProj.findElementById(elemId, elemType, curProj.root);
+        if (elem){
+            elem.state.selected = selected;
+            // this.logger.d("selected: " + elem.name + elem.id);
+
+            switch (elemType){
+                case EVacProjectElemType.GROUP:
+                    if (curProj.currentGroup && curProj.currentGroup !== elem){
+                        curProj.currentGroup.state.selected = false;
+                    }
+                    if (curProj.currentGroup !== elem){
+                        curProj.currentGroup = elem;
+                        if (curProj.currentPage){
+                            curProj.currentPage.state.selected = false;
+                            curProj.currentPage = null;
+                        }
+                        if (curProj.currentWidget){
+                            curProj.currentWidget.state.selected = false;
+                            curProj.currentWidget = null;
+                        }
+                    }
+
+                    break;
+                case EVacProjectElemType.PAGE:
+                    if (curProj.currentPage && curProj.currentPage !== elem){
+                        curProj.currentPage.state.selected = false;
+                    }
+                    if (curProj.currentPage !== elem){
+                        curProj.currentPage = elem;
+                        if (curProj.currentWidget){
+                            curProj.currentWidget.state.selected = false;
+                            curProj.currentWidget = null;
+                        }
+                    }
+                    break;
+                case EVacProjectElemType.WIDGET:
+                    if (curProj.currentWidget && curProj.currentWidget !== elem){
+                        curProj.currentWidget.state.selected = false;
+                    }
+                    let page:VacProjectPage = (<VacProjectWidget>elem).getPage();
+                    if (curProj.currentPage !== page){
+                        curProj.currentPage.state.selected = false;
+                        page.state.selected = true;
+                        curProj.currentPage = page;
+                    }
+
+                    curProj.currentWidget = elem;
+                    break;
+            }
+        }
+
+        this.emitSelectChanged(elem);
     }
 
     emitSelectChanged(elem: VacProjectElem){

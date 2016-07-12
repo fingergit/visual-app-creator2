@@ -1,3 +1,4 @@
+import {VacMap} from "../common/map";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -14,6 +15,26 @@ export abstract class VacWidgetAttr{
         let attr: VacWidgetAttr = this.newInstance();
         attr.copyFrom(this);
         return attr;
+    }
+
+    /**
+     * 初始化带有取值范围的属性的取值范围
+     * @param range 要返回的取值范围。
+     * @param rangeClass 存放枚举值的类名。
+     * @returns {VacMap<T>} 取值范围。
+     */
+    static initRange(range: VacMap<T>, rangeClass:any):VacMap<T>{
+        if (!range){
+            range = new VacMap<T>();
+            for (let key in rangeClass){
+                if (!rangeClass.hasOwnProperty(key)){
+                    continue;
+                }
+                let item = rangeClass[key];
+                range.set(key, item);
+            }
+        }
+        return range;
     }
 }
 

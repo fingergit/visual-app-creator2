@@ -1,1 +1,8 @@
-/* Empty. Add your own CSS if you like */
+/* widget选中时的效果*/
+.widget-selected{
+    outline: dashed red 1px;
+}
+
+.widget-hover{
+    outline: dashed green 1px;
+}
