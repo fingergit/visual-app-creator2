@@ -69,10 +69,10 @@ export class DialogService {
             content: content,
         });
     }
-
-    static dialog(content: string){
-        $.dialog(content);
-    }
+    //
+    // static dialog(content: string){
+    //     $.dialog(content);
+    // }
 
     static input(content:string, defaultValue: string, placeholder:string, confirmCallback?:(text:string)=>void, cancelCallback?:()=>void){
         $.confirm(Object.assign(DialogService.defConfig, {

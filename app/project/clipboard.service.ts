@@ -9,33 +9,33 @@ import {LogService} from "../common/log.service";
 export class ClipboardService {
     curProject: VacProject = null;
 
-    constructor(private log: LogService){
+    constructor(){
 
     }
 
     canUndo(): boolean{
-        this.log.d('canUndo');
+        LogService.d('canUndo');
         return false;
     }
 
     canRedo(): boolean{
-        this.log.d('canRedo');
+        LogService.d('canRedo');
         return false;
     }
 
     copy(){
-        this.log.d('copy');
+        LogService.d('copy');
     }
 
     cut(){
-        this.log.d('cut');
+        LogService.d('cut');
     }
 
     paste(){
-        this.log.d('paste');
+        LogService.d('paste');
     }
 
     remove(){
-        this.log.d('remove');
+        LogService.d('remove');
     }
 }

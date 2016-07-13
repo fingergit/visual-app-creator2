@@ -10,7 +10,7 @@ export class ActionManager {
     redoList: Array<VacAction> = [];
     undoList: Array<VacAction> = [];
 
-    constructor(private log:LogService) {
+    constructor() {
 
     }
 
@@ -34,11 +34,11 @@ export class ActionManager {
         this.undoList.push(action);
         this.redoList.length = 0;
         action.doAction(false);
-        this.log.d("undolist: " + this.undoList.length);
+        LogService.d("undolist: " + this.undoList.length);
     }
 
     undo(): VacAction{
-        this.log.d('undo');
+        LogService.d('undo');
 
         if (this.undoList.length == 0){
             return null;
@@ -52,7 +52,7 @@ export class ActionManager {
     }
 
     redo(): VacAction{
-        this.log.d('redo');
+        LogService.d('redo');
 
         if (this.redoList.length == 0){
             return null;
@@ -66,12 +66,12 @@ export class ActionManager {
     }
 
     canUndo(): boolean{
-        this.log.d('canUndo');
+        LogService.d('canUndo');
         return this.undoList.length > 0;
     }
 
     canRedo(): boolean{
-        this.log.d('canRedo');
+        LogService.d('canRedo');
         return this.redoList.length > 0;
     }
 

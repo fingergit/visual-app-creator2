@@ -53,7 +53,6 @@ export class EditPanelComponent implements OnInit{
 
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
-                ,private logger: LogService
                 ,private widgetTemplateService: VacProjectWidgetTemplateService
     ){
     }
@@ -76,7 +75,7 @@ export class EditPanelComponent implements OnInit{
             let widgetType = e.dataTransfer.getData('text/plain');
 
             let curProj:VacProject = that.projectService.curProject;
-            let curPage:VacProjectPage = curProj.currentPage;
+            let curPage:VacProjectPage = curProj.getCurrentPage();
             if (!curPage){
                 DialogService.alert("请选中一个页面。");
                 return;
@@ -145,50 +144,9 @@ export class EditPanelComponent implements OnInit{
         });
     }
 
-    // @HostListener('dragover', ['$event']) onDragOver(e) {
-    //     e.preventDefault();
-    //     return false;
-    // }
-    //
-    // @HostListener('drop', ['$event']) onDrop(e) {
-    //     let widgetType = e.dataTransfer.getData('text/plain');
-    //
-    //     let curProj:VacProject = this.projectService.curProject;
-    //     let curPage:VacProjectPage = curProj.currentPage;
-    //     if (!curPage){
-    //         DialogService.alert("请选中一个页面。");
-    //         return;
-    //     }
-    //
-    //     let widgetTemplate: VacProjectWidgetTemplate = this.widgetTemplateService.get(widgetType);
-    //
-    //     // 要添加的widget。
-    //     let widget:VacProjectElem = widgetTemplate.widget.clone();
-    //
-    //     // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
-    //     let $target = $(e.srcElement || e.target);
-    //     let targetId:string = $target.attr("id");
-    //     let targetIdAry:Array = targetId.split('-');
-    //     targetId = targetIdAry[targetIdAry.length-1];
-    //
-    //     let parentElem:VacProjectElem = null;
-    //     if (targetId === this.containerId){
-    //         parentElem = curPage;
-    //     }
-    //     else{
-    //         parentElem = curPage.getChild(curPage.children, EVacProjectElemType.WIDGET, targetId);
-    //         if (null == parentElem || !parentElem.isContainer){
-    //             parentElem = curPage;
-    //         }
-    //     }
-    //
-    //     let action:AddWidgetByTemplateAction = new AddWidgetByTemplateAction(parentElem, widget, curProj);
-    //     this.actionService.addAction(action);
-    // }
-
     private updateEditView(){
         let curProj:VacProject = this.projectService.curProject;
-        let curPage:VacProjectPage = curProj.currentPage;
+        let curPage:VacProjectPage = curProj.getCurrentPage();
         this.$container.empty();
         if (!curPage){
         }

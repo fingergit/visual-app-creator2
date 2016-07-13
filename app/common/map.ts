@@ -1,6 +1,28 @@
+import {LogService} from "./log.service";
 export class VacMap<V>{
     private keys:Array<number> = [];
     private data:Array<V> = [];
+
+    fromJsonObj(obj:Object) {
+        do {
+            if (!obj || !obj.hasOwnProperty('keys') || !obj.hasOwnProperty('data')) {
+                LogService.d("invalid map value: ");
+                LogService.d(obj);
+                break;
+            }
+
+            for (let key in obj){
+                if (!obj.hasOwnProperty(key)){
+                    continue;
+                }
+                let item = obj[key];
+                if (this.hasOwnProperty(key)){
+                    this[key] = item;
+                }
+            }
+        }while(false);
+    }
+
 
     //添加键值对
     set(key:string, value:V):Map<V> {

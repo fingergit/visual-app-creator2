@@ -3,6 +3,10 @@
  */
 
 import _for = require("core-js/fn/symbol/for");
+import {VacProjectGroup} from "./project-group";
+import {VacProjectPage} from "./project-page";
+import {VacProjectWidget} from "./project-widget";
+import {LogService} from "../common/log.service";
 export enum EVacProjectElemType{
     BEGIN = 0,
     GROUP = BEGIN,
@@ -11,20 +15,37 @@ export enum EVacProjectElemType{
     END
 }
 
-export class VacProjectElemStatus{
+export class VacProjectElemStatus {
     // checked: boolean = false;
     // disabled: boolean = false;
-    expanded: boolean = false;
-    selected: boolean = false;
+    expanded:boolean = false;
+    selected:boolean = false;
 
-    clone():VacProjectElemStatus{
+    clone():VacProjectElemStatus {
         let status = new VacProjectElemStatus();
-        // status.checked = this.checked;
-        // status.disabled = this.disabled;
-        status.expanded = this.expanded;
-        status.selected = this.selected;
+
+        for (let key in this){
+            if (!this.hasOwnProperty(key)){
+                continue;
+            }
+
+            status[key] = this[key];
+        }
 
         return status;
+    }
+
+    fromJsonObj(obj:Object) {
+        if (!obj || !obj.hasOwnProperty('selected')){
+            return;
+        }
+
+        for (let key in obj){
+            if (!obj.hasOwnProperty(key)){
+                continue;
+            }
+            this[key] = obj[key];
+        }
     }
 }
 
@@ -184,6 +205,90 @@ export abstract class VacProjectElem{
                 newChild.parent = this;
             }
         }
+    }
+
+    fromJsonObj(obj:Object){
+        do{
+            if (!obj || !obj.hasOwnProperty('name') || !obj.hasOwnProperty('elemType') || !obj.hasOwnProperty('id')){
+                LogService.d("invalid project element: ");
+                LogService.d(obj);
+                break;
+            }
+
+            this.parent = null;
+            for (let key in obj){
+                if (!obj.hasOwnProperty(key)){
+                    continue;
+                }
+
+                let item = obj[key];
+                if (!this.fromJsonObjKey(key, item, obj)){
+                    LogService.d("not processed key: " + key);
+                }
+            }
+
+        }while(false);
+    }
+
+    // 需要重载。
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean{
+        let done:boolean = false;
+
+        if (key === 'name' ||
+            key == 'elemType' ||
+            key == 'id' ||
+            key == 'isContainer'
+        ){
+            this[key] = item;
+            done = true;
+        }
+        else if (key === 'state'){
+            this.state.fromJsonObj(item);
+            done = true;
+        }
+        else if (key == 'children'){
+            for (let key2 in value){
+                if (!value.hasOwnProperty(key2)){
+                    continue;
+                }
+                let child = value[key2];
+                LogService.log("child: ");
+                LogService.log(child);
+                let childType:EVacProjectElemType = child.elemType;
+                if (!child || !child.elemType){
+                    LogService.d('not valid child: ');
+                    LogService.d(child);
+                    continue;
+                }
+
+                // let childElem:VacProjectElem;
+                // switch (childType){
+                //     case EVacProjectElemType.GROUP:
+                //         childElem = VacProjectGroup.newInstance();
+                //         break;
+                //     case EVacProjectElemType.PAGE:
+                //         childElem = VacProjectPage.newInstance();
+                //         break;
+                //     case EVacProjectElemType.WIDGET:
+                //         childElem = VacProjectWidget.newInstance();
+                //         break;
+                // }
+                // if (!childElem){
+                //     LogService.d('invalid element type');
+                //     continue;
+                // }
+                //
+                // childElem.fromJsonObj(child);
+                // if (!this.children){
+                //     this.children = [];
+                // }
+                //
+                // childElem.parent = this;
+                // this.children.push(childElem);
+            }
+        }
+
+        return done;
     }
 
     unlinkParents(children: Array<VacProjectElem>){

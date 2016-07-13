@@ -2,6 +2,8 @@ import {VacWidgetAttr} from "../widget-attr";
 import {VacAttrEnumComboxItem, EVacWidgetAttrType, VacWidgetAttrValue} from "../attr-type";
 import {VacMap} from "../../common/map";
 import {EVacButtonAttrStyleRange} from "./button-attr";
+import {VacContentAttr} from "./content-attr";
+import {LogService} from "../../common/log.service";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -23,7 +25,6 @@ export class VacHeaderAttr extends VacWidgetAttr{
                 }
                 let item = EVacButtonAttrStyleRange[key];
                 VacHeaderAttr.STYLE_RANGE.set(key, item);
-                console.log(item);
             }
 
         }
@@ -37,9 +38,11 @@ export class VacHeaderAttr extends VacWidgetAttr{
     }
 
     copyFrom(src:VacWidgetAttr){
-        let src2 = <VacHeaderAttr>src;
-        this.title = src2.title.clone();
-        this.style = src2.style.clone();
+        super.copyFrom(src);
+    }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        super.fromJsonObjKey(key, value, obj);
     }
 }
 

@@ -6,6 +6,7 @@ import {VacWidgetAttr} from "../model/widget-attr";
 import {VacHeaderAttr} from "../model/widgets/header-attr";
 import {VacFooterAttr} from "../model/widgets/footer-attr";
 import {VacContentAttr} from "../model/widgets/content-attr";
+import {VacWidgetType, VacCustomAttrFactory} from "../model/widgets/custom-attr-factory";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -25,24 +26,24 @@ export class VacProjectWidgetTemplateService{
     templates:VacMap<VacProjectWidgetTemplate> = new VacMap<VacProjectWidgetTemplate>();
 
     constructor(){
-        this.templates.set('button', new VacProjectWidgetTemplate(
-            new VacProjectWidget('button', '按钮', '0', false,
+        this.templates.set(VacWidgetType.button, new VacProjectWidgetTemplate(
+            new VacProjectWidget(VacWidgetType.button, '按钮', '0', false,
                 `<button id="{{widget.id}}" class="vac-widget button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,
-                new VacButtonAttr()),
+                VacCustomAttrFactory.createAttr(VacWidgetType.button)),
             '', ''));
 
-        this.templates.set('header', new VacProjectWidgetTemplate(
-            new VacProjectWidget('header', '标题栏', '0', false,
+        this.templates.set(VacWidgetType.header, new VacProjectWidgetTemplate(
+            new VacProjectWidget(VacWidgetType.header, '标题栏', '0', false,
                 `
 <div id="{{widget.id}}" class="vac-widget bar bar-header bar-{{widget.attrs.custom.style.value.value}}">
     <h1 class="title">{{widget.attrs.custom.title.value}}</h1>
 </div>`,
-                new VacHeaderAttr()),
+                VacCustomAttrFactory.createAttr(VacWidgetType.header)),
             '', ''));
 
-        this.templates.set('radio', new VacProjectWidgetTemplate(
+        this.templates.set(VacWidgetType.radio, new VacProjectWidgetTemplate(
             new VacProjectWidget(
-                'radio',
+                VacWidgetType.radio,
                 'radio',
                 '0',
                 false,
@@ -52,9 +53,9 @@ export class VacProjectWidgetTemplateService{
             ),
             '', ''
         ));
-        this.templates.set('range', new VacProjectWidgetTemplate(
+        this.templates.set(VacWidgetType.range, new VacProjectWidgetTemplate(
             new VacProjectWidget(
-                'range',
+                VacWidgetType.range,
                 'range',
                 '0',
                 false,
@@ -72,27 +73,27 @@ export class VacProjectWidgetTemplateService{
         //     ),
         //     '', ''
         // ));
-        this.templates.set('content',
+        this.templates.set(VacWidgetType.content,
             new VacProjectWidgetTemplate(
                 new VacProjectWidget(
-                    'content',
+                    VacWidgetType.content,
                     '内容区',
                     '0',
                     true,
                     `<ion-content id="{{widget.id}}" class="vac-widget has-header" delegate-handle="{{widget.attrs.custom.delegateHandle.value}}" direction="{{widget.attrs.custom.direction.value.value}}" locking="{{widget.attrs.custom.locking.value}}"></ion-content>`,
-                    new VacContentAttr()
+                    VacCustomAttrFactory.createAttr(VacWidgetType.content)
                 ),
                 '', ''
             )
         );
-        this.templates.set('footer', new VacProjectWidgetTemplate(
+        this.templates.set(VacWidgetType.footer, new VacProjectWidgetTemplate(
             new VacProjectWidget(
-                'footer',
+                VacWidgetType.footer,
                 '底部栏',
                 '0',
                 true,
                 `<ion-footer-bar id="{{widget.id}}" align-title="{{widget.attrs.custom.alignTitle.value.value}}" class="vac-widget bar-{{widget.attrs.custom.style.value.value}}"><h1 class="title">{{widget.attrs.custom.title.value}}</h1></ion-footer-bar>`,
-                new VacFooterAttr()
+                VacCustomAttrFactory.createAttr(VacWidgetType.footer)
             ),
             '', ''
         ));

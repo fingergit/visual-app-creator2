@@ -11,11 +11,19 @@ export class VacProjectPage extends VacProjectElem{
         super(name, EVacProjectElemType.PAGE, id, true);
     }
 
+    static newInstance():VacProjectElem{
+        return new VacProjectPage('', '1');
+    }
+
     newInstance():VacProjectElem{
         return new VacProjectPage(this.name, this.id);
     }
 
     copyFrom(src:VacProjectElem){
         super.copyFrom(src);
+    }
+
+    protected fromJsonObjKey(key:string, value:any, obj: Object):boolean {
+        return super.fromJsonObjKey(key, value, obj);
     }
 }

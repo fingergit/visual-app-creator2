@@ -3,10 +3,9 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ProjectTreeComponent} from "./project-tree/project-tree.component";
 import {ProjectService} from "../project/project.service";
 import {ActionService} from "../action/action.service";
-import {AddProjectElemAction} from "../action/add-project-elem-action";
-import {EVacProjectElemType} from "../model/project-element";
 import {Observer, Observable, Subscription} from "rxjs/Rx";
 import {WidgetPanelComponent} from "./widget-panel/widget-panel.component";
+import {OpenProjectComponent} from "../ui/open-project/open-project.component";
 
 declare var $;
 
@@ -14,7 +13,7 @@ declare var $;
     selector: 'vac-left-panel'
     ,templateUrl: 'app/left-panel/left-panel.component.html'
     ,styleUrls: ['app/left-panel/left-panel.component.css']
-    ,directives: [ProjectTreeComponent,WidgetPanelComponent]
+    ,directives: [ProjectTreeComponent,WidgetPanelComponent,OpenProjectComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class LeftPanelComponent implements OnInit{

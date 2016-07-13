@@ -23,10 +23,9 @@ export class WidgetPanelComponent implements OnInit{
     treeCtrl:any = null;
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
-                ,private logger: LogService
                 ,private widgetTemplate: VacProjectWidgetTemplateService
     ){
-        this.logger.d(this.widgetTemplate.templates.get("radio"));
+        LogService.d(this.widgetTemplate.templates.get("radio"));
     }
 
     ngOnInit(){

@@ -5,28 +5,28 @@ import {Injectable} from "@angular/core";
  */
 @Injectable()
 export class LogService {
-    enableOutput: boolean = true;
+    static enableOutput: boolean = true;
 
-    d(info: string){
-        if (this.enableOutput){
+    static d(info: string){
+        if (LogService.enableOutput){
             console.info(info);
         }
     }
 
-    i(info: string){
-        if (this.enableOutput){
+    static i(info: string){
+        if (LogService.enableOutput){
             console.debug(info);
         }
     }
 
-    w(info: string){
-        if (this.enableOutput){
+    static w(info: string){
+        if (LogService.enableOutput){
             console.warn(info);
         }
     }
 
-    e(info: string){
-        if (this.enableOutput){
+    static e(info: string){
+        if (LogService.enableOutput){
             console.error(info);
         }
     }

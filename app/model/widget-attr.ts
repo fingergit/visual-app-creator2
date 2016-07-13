@@ -1,4 +1,7 @@
 import {VacMap} from "../common/map";
+import {LogService} from "../common/log.service";
+import {VacCustomAttrFactory} from "./widgets/custom-attr-factory";
+import {VacWidgetAttrValue} from "./attr-type";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -9,6 +12,16 @@ export abstract class VacWidgetAttr{
     abstract newInstance();
     copyFrom(src:VacWidgetAttr){
         this.name = src.name;
+
+        for (let key in src){
+            if (!src.hasOwnProperty(key)){
+                continue;
+            }
+            let item = src[key];
+            if (item instanceof VacWidgetAttrValue){
+                this[key] = item.clone();
+            }
+        }
     }
 
     clone(){
@@ -17,7 +30,43 @@ export abstract class VacWidgetAttr{
         return attr;
     }
 
-    /**
+    fromJsonObj(obj:Object, widgetType: string) {
+        // do{
+        //     if (!obj || !obj.hasOwnProperty('name')){
+        //         LogService.d("invalid project element: ");
+        //         LogService.d(obj);
+        //         break;
+        //     }
+        //
+        //     this.parent = null;
+        //     for (let key in obj){
+        //         if (!obj.hasOwnProperty(key)){
+        //             continue;
+        //         }
+        //
+        //         let item = obj[key];
+        //         if (!this.fromJsonObjKey(key, item, obj)){
+        //             LogService.d("not processed key: " + key);
+        //         }
+        //     }
+        //
+        // }while(false);
+    }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        let done:boolean = false;
+        if (key === 'name'){
+            this[key] = value;
+            done = true;
+        }
+        else if (this.hasOwnProperty(key) && this[key] instanceof VacWidgetAttrValue){
+            this[key] = this[key].fromJsonObj(value);
+            done = true;
+        }
+        return done;
+    }
+
+        /**
      * 初始化带有取值范围的属性的取值范围
      * @param range 要返回的取值范围。
      * @param rangeClass 存放枚举值的类名。
@@ -50,6 +99,10 @@ export class VacWidgetTextAttr extends VacWidgetAttr{
     copyFrom(src:VacWidgetAttr){
         let src2 = <VacWidgetTextAttr>src;
     }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        return super.fromJsonObjKey(key, value, obj);
+    }
 }
 
 export class VacWidgetPositionAttr extends VacWidgetAttr{
@@ -64,6 +117,10 @@ export class VacWidgetPositionAttr extends VacWidgetAttr{
     copyFrom(src:VacWidgetAttr){
         let src2 = <VacWidgetPositionAttr>src;
     }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        return super.fromJsonObjKey(key, value, obj);
+    }
 }
 
 export class VacWidgetBorderAttr extends VacWidgetAttr{
@@ -77,6 +134,10 @@ export class VacWidgetBorderAttr extends VacWidgetAttr{
 
     copyFrom(src:VacWidgetAttr){
         let src2 = <VacWidgetBorderAttr>src;
+    }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        return super.fromJsonObjKey(key, value, obj);
     }
 }
 
@@ -97,16 +158,43 @@ export class VacWidgetAttrs{
         }
 
         let newAttrs = new VacWidgetAttrs(custom);
-        if (this.text){
-            newAttrs.text = this.text.clone();
-        }
-        if (this.position) {
-            newAttrs.position = this.position.clone();
-        }
-        if (this.border) {
-            newAttrs.border = this.border.clone();
+        for (let key in this){
+            if (!this.hasOwnProperty(key)){
+                continue;
+            }
+            let item = this[key];
+            if (item instanceof VacWidgetAttr){
+                newAttrs[key] = item.clone();
+            }
         }
 
         return newAttrs;
+    }
+
+    fromJsonObj(obj:Object, widgetType: string){
+        // do{
+        //     if (!obj || !obj.hasOwnProperty('text') || !obj.hasOwnProperty('position') || !obj.hasOwnProperty('border')){
+        //         LogService.d("invalid attrs: ");
+        //         LogService.d(obj);
+        //         break;
+        //     }
+        //
+        //     this.parent = null;
+        //     for (let key in obj){
+        //         if (!obj.hasOwnProperty(key)){
+        //             continue;
+        //         }
+        //
+        //         let item = obj[key];
+        //         if (key === 'text' || key === 'position' || key === 'border'){
+        //             this[key].fromJsonObj(item, widgetType);
+        //         }
+        //         else if (key === 'custom'){
+        //             this.custom = VacCustomAttrFactory.createAttr(widgetType);
+        //             this.custom.fromJsonObj(item, widgetType);
+        //         }
+        //     }
+        //
+        // }while(false);
     }
 }

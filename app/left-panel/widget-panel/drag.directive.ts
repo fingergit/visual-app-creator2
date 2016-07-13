@@ -10,8 +10,7 @@ export class DragDirective{
     @Input('vac-drag') widgetType: string;
 
     constructor(el: ElementRef,
-                private templateService: VacProjectWidgetTemplateService,
-                private logger: LogService) {
+                private templateService: VacProjectWidgetTemplateService) {
         // el.nativeElement.style.backgroundColor = 'yellow';
         let $elem = $(el.nativeElement);
         $elem.attr('draggable', true);
@@ -20,7 +19,6 @@ export class DragDirective{
         //     let target = e.originalEvent.srcElement || e.originalEvent.target;
         //     let type = $(target).data('widget-type');
         //     let tempText = Json.stringify(templateService.templates.get(type));
-        //     logger.d(tempText);
         //     e.originalEvent.dataTransfer.setData('text/plain', tempText);
         //
         //     // var backImg = $(e.target).find(".widget:first-child").css("background-image");
@@ -37,7 +35,6 @@ export class DragDirective{
         // var text = '<label class="toggle"><input type="checkbox"><div class="track"><div class="handle"></div></div></label>';
         let target = e.srcElement || e.target;
         // let tempText = Json.stringify(this.templateService.templates.get(this.widgetType));
-        // this.logger.d(tempText);
         e.dataTransfer.setData('text/plain', this.widgetType);
 
         // var backImg = $(e.target).find(".widget:first-child").css("background-image");

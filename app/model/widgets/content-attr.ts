@@ -1,6 +1,7 @@
 import {VacWidgetAttr} from "../widget-attr";
 import {VacAttrEnumComboxItem, EVacWidgetAttrType, VacWidgetAttrValue} from "../attr-type";
 import {VacMap} from "../../common/map";
+import {LogService} from "../../common/log.service";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -33,17 +34,11 @@ export class VacContentAttr extends VacWidgetAttr{
     }
 
     copyFrom(src:VacWidgetAttr){
-        let src2 = <VacContentAttr>src;
-        for (let key in src){
-            if (!src.hasOwnProperty(key)){
-                continue;
-            }
-            let item = src[key];
-            if (!(item instanceof VacWidgetAttrValue)){
-                continue;
-            }
-            this[key] = src2[key].clone();
-        }
+        super.copyFrom(src);
+    }
+
+    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
+        super.fromJsonObjKey(key, value, obj);
     }
 }
 

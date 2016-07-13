@@ -23,6 +23,10 @@ export class VacProjectWidget extends VacProjectElem{
         return new VacProjectWidget(this.name, this.id, this.isContainer, this.widgetType, this.htmlText);
     }
 
+    static newInstance():VacProjectElem{
+        return new VacProjectWidget('', '1', false, '', '');
+    }
+
     copyFrom(src:VacProjectElem){
         super.copyFrom(src);
         if (src instanceof VacProjectWidget){
@@ -31,6 +35,20 @@ export class VacProjectWidget extends VacProjectElem{
             this.widgetType = src2.widgetType;
             this.htmlText = src2.htmlText;
             this.attrs = src2.attrs.clone();
+        }
+    }
+
+    protected fromJsonObjKey(key:string, value:any, obj: Object):boolean {
+        if (super.fromJsonObjKey(key, value, obj)){
+            return true;
+        }
+
+        if (key === 'widgetType'
+        || key === 'htmlText'){
+            this[key] = value;
+        }
+        else if (key === 'attrs'){
+            this.attrs.fromJsonObj(value, obj.widgetType);
         }
     }
 

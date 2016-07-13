@@ -52,7 +52,7 @@ export class AttrPanelComponent implements OnInit{
 
     private updatePanel(){
         let curProj:VacProject = this.projectService.curProject;
-        let curWidget:VacProjectWidget = curProj.currentWidget;
+        let curWidget:VacProjectWidget = curProj.getCurrentWidget();
         if (!curWidget){
             this.attrs = null;
         }

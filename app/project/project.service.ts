@@ -7,7 +7,7 @@ import {MathAction, g_result} from "../action/math-action";
 import {EVacProjectElemType} from "../model/project-element";
 import {DialogService} from "../common/dialog.service";
 import {Json} from "@angular/core/esm/src/facade/lang";
-declare var $;
+/// <reference path="jquery.d.ts" />
 
 @Injectable()
 export class ProjectService {
@@ -15,19 +15,18 @@ export class ProjectService {
     isUntitled: boolean = true;
     curProject: VacProject = new VacProject('Untitled');
 
-    constructor(private logger: LogService
-        , private clipboard: ClipboardService
+    constructor(private clipboard: ClipboardService
         ,private dialog: DialogService){
     }
 
     getProjects() {
-        this.logger.d('getProjects');
+        LogService.d('getProjects');
         
         return this.projects;
     }
 
     getProject(name: string) {
-        this.logger.d('getProject');
+        LogService.d('getProject');
 
         let retProj : VacProject = null;
 
@@ -45,7 +44,7 @@ export class ProjectService {
         return retProj;
     }
 
-    loadProjects(){
+    static loadProjects(){
         var storage = window.localStorage;
         var projNameList = [];
         for (var item in storage){
@@ -57,8 +56,6 @@ export class ProjectService {
             }
         }
 
-        this.logger.d(projNameList);
-
         return projNameList;
     }
 
@@ -66,11 +63,11 @@ export class ProjectService {
     }
 
     newProject(){
-        this.logger.d('newProject');
+        LogService.d('newProject');
         //
         // var action = new MathAction("求和", 12);
         // this.actionService.addAction(action);
-        // this.logger.d('g_result: ' + g_result);
+        // LogService.d('g_result: ' + g_result);
 
         DialogService.input('请输入新项目名称', '', '项目名称', (text: string) => {
             this.curProject = new VacProject(text);
@@ -78,6 +75,39 @@ export class ProjectService {
     }
 
     openProject(){
+        let $dlgContent:JQuery = $("#project-list-content");
+
+        let content:string = $dlgContent.html();
+        let $dlg = $.dialog({
+            title: "选择项目",
+            content: content,
+            onOpen: function(){
+                var that = this;
+                this.$content.find('.proj-name').on('click', (event) => {
+                    let oriEvent = event.originalEvent;
+                    let $target = $(oriEvent.srcElement || oriEvent.target);
+                    let text = $target.text();
+                    $dlg.close();
+                    ProjectService._openProject(text);
+                });
+            }
+        });
+    }
+
+    private static _openProject(name: string){
+        if (!name){
+            return;
+        }
+
+        name = 'proj-' + name;
+        let storage = window.localStorage;
+        if (!storage){
+            DialogService.alert("项目" + name + "不存在！");
+            return;
+        }
+
+        let jsonObj = Json.parse(storage[name]);
+        console.debug(Json.stringify(jsonObj));
     }
 
     saveProject(){
@@ -98,11 +128,7 @@ export class ProjectService {
     }
 
     private _saveProject(){
-        this.curProject.root.unlinkParents(null);
-        let jsonText:string = Json.stringify(this.curProject);
-
-        window.localStorage['proj-' + this.curProject.name] = jsonText;
-        this.curProject.root.relinkParents(null, null);
+        window.localStorage['proj-' + this.curProject.name] = this.curProject.toJsonText();
     }
 
     copy(){

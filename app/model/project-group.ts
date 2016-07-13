@@ -4,19 +4,25 @@
 
 import {VacProjectElem, EVacProjectElemType} from "./project-element";
 
-export class VacProjectGroup extends VacProjectElem{
-    constructor(public name: string
-                ,public id: string
-    ){
+export class VacProjectGroup extends VacProjectElem {
+    constructor(public name:string
+        , public id:string) {
         super(name, EVacProjectElemType.GROUP, id, true);
     }
 
+    static newInstance():VacProjectElem {
+        return new VacProjectGroup('', '1');
+    }
 
-    newInstance():VacProjectElem{
+    newInstance():VacProjectElem {
         return new VacProjectGroup(this.name, this.id);
     }
 
-    copyFrom(src:VacProjectElem){
+    copyFrom(src:VacProjectElem) {
         super.copyFrom(src);
+    }
+
+    protected fromJsonObjKey(key:string, value:any, obj: Object):boolean {
+        return super.fromJsonObjKey(key, value, obj);
     }
 }

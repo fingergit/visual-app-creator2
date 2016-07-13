@@ -11,7 +11,6 @@ declare var key;
 @Injectable()
 export class HotkeyService{
     constructor(private commandService: CommandService
-                ,private logger: LogService
         ){
         for (let idx in commandService){
             if (!(commandService[idx] instanceof CommandItem)){

@@ -21,10 +21,11 @@ export class ActionService {
     @Output() actionChanged: EventEmitter<any> = new EventEmitter();
     // 当选择集发生变化时触发。
     @Output() selectChanged: EventEmitter<any> = new EventEmitter();
+    // 当整个项目文件发生变化时触发。
+    @Output() projectChanged: EventEmitter<any> = new EventEmitter();
 
-    constructor(private log:LogService
-                ,private projectService: ProjectService) {
-        this.actionManager = new ActionManager(log);
+    constructor(private projectService: ProjectService) {
+        this.actionManager = new ActionManager();
     }
 
     addAction(action: VacAction){
@@ -60,11 +61,11 @@ export class ActionService {
     }
 
     addGroup(){
-        this.log.d('addGroup');
+        LogService.d('addGroup');
 
         DialogService.input("请输入组名", '', '组名', (text:string) => {
             let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, text, EVacProjectElemType.GROUP);
-            this.log.d('addAction by dlg');
+            LogService.d('addAction by dlg');
             this.addAction(action);
         });
     }
@@ -78,14 +79,14 @@ export class ActionService {
 
     deleteElement(){
         let curProj: VacProject = this.projectService.curProject;
-        let selElem:VacProjectElem = curProj.currentWidget ? curProj.currentWidget :
-                                     curProj.currentPage ? curProj.currentPage :
-                                         curProj.currentGroup ? curProj.currentGroup : null;
+        let selElem:VacProjectElem = curProj.getCurrentWidget() ? curProj.getCurrentWidget() :
+                                     curProj.getCurrentPage() ? curProj.getCurrentPage() :
+                                         curProj.getCurrentGroup() ? curProj.getCurrentGroup() : null;
         if (null == selElem){
             DialogService.alert("请选择一个元素。");
             return;
         }
-        else if (selElem === curProj.root){
+        else if (selElem === curProj.getRoot()){
             DialogService.error("不能删除根元素。");
             return;
         }
@@ -103,53 +104,36 @@ export class ActionService {
 
     selectElem(elemId: string, elemType: string, selected: boolean){
         let curProj:VacProject = this.projectService.curProject;
-        let elem = curProj.findElementById(elemId, elemType, curProj.root);
+        let elem = curProj.findElementById(elemId, elemType, curProj.getRoot());
         if (elem){
             elem.state.selected = selected;
-            // this.logger.d("selected: " + elem.name + elem.id);
+            // LogServiceger.d("selected: " + elem.name + elem.id);
 
+            let curGroup = curProj.getCurrentGroup();
+            let curPage = curProj.getCurrentPage();
+            let curWidget = curProj.getCurrentWidget();
             switch (elemType){
                 case EVacProjectElemType.GROUP:
-                    if (curProj.currentGroup && curProj.currentGroup !== elem){
-                        curProj.currentGroup.state.selected = false;
-                    }
-                    if (curProj.currentGroup !== elem){
-                        curProj.currentGroup = elem;
-                        if (curProj.currentPage){
-                            curProj.currentPage.state.selected = false;
-                            curProj.currentPage = null;
-                        }
-                        if (curProj.currentWidget){
-                            curProj.currentWidget.state.selected = false;
-                            curProj.currentWidget = null;
-                        }
+                    if (curGroup !== elem){
+                        curProj.setCurrentGroup(elem);
+                        curProj.setCurrentPage(null);
+                        curProj.setCurrentWidget(null);
                     }
 
                     break;
                 case EVacProjectElemType.PAGE:
-                    if (curProj.currentPage && curProj.currentPage !== elem){
-                        curProj.currentPage.state.selected = false;
-                    }
-                    if (curProj.currentPage !== elem){
-                        curProj.currentPage = elem;
-                        if (curProj.currentWidget){
-                            curProj.currentWidget.state.selected = false;
-                            curProj.currentWidget = null;
-                        }
+                    if (curPage !== elem){
+                        curProj.setCurrentPage(elem);
+                        curProj.setCurrentWidget(null);
                     }
                     break;
                 case EVacProjectElemType.WIDGET:
-                    if (curProj.currentWidget && curProj.currentWidget !== elem){
-                        curProj.currentWidget.state.selected = false;
-                    }
                     let page:VacProjectPage = (<VacProjectWidget>elem).getPage();
-                    if (curProj.currentPage !== page){
-                        curProj.currentPage.state.selected = false;
-                        page.state.selected = true;
-                        curProj.currentPage = page;
+                    if (curPage !== page){
+                        curProj.setCurrentPage(page);
                     }
 
-                    curProj.currentWidget = elem;
+                    curProj.setCurrentWidget(elem);
                     break;
             }
         }
@@ -161,7 +145,7 @@ export class ActionService {
         this.selectChanged.emit(elem);
     }
 
-    emitAttrChanged(attr: VacWidgetAttrValue, newValue: any){
-        this.attrChanged.emit(attr, newValue);
+    emitProjectChanged(){
+        this.projectChanged.emit(attr, newValue);
     }
 }

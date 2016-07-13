@@ -14,13 +14,14 @@ import {DialogService} from "../common/dialog.service";
 import {VacProjectWidgetTemplateService} from "../project/project-widget-template-service";
 import {EditPanelComponent} from "../edit-panel/edit-panel.component";
 import {RightPanelComponent} from "../right-panel/right-panel.component";
+import {OpenProjectComponent} from "../ui/open-project/open-project.component";
 
 @Component({
     selector: 'my-app'
     ,templateUrl: 'app/app/app.component.html'
     ,styleUrls: ['app/app/app.component.css']
     // ,directives: [ROUTER_DIRECTIVES]
-    ,directives: [ToolbarComponent, LeftPanelComponent,EditPanelComponent,RightPanelComponent]
+    ,directives: [ToolbarComponent, LeftPanelComponent,EditPanelComponent,RightPanelComponent,OpenProjectComponent]
     ,providers: [LogService, ActionService, ClipboardService, ProjectService, HotkeyService,CommandService, 
         PlatformService, DialogService,VacProjectWidgetTemplateService]
 })

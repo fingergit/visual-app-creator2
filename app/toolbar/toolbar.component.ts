@@ -6,12 +6,13 @@ import {ActionService} from "../action/action.service";
 import {LogService} from "../common/log.service";
 import {CommandService} from "../common/command.service";
 import {PlatformService, PlatformType} from "../common/platform.service";
+import {OpenProjectComponent} from "../ui/open-project/open-project.component";
 
 @Component({
     selector: 'vac-toolbar'
     ,templateUrl: 'app/toolbar/toolbar.component.html'
     ,styleUrls: ['app//toolbar/toolbar.component.css']
-    // ,directives: [ROUTER_DIRECTIVES]
+    ,directives: [OpenProjectComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class ToolbarComponent implements OnInit{
@@ -19,7 +20,6 @@ export class ToolbarComponent implements OnInit{
     
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
-                ,private logger: LogService
                 ,private commandService: CommandService
                 ,private platformService: PlatformService
     ){
@@ -28,13 +28,13 @@ export class ToolbarComponent implements OnInit{
     ngOnInit(){
         this.isMac = this.platformService.detectOS() === PlatformType.Mac;
         this.actionService.actionChanged.subscribe(() => {
-            this.logger.d('generatorOrNext');
+            LogService.d('generatorOrNext');
             this.commandService.undo.enable = this.actionService.canUndo();
             this.commandService.redo.enable = this.actionService.canRedo();
         }, ()=>{
-            this.logger.d('error');
+            LogService.d('error');
         }, ()=>{
-            this.logger.d('subscribe');
+            LogService.d('subscribe');
         });
     }
 
