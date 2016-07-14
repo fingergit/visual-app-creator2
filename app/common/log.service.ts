@@ -7,25 +7,25 @@ import {Injectable} from "@angular/core";
 export class LogService {
     static enableOutput: boolean = true;
 
-    static d(info: string){
+    static d(info: any){
         if (LogService.enableOutput){
             console.info(info);
         }
     }
 
-    static i(info: string){
+    static i(info: any){
         if (LogService.enableOutput){
             console.debug(info);
         }
     }
 
-    static w(info: string){
+    static w(info: any){
         if (LogService.enableOutput){
             console.warn(info);
         }
     }
 
-    static e(info: string){
+    static e(info: any){
         if (LogService.enableOutput){
             console.error(info);
         }

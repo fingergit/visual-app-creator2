@@ -19,6 +19,9 @@
                         <span *ngSwitchCase="EVacWidgetAttrType.boolSwitch">
                             <vac-switch [attr]="attr" [value]="attr.value"></vac-switch>
                         </span>
+                        <span *ngSwitchCase="EVacWidgetAttrType.textArray">
+                            <vac-list-box [attr]="attr"></vac-list-box>
+                        </span>
                     </span>
                 </div>
             </form>

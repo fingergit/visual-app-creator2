@@ -1,10 +1,17 @@
 /**
  * Created by laj on 2016/7/4.
  */
+export class VacUpdateView{
+   updateProjectTree: boolean = false;
+   updateEditView: boolean = false;
+   updatePropPanel: boolean = false;
+}
+
  export class VacAction{
     time: number = new Date().getTime();
 
     // Action执行后是否需要更新相关区域。
+    updateView: VacUpdateView = new VacUpdateView();
     updateProjectTree: boolean;
     updateEditView: boolean;
     updatePropPanel: boolean;

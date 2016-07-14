@@ -36,7 +36,7 @@ export class LeftPanelComponent implements OnInit{
         });
 
         let ary:Array<number> = [1, 2, 4, 8];
-        Observable.create((observer:Observer)=>{
+        Observable.create((observer:Observer<Array<number>>)=>{
             observer.next(ary);
             observer.complete();
         }).subscribe((x)=>{

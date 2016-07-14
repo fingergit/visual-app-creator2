@@ -12,6 +12,7 @@ import {VacWidgetAttrValue} from "../model/attr-type";
 import {ChangeAttrAction} from "./change-attr-action";
 import {VacProjectWidget} from "../model/project-widget";
 import {VacProjectPage} from "../model/project-page";
+import {VacProjectGroup} from "../model/project-group";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -31,12 +32,14 @@ export class ActionService {
     addAction(action: VacAction){
         this.actionManager.addAction(action);
         this.actionChanged.emit(action);
+        this.projectService.saveProject();
     }
 
     undo(){
         let action:VacAction = this.actionManager.undo();
         if (action){
             this.actionChanged.emit(action);
+            this.projectService.saveProject();
         }
     }
 
@@ -45,6 +48,7 @@ export class ActionService {
 
         if (action) {
             this.actionChanged.emit(action);
+            this.projectService.saveProject();
         }
     }
 
@@ -60,6 +64,18 @@ export class ActionService {
         return this.actionManager.clear();
     }
 
+    newProject(){
+        this.projectService.newProject(()=>{
+            this.emitProjectChanged();
+        });
+    }
+
+    openProject() {
+        this.projectService.openProject(()=>{
+            this.emitProjectChanged();
+        });
+    }
+
     addGroup(){
         LogService.d('addGroup');
 
@@ -71,7 +87,7 @@ export class ActionService {
     }
 
     addPage(){
-        DialogService.input("请输入组名", '', '组名', (text:string) => {
+        DialogService.input("请输入页名", '', '页名', (text:string) => {
             let action:AddProjectElemAction = new AddProjectElemAction(this.projectService.curProject, text, EVacProjectElemType.PAGE);
             this.addAction(action);
         });
@@ -102,20 +118,16 @@ export class ActionService {
         this.addAction(action);
     }
 
-    selectElem(elemId: string, elemType: string, selected: boolean){
+    selectElem(elemId: string, elemType: EVacProjectElemType, selected: boolean){
         let curProj:VacProject = this.projectService.curProject;
         let elem = curProj.findElementById(elemId, elemType, curProj.getRoot());
-        if (elem){
-            elem.state.selected = selected;
-            // LogServiceger.d("selected: " + elem.name + elem.id);
-
+        if (elem && selected){
             let curGroup = curProj.getCurrentGroup();
             let curPage = curProj.getCurrentPage();
-            let curWidget = curProj.getCurrentWidget();
             switch (elemType){
                 case EVacProjectElemType.GROUP:
                     if (curGroup !== elem){
-                        curProj.setCurrentGroup(elem);
+                        curProj.setCurrentGroup(<VacProjectGroup>elem);
                         curProj.setCurrentPage(null);
                         curProj.setCurrentWidget(null);
                     }
@@ -123,7 +135,7 @@ export class ActionService {
                     break;
                 case EVacProjectElemType.PAGE:
                     if (curPage !== elem){
-                        curProj.setCurrentPage(elem);
+                        curProj.setCurrentPage(<VacProjectPage>elem);
                         curProj.setCurrentWidget(null);
                     }
                     break;
@@ -133,7 +145,24 @@ export class ActionService {
                         curProj.setCurrentPage(page);
                     }
 
-                    curProj.setCurrentWidget(elem);
+                    curProj.setCurrentWidget(<VacProjectWidget>elem);
+                    break;
+            }
+        }
+        else{
+            switch (elemType){
+                case EVacProjectElemType.GROUP:
+                    curProj.setCurrentGroup(null);
+                    curProj.setCurrentPage(null);
+                    curProj.setCurrentWidget(null);
+
+                    break;
+                case EVacProjectElemType.PAGE:
+                    curProj.setCurrentPage(null);
+                    curProj.setCurrentWidget(null);
+                    break;
+                case EVacProjectElemType.WIDGET:
+                    curProj.setCurrentWidget(null);
                     break;
             }
         }
@@ -146,6 +175,6 @@ export class ActionService {
     }
 
     emitProjectChanged(){
-        this.projectChanged.emit(attr, newValue);
+        this.projectChanged.emit(null);
     }
 }

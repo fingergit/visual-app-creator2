@@ -23,7 +23,7 @@ export class VacProjectPage extends VacProjectElem{
         super.copyFrom(src);
     }
 
-    protected fromJsonObjKey(key:string, value:any, obj: Object):boolean {
-        return super.fromJsonObjKey(key, value, obj);
+    fromJsonObjKey(key:string, value:any, obj: Object):boolean {
+        return false;
     }
 }

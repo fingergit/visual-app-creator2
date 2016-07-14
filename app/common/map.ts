@@ -25,7 +25,7 @@ export class VacMap<V>{
 
 
     //添加键值对
-    set(key:string, value:V):Map<V> {
+    set(key:string, value:V):VacMap<V> {
         if (this.keys[key] === undefined || this.keys[key] === null) {//如键不存在则身【键】数组添加键名
             this.keys[key] = this.data.length; // 标识
             this.data.push(value);
@@ -38,7 +38,7 @@ export class VacMap<V>{
     };
 
     //去除键值，(去除键数据中的键名及对应的值)
-    remove(key:string):Map<V> {
+    remove(key:string):VacMap<V> {
         let idx:number = this.keys[key];
         if (this.keys[key] === undefined || this.keys[key] === null){
             return;

@@ -29,8 +29,8 @@ export class EditPanelComponent implements OnInit{
     ngOnInit() {
         this.appFrame = window.frames['app-frame'];
 
-        if (this.appFrame.attachEvent){
-            this.appFrame.attachEvent("onload", ()=>{
+        if (this.appFrame.hasOwnProperty('attachEvent')){
+            this.appFrame['attachEvent']("onload", ()=>{
                 this.initFrame(this.appFrame);
             });
         } else {
@@ -40,14 +40,18 @@ export class EditPanelComponent implements OnInit{
         }
 
         this.actionService.actionChanged.subscribe((action:VacAction) => {
-            if (action.updateEditView) {
-                this.logger.d("now update editview");
-                this.updateEditView();
+            if (action.updateView.updateEditView) {
+                LogService.d("now update editview");
+                this._updateView();
             }
         });
 
         this.actionService.selectChanged.subscribe((elem: VacProjectElem) => {
-            this.updateEditView();
+            this._updateView();
+        });
+
+        this.actionService.projectChanged.subscribe(()=>{
+            this._updateView();
         });
     }
 
@@ -57,22 +61,22 @@ export class EditPanelComponent implements OnInit{
     ){
     }
 
-    initFrame(appFrame:HTMLElement){
+    initFrame(appFrame:HTMLFrameElement){
         let $doc:HTMLDocument = appFrame.contentDocument;
         let $appFrameBody:JQuery = $($doc.body);
         this.$container = $appFrameBody.find("#widget-container");
 
-        $appFrameBody.on('dragover', (e) => {
-            e = e.originalEvent;
-            e.preventDefault();
+        $appFrameBody.on('dragover', (e:JQueryEventObject) => {
+            let e2:Event = e.originalEvent;
+            e2.preventDefault();
 
             return false;
         });
 
         let that = this;
-        $appFrameBody.on('drop', (e) => {
-            e = e.originalEvent;
-            let widgetType = e.dataTransfer.getData('text/plain');
+        $appFrameBody.on('drop', (e:JQueryEventObject) => {
+            let e2:DragEvent = <DragEvent>e.originalEvent;
+            let widgetType = e2.dataTransfer.getData('text/plain');
 
             let curProj:VacProject = that.projectService.curProject;
             let curPage:VacProjectPage = curProj.getCurrentPage();
@@ -84,10 +88,10 @@ export class EditPanelComponent implements OnInit{
             let widgetTemplate: VacProjectWidgetTemplate = that.widgetTemplateService.get(widgetType);
 
             // 要添加的widget。
-            let widget:VacProjectElem = widgetTemplate.widget.clone();
+            let widget:VacProjectWidget = <VacProjectWidget>widgetTemplate.widget.clone();
 
             // 判断widget的父对象，如果目标为container，把它做为父对象，否则，使用当前页。
-            let $target = $(e.srcElement || e.target);
+            let $target = $(e2.srcElement || e2.target);
             let targetId:string = EditPanelComponent._getElemIdFromHtmlElement($target);
 
             let parentElem:VacProjectElem = null;
@@ -105,7 +109,7 @@ export class EditPanelComponent implements OnInit{
             that.actionService.addAction(action);
         });
 
-        this.$container.on("mouseover mouseout", ".vac-widget", (event:jQuery.Event)=>{
+        this.$container.on("mouseover mouseout", ".vac-widget", (event:JQueryEventObject)=>{
             let oriEvent = event.originalEvent;
             let $target = $(oriEvent.srcElement || oriEvent.target);
             if(event.type == "mouseover"){
@@ -122,7 +126,7 @@ export class EditPanelComponent implements OnInit{
             return false;
         });
 
-        this.$container.on("click", ".vac-widget", (event:jQuery.Event)=>{
+        this.$container.on("click", ".vac-widget", (event:JQueryEventObject)=>{
             event.stopImmediatePropagation();
 
             let oriEvent = event.originalEvent;
@@ -137,14 +141,16 @@ export class EditPanelComponent implements OnInit{
             return false;
         });
 
-        this.$container.on("click", (event:jQuery.Event)=>{
+        this.$container.on("click", (event:JQueryEventObject)=>{
             event.originalEvent.stopPropagation();
             event.originalEvent.preventDefault();
+            this.actionService.selectElem(null, EVacProjectElemType.WIDGET, false);
+
             return false;
         });
     }
 
-    private updateEditView(){
+    private _updateView(){
         let curProj:VacProject = this.projectService.curProject;
         let curPage:VacProjectPage = curProj.getCurrentPage();
         this.$container.empty();
@@ -177,6 +183,8 @@ export class EditPanelComponent implements OnInit{
                 // }
             };
             let htmlText = theCompile(context);
+            htmlText = htmlText.replace(/\[\[/g, '{{');
+            htmlText = htmlText.replace(/\]\]/g, '}}');
 
             // ionic编译
             let okHtml = this.appFrame.contentWindow.compileElement(htmlText);
@@ -196,8 +204,8 @@ export class EditPanelComponent implements OnInit{
 
     static _getElemIdFromHtmlElement($element:JQuery){
         let targetId:string = $element.attr("id");
-        let targetIdAry:Array = targetId.split('-');
-        targetId = targetIdAry[targetIdAry.length-1];
+        // let targetIdAry:Array<string> = targetId.split('-');
+        // targetId = targetIdAry[targetIdAry.length-1];
 
         return targetId;
     }

@@ -8,6 +8,7 @@ export class EVacWidgetAttrType{
     static enumCombBox = 'enumCombBox';
     static enumButton = 'enumButton';
     static boolSwitch = 'boolSwitch';
+    static textArray = 'textArray';
 }
 
 export class VacAttrEnumComboxItem{
@@ -23,8 +24,12 @@ export class VacWidgetAttrValue{
                 ,public valueRange: VacMap<any>
     ){}
 
+    static newInstance(){
+        return new VacWidgetAttrValue(null, null, null, null);
+    }
+
     newInstance(){
-        return new VacWidgetAttrValue();
+        return new VacWidgetAttrValue(null, null, null, null);
     }
 
     copyFrom(src:VacWidgetAttrValue){

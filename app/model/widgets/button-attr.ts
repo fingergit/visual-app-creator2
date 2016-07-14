@@ -21,8 +21,8 @@ export class EVacButtonAttrStyleRange{
 export class VacButtonAttr extends VacWidgetAttr{
     static STYLE_RANGE: VacMap<EVacButtonAttrStyleRange>;
 
-    public text: VacWidgetAttrValue = new VacWidgetAttrValue();
-    public style: VacWidgetAttrValue = new VacWidgetAttrValue();
+    public text: VacWidgetAttrValue = VacWidgetAttrValue.newInstance();
+    public style: VacWidgetAttrValue = VacWidgetAttrValue.newInstance();
 
     constructor(){
         super('按钮');
@@ -52,7 +52,7 @@ export class VacButtonAttr extends VacWidgetAttr{
     }
 
     protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
-        super.fromJsonObjKey(key, value, obj);
+        return super.fromJsonObjKey(key, value, obj);
     }
 }
 

@@ -1,4 +1,4 @@
-import {VacWidgetAttr} from "../widget-attr";
+import {VacWidgetAttr, VacWidgetAttrs} from "../widget-attr";
 import {VacAttrEnumComboxItem, EVacWidgetAttrType, VacWidgetAttrValue} from "../attr-type";
 import {VacMap} from "../../common/map";
 import {VacButtonAttr} from "./button-attr";
@@ -6,6 +6,8 @@ import {VacContentAttr} from "./content-attr";
 import {VacFooterAttr} from "./footer-attr";
 import {VacHeaderAttr} from "./header-attr";
 import {LogService} from "../../common/log.service";
+import {VacRefresherAttr} from "./refresher-attr";
+import {VacListViewAttr} from "./list-view-attr";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -16,6 +18,8 @@ export class VacWidgetType{
     static range = 'range';
     static content = 'content';
     static footer = 'footer';
+    static refresher = 'refresher';
+    static listView = 'listView';
 }
     
 export class VacCustomAttrFactory{
@@ -34,6 +38,12 @@ export class VacCustomAttrFactory{
             case VacWidgetType.header:
                 attr = new VacHeaderAttr();
                 break;
+            case VacWidgetType.refresher:
+                attr = new VacRefresherAttr();
+                break;
+            case VacWidgetType.listView:
+                attr = new VacListViewAttr();
+                break;
             default:
                 LogService.d('not found custom attr for type: ' + widgetType);
                 break;
@@ -41,5 +51,33 @@ export class VacCustomAttrFactory{
 
         return attr;
     }
+
+
+    static fromJsonObj(attrs: VacWidgetAttrs, obj:Object, widgetType: string){
+        do{
+            if (!obj || !obj.hasOwnProperty('text') || !obj.hasOwnProperty('position') || !obj.hasOwnProperty('border')){
+                LogService.d("invalid attrs: ");
+                LogService.d(obj);
+                break;
+            }
+
+            for (let key in obj){
+                if (!obj.hasOwnProperty(key)){
+                    continue;
+                }
+
+                let item = obj[key];
+                if (key === 'text' || key === 'position' || key === 'border'){
+                    attrs[key].fromJsonObj(item, widgetType);
+                }
+                else if (key === 'custom' && item){
+                    attrs.custom = VacCustomAttrFactory.createAttr(widgetType);
+                    attrs.custom.fromJsonObj(item, widgetType);
+                }
+            }
+
+        }while(false);
+    }
+
 }
 

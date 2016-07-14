@@ -32,8 +32,8 @@ export class AddWidgetByTemplateAction extends VacAction{
     }
 
     private update(){
-        this.updateProjectTree = true;
-        this.updateEditView = true;
-        this.updatePropPanel = true;
+        this.updateView.updateProjectTree = true;
+        this.updateView.updateEditView = true;
+        this.updateView.updatePropPanel = true;
     }
 }

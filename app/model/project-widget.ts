@@ -5,6 +5,7 @@
 import {VacProjectElem, EVacProjectElemType} from "./project-element";
 import {VacWidgetAttrs, VacWidgetAttr} from "./widget-attr";
 import {VacProjectPage} from "./project-page";
+import {VacCustomAttrFactory} from "./widgets/custom-attr-factory";
 
 export class VacProjectWidget extends VacProjectElem{
     attrs: VacWidgetAttrs = null;
@@ -20,11 +21,11 @@ export class VacProjectWidget extends VacProjectElem{
     }
 
     newInstance():VacProjectElem{
-        return new VacProjectWidget(this.name, this.id, this.isContainer, this.widgetType, this.htmlText);
+        return new VacProjectWidget(this.widgetType, this.name, this.id, this.isContainer, this.htmlText);
     }
 
     static newInstance():VacProjectElem{
-        return new VacProjectWidget('', '1', false, '', '');
+        return new VacProjectWidget(null, null, '1', false, null);
     }
 
     copyFrom(src:VacProjectElem){
@@ -38,18 +39,19 @@ export class VacProjectWidget extends VacProjectElem{
         }
     }
 
-    protected fromJsonObjKey(key:string, value:any, obj: Object):boolean {
-        if (super.fromJsonObjKey(key, value, obj)){
-            return true;
-        }
-
+    fromJsonObjKey(key:string, value:any, obj: Object):boolean {
+        let done:boolean = false;
         if (key === 'widgetType'
         || key === 'htmlText'){
             this[key] = value;
+            done = true;
         }
         else if (key === 'attrs'){
-            this.attrs.fromJsonObj(value, obj.widgetType);
+            VacCustomAttrFactory.fromJsonObj(this.attrs, value, this.widgetType);
+            done = true;
         }
+        
+        return done;
     }
 
     getPage():VacProjectPage{

@@ -1,4 +1,5 @@
-import {EVacProjectElemType} from "../model/project-element";
+import {EVacProjectElemType, VacProjectElem} from "../model/project-element";
+import {VacProjectWidget} from "../model/project-widget";
 /**
  * Created by laj on 2016/7/7.
  */
@@ -14,5 +15,9 @@ export class ProjectElemUtils{
         }
 
         return '';
+    }
+
+    static widgetHtmlId2Id(htmlId: string, widget: VacProjectWidget){
+        widget.id = EVacProjectElemType[widget.elemType] + '-' + widget.widgetType + '-' + htmlId;
     }
 }

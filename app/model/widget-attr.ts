@@ -31,26 +31,25 @@ export abstract class VacWidgetAttr{
     }
 
     fromJsonObj(obj:Object, widgetType: string) {
-        // do{
-        //     if (!obj || !obj.hasOwnProperty('name')){
-        //         LogService.d("invalid project element: ");
-        //         LogService.d(obj);
-        //         break;
-        //     }
-        //
-        //     this.parent = null;
-        //     for (let key in obj){
-        //         if (!obj.hasOwnProperty(key)){
-        //             continue;
-        //         }
-        //
-        //         let item = obj[key];
-        //         if (!this.fromJsonObjKey(key, item, obj)){
-        //             LogService.d("not processed key: " + key);
-        //         }
-        //     }
-        //
-        // }while(false);
+        do{
+            if (!obj || !obj.hasOwnProperty('name')){
+                LogService.d("invalid project element: ");
+                LogService.d(obj);
+                break;
+            }
+
+            for (let key in obj){
+                if (!this.hasOwnProperty(key)){
+                    continue;
+                }
+
+                let item = obj[key];
+                if (!this.fromJsonObjKey(key, item, obj)){
+                    LogService.d("not processed key: " + key);
+                }
+            }
+
+        }while(false);
     }
 
     protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
@@ -60,7 +59,7 @@ export abstract class VacWidgetAttr{
             done = true;
         }
         else if (this.hasOwnProperty(key) && this[key] instanceof VacWidgetAttrValue){
-            this[key] = this[key].fromJsonObj(value);
+            this[key].fromJsonObj(value);
             done = true;
         }
         return done;
@@ -72,7 +71,7 @@ export abstract class VacWidgetAttr{
      * @param rangeClass 存放枚举值的类名。
      * @returns {VacMap<T>} 取值范围。
      */
-    static initRange(range: VacMap<T>, rangeClass:any):VacMap<T>{
+    static initRange<T>(range: VacMap<T>, rangeClass:any):VacMap<T>{
         if (!range){
             range = new VacMap<T>();
             for (let key in rangeClass){
@@ -141,60 +140,33 @@ export class VacWidgetBorderAttr extends VacWidgetAttr{
     }
 }
 
-export class VacWidgetAttrs{
+export class VacWidgetAttrs {
     text = new VacWidgetTextAttr();
     position = new VacWidgetPositionAttr();
     border = new VacWidgetBorderAttr();
     custom:VacWidgetAttr = null;
 
-    constructor(custom?: VacWidgetAttr){
+    constructor(custom?:VacWidgetAttr) {
         this.custom = custom;
     }
 
-    clone(){
-        let custom : VacWidgetAttr = null;
-        if (this.custom){
+    clone() {
+        let custom:VacWidgetAttr = null;
+        if (this.custom) {
             custom = this.custom.clone();
         }
 
         let newAttrs = new VacWidgetAttrs(custom);
-        for (let key in this){
-            if (!this.hasOwnProperty(key)){
+        for (let key in this) {
+            if (!this.hasOwnProperty(key)) {
                 continue;
             }
             let item = this[key];
-            if (item instanceof VacWidgetAttr){
+            if (item instanceof VacWidgetAttr) {
                 newAttrs[key] = item.clone();
             }
         }
 
         return newAttrs;
-    }
-
-    fromJsonObj(obj:Object, widgetType: string){
-        // do{
-        //     if (!obj || !obj.hasOwnProperty('text') || !obj.hasOwnProperty('position') || !obj.hasOwnProperty('border')){
-        //         LogService.d("invalid attrs: ");
-        //         LogService.d(obj);
-        //         break;
-        //     }
-        //
-        //     this.parent = null;
-        //     for (let key in obj){
-        //         if (!obj.hasOwnProperty(key)){
-        //             continue;
-        //         }
-        //
-        //         let item = obj[key];
-        //         if (key === 'text' || key === 'position' || key === 'border'){
-        //             this[key].fromJsonObj(item, widgetType);
-        //         }
-        //         else if (key === 'custom'){
-        //             this.custom = VacCustomAttrFactory.createAttr(widgetType);
-        //             this.custom.fromJsonObj(item, widgetType);
-        //         }
-        //     }
-        //
-        // }while(false);
     }
 }

@@ -12,8 +12,8 @@ import {Json} from "@angular/core/esm/src/facade/lang";
 @Injectable()
 export class ProjectService {
     projects: Array<VacProject> = [];
-    isUntitled: boolean = true;
-    curProject: VacProject = new VacProject('Untitled');
+    private static UNTITLED = 'Untitled';
+    curProject: VacProject = new VacProject(ProjectService.UNTITLED);
 
     constructor(private clipboard: ClipboardService
         ,private dialog: DialogService){
@@ -35,7 +35,7 @@ export class ProjectService {
                 continue;
             }
             let item = this.projects[proj];
-            if (item.name === name){
+            if (item.getName() === name){
                 retProj = item;
                 break;
             }
@@ -62,41 +62,45 @@ export class ProjectService {
     saveProjects(){
     }
 
-    newProject(){
+    newProject(afterNew:()=>void){
         LogService.d('newProject');
-        //
-        // var action = new MathAction("求和", 12);
-        // this.actionService.addAction(action);
-        // LogService.d('g_result: ' + g_result);
 
         DialogService.input('请输入新项目名称', '', '项目名称', (text: string) => {
             this.curProject = new VacProject(text);
+            if (afterNew){
+                afterNew();
+            }
         });
     }
 
-    openProject(){
+    openProject(afterOpen:()=>void){
         let $dlgContent:JQuery = $("#project-list-content");
 
         let content:string = $dlgContent.html();
+        var that = this;
         let $dlg = $.dialog({
             title: "选择项目",
             content: content,
             onOpen: function(){
-                var that = this;
                 this.$content.find('.proj-name').on('click', (event) => {
                     let oriEvent = event.originalEvent;
                     let $target = $(oriEvent.srcElement || oriEvent.target);
                     let text = $target.text();
                     $dlg.close();
-                    ProjectService._openProject(text);
+                    // ProjectService._openProject(text);
+                    if (that._openProject(text)){
+                        if (afterOpen){
+                            afterOpen();
+                        }
+                    }
                 });
             }
         });
     }
 
-    private static _openProject(name: string){
+    private _openProject(name: string):boolean{
         if (!name){
-            return;
+            return false;
         }
 
         name = 'proj-' + name;
@@ -106,8 +110,14 @@ export class ProjectService {
             return;
         }
 
-        let jsonObj = Json.parse(storage[name]);
-        console.debug(Json.stringify(jsonObj));
+        let proj:VacProject = VacProject.fromJson(storage[name]);
+        // console.debug(proj.toJsonText());
+        if (proj){
+            this.curProject = proj;
+            return true;
+        }
+
+        return false;
     }
 
     saveProject(){
@@ -115,11 +125,10 @@ export class ProjectService {
             return;
         }
 
-        if (this.isUntitled){
+        if (this.curProject.getName() === ProjectService.UNTITLED){
             DialogService.input('请输入项目名称', '', '项目名称', (text: string) => {
-                this.curProject.name = text;
+                this.curProject.setName(text);
                 this._saveProject();
-                this.isUntitled = false;
             });
         }
         else{
@@ -128,7 +137,7 @@ export class ProjectService {
     }
 
     private _saveProject(){
-        window.localStorage['proj-' + this.curProject.name] = this.curProject.toJsonText();
+        window.localStorage['proj-' + this.curProject.getName()] = this.curProject.toJsonText();
     }
 
     copy(){

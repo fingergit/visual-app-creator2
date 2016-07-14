@@ -63,7 +63,7 @@ export class VacFooterAttr extends VacWidgetAttr{
     }
 
     protected fromJsonObjKey(key: string, value: any, obj: Object):boolean {
-        super.fromJsonObjKey(key, value, obj);
+        return super.fromJsonObjKey(key, value, obj);
     }
 }
 

@@ -20,7 +20,7 @@ export class PlatformService {
     }
     // http://www.cnblogs.com/freeliver54/p/3570760.html
     detectOS():PlatformType{
-        var sUserAgent = navigator.userAgent;
+        var sUserAgent:string = navigator.userAgent;
 
         var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
         var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
@@ -33,7 +33,8 @@ export class PlatformService {
         }
         var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
 
-        var bIsAndroid = sUserAgent.toLowerCase().match(/android/i) == "android";
+        let matchArray:RegExpMatchArray = sUserAgent.toLowerCase().match(/android/i);
+        var bIsAndroid:boolean = matchArray && matchArray.length > 0 && matchArray[0] == "android";
         if (isLinux) {
             if(bIsAndroid) {
                 return PlatformType.Android;

@@ -32,18 +32,18 @@ export class AddProjectElemAction extends VacAction{
     private update(){
         switch (this.elemType){
             case EVacProjectElemType.GROUP:
-                this.updateProjectTree = true;
-                this.updateEditView = true;
-                this.updatePropPanel = true;
+                this.updateView.updateProjectTree = true;
+                this.updateView.updateEditView = true;
+                this.updateView.updatePropPanel = true;
                 break;
             case EVacProjectElemType.PAGE:
-                this.updateProjectTree = true;
-                this.updateEditView = true;
-                this.updatePropPanel = true;
+                this.updateView.updateProjectTree = true;
+                this.updateView.updateEditView = true;
+                this.updateView.updatePropPanel = true;
                 break;
             case EVacProjectElemType.WIDGET:
-                this.updateEditView = true;
-                this.updatePropPanel = true;
+                this.updateView.updateEditView = true;
+                this.updateView.updatePropPanel = true;
                 break;
         }
     }

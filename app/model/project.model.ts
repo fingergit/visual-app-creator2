@@ -3,6 +3,8 @@ import {VacProjectGroup} from "./project-group";
 import {VacProjectPage} from "./project-page";
 import {VacProjectWidget} from "./project-widget";
 import {Json} from "@angular/core/esm/src/facade/lang";
+import {VacProjectElemFactory} from "./project-element-factory";
+import {LogService} from "../common/log.service";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -32,11 +34,11 @@ export class VacProject{
 
         do{
             // 检查是否有相关的属性，来确是否可以序列化为VacProject实例。
-            let name:string = obj.name;
-            if (!obj || !name || !obj.hasOwnProperty('root') || !obj.hasOwnProperty('nextId')){
+            if (!obj || !obj.hasOwnProperty('name') || !obj.hasOwnProperty('root') || !obj.hasOwnProperty('nextId')){
                 break;
             }
 
+            let name:string = obj['name'];
             project = new VacProject(name);
 
             for (let key in obj){
@@ -46,7 +48,7 @@ export class VacProject{
 
                 let item = obj[key];
                 if (key === 'root'){
-                    project.root = project.root.fromJsonObj(item);
+                    VacProjectElemFactory.fromJsonObj(project.root, item);
                 }
                 else if (key === 'nextId'){
                     project.nextId = item;
@@ -81,12 +83,20 @@ export class VacProject{
         return jsonText;
     }
 
+    getName():string{
+        return this.name;
+    }
+
+    setName(name: string){
+        this.name = name;
+    }
+
     getRoot():VacProjectGroup{
         return this.root;
     }
 
     getCurrentGroup():VacProjectGroup{
-        return this._getCurElem(EVacProjectElemType.GROUP);
+        return <VacProjectGroup>(this._getCurElem(EVacProjectElemType.GROUP));
     }
     
     setCurrentGroup(group: VacProjectGroup){
@@ -102,7 +112,7 @@ export class VacProject{
     }
 
     getCurrentWidget():VacProjectWidget{
-        return this._getCurElem(EVacProjectElemType.WIDGET);
+        return <VacProjectWidget>(this._getCurElem(EVacProjectElemType.WIDGET));
     }
 
     setCurrentWidget(widget: VacProjectWidget){
@@ -126,7 +136,7 @@ export class VacProject{
 
     addElement(name: string, type: EVacProjectElemType, widgetType?: string):VacProjectElem{
         let elem:VacProjectElem = null;
-        let elemId:string = this.nextId[type].toString();
+        let elemId:string = EVacProjectElemType[type] + '-' + this.nextId[type].toString();
         let parent:VacProjectElem;
 
         switch (type){
@@ -138,9 +148,8 @@ export class VacProject{
                 elem = new VacProjectPage(name, elemId);
                 parent = this.curElem[EVacProjectElemType.GROUP] ? this.curElem[EVacProjectElemType.GROUP] : this.root;
                 break;
-            case EVacProjectElemType.WIDGET:
-                elem = new VacProjectWidget(name, elemId, widgetType);
-                parent = this.curElem[EVacProjectElemType.PAGE] ? this.curElem[EVacProjectElemType.PAGE] : this.root;
+            default:
+                LogService.d("invalid element type");
                 break;
         }
 
@@ -152,29 +161,19 @@ export class VacProject{
             return null;
         }
 
-        if (this.curElem[EVacProjectElemType.GROUP]){
-            this.curElem[EVacProjectElemType.GROUP].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.PAGE]){
-            this.curElem[EVacProjectElemType.PAGE].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.WIDGET]){
-            this.curElem[EVacProjectElemType.WIDGET].state.selected = false;
-        }
-        elem.state.selected = true;
         parent.state.expanded = true;
         switch (type){
             case EVacProjectElemType.GROUP:
-                this.curElem[EVacProjectElemType.GROUP] = elem;
-                this.curElem[EVacProjectElemType.PAGE] = null;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentGroup(elem);
+                this.setCurrentPage(null);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.PAGE:
-                this.curElem[EVacProjectElemType.PAGE] = elem;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentPage(elem);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.WIDGET:
-                this.curElem[EVacProjectElemType.WIDGET] = <VacProjectWidget>elem;
+                this.setCurrentWidget(<VacProjectWidget>elem);
                 break;
         }
 
@@ -189,28 +188,19 @@ export class VacProject{
             return false;
         }
 
-        if (this.curElem[EVacProjectElemType.GROUP]){
-            this.curElem[EVacProjectElemType.GROUP].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.PAGE]){
-            this.curElem[EVacProjectElemType.PAGE].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.WIDGET]){
-            this.curElem[EVacProjectElemType.WIDGET].state.selected = false;
-        }
-        elem.state.selected = true;
+        parent.state.expanded = true;
         switch (elem.elemType){
             case EVacProjectElemType.GROUP:
-                this.curElem[EVacProjectElemType.GROUP] = elem;
-                this.curElem[EVacProjectElemType.PAGE] = null;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentGroup(elem);
+                this.setCurrentPage(null);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.PAGE:
-                this.curElem[EVacProjectElemType.PAGE] = elem;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentPage(elem);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.WIDGET:
-                this.curElem[EVacProjectElemType.WIDGET] = <VacProjectWidget>elem;
+                this.setCurrentWidget(<VacProjectWidget>elem);
                 break;
         }
 
@@ -231,46 +221,36 @@ export class VacProject{
             return success;
         }
 
-        if (this.curElem[EVacProjectElemType.GROUP]){
-            this.curElem[EVacProjectElemType.GROUP].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.PAGE]){
-            this.curElem[EVacProjectElemType.PAGE].state.selected = false;
-        }
-        if (this.curElem[EVacProjectElemType.WIDGET]){
-            this.curElem[EVacProjectElemType.WIDGET].state.selected = false;
-        }
-        elem.state.selected = true;
         switch (elem.elemType){
             case EVacProjectElemType.GROUP:
-                this.curElem[EVacProjectElemType.GROUP] = null;
-                this.curElem[EVacProjectElemType.PAGE] = null;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentGroup(null);
+                this.setCurrentPage(null);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.PAGE:
-                this.curElem[EVacProjectElemType.PAGE] = null;
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentPage(null);
+                this.setCurrentWidget(null);
                 break;
             case EVacProjectElemType.WIDGET:
-                this.curElem[EVacProjectElemType.WIDGET] = null;
+                this.setCurrentWidget(null);
                 break;
         }
 
         return true;
     }
 
-    addWidget(widget: VacProjectElem, parent: VacProjectElem, changeId: boolean) : boolean{
+    addWidget(widget: VacProjectWidget, parent: VacProjectElem, changeId: boolean) : boolean{
         if (!parent || parent.elemType == EVacProjectElemType.GROUP || !parent.isContainer){
             console.log("Invalid parent");
             return false;
         }
         if (changeId){
-            widget.id = this.nextId[widget.elemType].toString();
+            widget.id = EVacProjectElemType[widget.elemType] + '-' + widget.widgetType + '-' + this.nextId[widget.elemType].toString();
             this.nextId[widget.elemType] ++;
         }
 
         parent.addChild(widget, -1);
-        this.curElem[EVacProjectElemType.WIDGET] = widget;
+        this.setCurrentWidget(widget);
         return true;
     }
 

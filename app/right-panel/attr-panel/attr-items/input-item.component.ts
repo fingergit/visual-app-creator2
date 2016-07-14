@@ -21,7 +21,7 @@ export class InputItemComponent implements OnInit{
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
     ){
-        this.attr = new VacWidgetAttrValue('', '');
+        this.attr = VacWidgetAttrValue.newInstance();
     }
 
     handleChange($event){

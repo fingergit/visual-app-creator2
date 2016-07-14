@@ -9,10 +9,11 @@ export class ChangeAttrAction extends VacAction{
 
     constructor(private attr: VacWidgetAttrValue
                 ,private newValue: any
-                ,private updatePropPanel
+                ,updatePropPanel: boolean
     ){
         super('Change attribute: ' + attr.name);
         this.oldValue = attr.value;
+        this.updateView.updatePropPanel = updatePropPanel;
     }
 
     doAction(isRedo:boolean){
@@ -26,6 +27,6 @@ export class ChangeAttrAction extends VacAction{
     }
 
     private update(){
-        this.updateEditView = true;
+        this.updateView.updateEditView = true;
     }
 }

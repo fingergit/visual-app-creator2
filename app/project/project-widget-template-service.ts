@@ -30,6 +30,7 @@ export class VacProjectWidgetTemplateService{
             new VacProjectWidget(VacWidgetType.button, '按钮', '0', false,
                 `<button id="{{widget.id}}" class="vac-widget button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,
                 VacCustomAttrFactory.createAttr(VacWidgetType.button)),
+            false, 0, 0,
             '', ''));
 
         this.templates.set(VacWidgetType.header, new VacProjectWidgetTemplate(
@@ -39,6 +40,7 @@ export class VacProjectWidgetTemplateService{
     <h1 class="title">{{widget.attrs.custom.title.value}}</h1>
 </div>`,
                 VacCustomAttrFactory.createAttr(VacWidgetType.header)),
+            false, 0, 0,
             '', ''));
 
         this.templates.set(VacWidgetType.radio, new VacProjectWidgetTemplate(
@@ -51,6 +53,7 @@ export class VacProjectWidgetTemplateService{
             <ion-radio ng-model="choice" ng-value="\'A\'">Choose A</ion-radio><ion-radio ng-model="choice" ng-value="\'B\'">Choose B</ion-radio>
         </ion-list>`
             ),
+            false, 0, 0,
             '', ''
         ));
         this.templates.set(VacWidgetType.range, new VacProjectWidgetTemplate(
@@ -59,8 +62,9 @@ export class VacProjectWidgetTemplateService{
                 'range',
                 '0',
                 false,
-                `<div>haha</div>`
+                `<div>[[test]]</div>`
             ),
+            false, 0, 0,
             '', ''
         ));
         // this.templates.set('header', new VacProjectWidgetTemplate(
@@ -83,6 +87,7 @@ export class VacProjectWidgetTemplateService{
                     `<ion-content id="{{widget.id}}" class="vac-widget has-header" delegate-handle="{{widget.attrs.custom.delegateHandle.value}}" direction="{{widget.attrs.custom.direction.value.value}}" locking="{{widget.attrs.custom.locking.value}}"></ion-content>`,
                     VacCustomAttrFactory.createAttr(VacWidgetType.content)
                 ),
+                false, 0, 0,
                 '', ''
             )
         );
@@ -95,6 +100,37 @@ export class VacProjectWidgetTemplateService{
                 `<ion-footer-bar id="{{widget.id}}" align-title="{{widget.attrs.custom.alignTitle.value.value}}" class="vac-widget bar-{{widget.attrs.custom.style.value.value}}"><h1 class="title">{{widget.attrs.custom.title.value}}</h1></ion-footer-bar>`,
                 VacCustomAttrFactory.createAttr(VacWidgetType.footer)
             ),
+            false, 0, 0,
+            '', ''
+        ));
+        
+        this.templates.set(VacWidgetType.refresher, new VacProjectWidgetTemplate(
+            new VacProjectWidget(
+                VacWidgetType.refresher,
+                '刷新',
+                '0',
+                true,
+                `<ion-refresher id="{{widget.id}}"  class="vac-widget" pulling-text="{{widget.attrs.custom.pullingText.value}}" 
+on-refresh="{{widget.attrs.custom.onRefresh.value}}"
+></ion-refresher>`,
+                VacCustomAttrFactory.createAttr(VacWidgetType.refresher)
+            ),
+            false, 0, 0,
+            '', ''
+        ));
+
+        this.templates.set(VacWidgetType.listView, new VacProjectWidgetTemplate(
+            new VacProjectWidget(
+                VacWidgetType.listView,
+                '列表',
+                '0',
+                true,
+                `<ion-list id="{{widget.id}}"  class="vac-widget" >
+    <ion-item ng-repeat="item in listItems">abc</ion-item>
+</ion-list>`,
+                VacCustomAttrFactory.createAttr(VacWidgetType.listView)
+            ),
+            false, 0, 0,
             '', ''
         ));
     }

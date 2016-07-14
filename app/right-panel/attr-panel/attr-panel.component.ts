@@ -15,6 +15,7 @@ import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../model/attr-type";
 import {VacProjectElem} from "../../model/project-element";
 import {CombBoxComponent} from "./attr-items/comb-box/comb-box.component";
 import {SwitchComponent} from "./attr-items/switch/switch.component";
+import {ListBoxComponent} from "./attr-items/list-box/list-box.component";
 
 declare var $;
 
@@ -22,7 +23,7 @@ declare var $;
     selector: 'vac-attr-panel'
     ,templateUrl: 'app/right-panel/attr-panel/attr-panel.component.html'
     ,styleUrls: ['app/right-panel/attr-panel/attr-panel.component.css']
-    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent]
+    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class AttrPanelComponent implements OnInit{
@@ -36,21 +37,25 @@ export class AttrPanelComponent implements OnInit{
 
     ngOnInit() {
         this.actionService.actionChanged.subscribe((action:VacAction) => {
-            if (action.updatePropPanel){
-                this.updatePanel();
+            if (action.updateView.updatePropPanel){
+                this._updateView();
             }
         }, ()=>{}, ()=>{});
 
         this.actionService.selectChanged.subscribe((elem: VacProjectElem) => {
-            this.updatePanel();
+            this._updateView();
         }, ()=>{}, ()=>{});
+
+        this.actionService.projectChanged.subscribe(()=>{
+            this._updateView();
+        });
     }
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
     ){
     }
 
-    private updatePanel(){
+    private _updateView(){
         let curProj:VacProject = this.projectService.curProject;
         let curWidget:VacProjectWidget = curProj.getCurrentWidget();
         if (!curWidget){

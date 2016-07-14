@@ -23,5 +23,7 @@ var app = angular.module('app', ['ionic'])
   });
 });
 
-app.controller('AppCtrl', ['$state', function ($state) {
+app.controller('AppCtrl', ['$state', '$scope', '$rootScope', function ($state, $scope, $rootScope) {
+  $scope.listItems = ['a', 'c', 'd'];
+  $rootScope.test = 'abcd';
 }]);

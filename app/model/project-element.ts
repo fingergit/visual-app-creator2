@@ -7,6 +7,7 @@ import {VacProjectGroup} from "./project-group";
 import {VacProjectPage} from "./project-page";
 import {VacProjectWidget} from "./project-widget";
 import {LogService} from "../common/log.service";
+import {VacProjectElemFactory} from "./project-element-factory";
 export enum EVacProjectElemType{
     BEGIN = 0,
     GROUP = BEGIN,
@@ -53,6 +54,7 @@ export abstract class VacProjectElem{
     children: Array<VacProjectElem> = null;
     parent: VacProjectElem = null;
     state: VacProjectElemStatus = new VacProjectElemStatus(); // 用于树状态表中选中。
+    icon: string = null; // 仅用于界面的树状表中。
 
     constructor(public name: string
                 ,public elemType: EVacProjectElemType
@@ -207,89 +209,8 @@ export abstract class VacProjectElem{
         }
     }
 
-    fromJsonObj(obj:Object){
-        do{
-            if (!obj || !obj.hasOwnProperty('name') || !obj.hasOwnProperty('elemType') || !obj.hasOwnProperty('id')){
-                LogService.d("invalid project element: ");
-                LogService.d(obj);
-                break;
-            }
-
-            this.parent = null;
-            for (let key in obj){
-                if (!obj.hasOwnProperty(key)){
-                    continue;
-                }
-
-                let item = obj[key];
-                if (!this.fromJsonObjKey(key, item, obj)){
-                    LogService.d("not processed key: " + key);
-                }
-            }
-
-        }while(false);
-    }
-
     // 需要重载。
-    protected fromJsonObjKey(key: string, value: any, obj: Object):boolean{
-        let done:boolean = false;
-
-        if (key === 'name' ||
-            key == 'elemType' ||
-            key == 'id' ||
-            key == 'isContainer'
-        ){
-            this[key] = item;
-            done = true;
-        }
-        else if (key === 'state'){
-            this.state.fromJsonObj(item);
-            done = true;
-        }
-        else if (key == 'children'){
-            for (let key2 in value){
-                if (!value.hasOwnProperty(key2)){
-                    continue;
-                }
-                let child = value[key2];
-                LogService.log("child: ");
-                LogService.log(child);
-                let childType:EVacProjectElemType = child.elemType;
-                if (!child || !child.elemType){
-                    LogService.d('not valid child: ');
-                    LogService.d(child);
-                    continue;
-                }
-
-                // let childElem:VacProjectElem;
-                // switch (childType){
-                //     case EVacProjectElemType.GROUP:
-                //         childElem = VacProjectGroup.newInstance();
-                //         break;
-                //     case EVacProjectElemType.PAGE:
-                //         childElem = VacProjectPage.newInstance();
-                //         break;
-                //     case EVacProjectElemType.WIDGET:
-                //         childElem = VacProjectWidget.newInstance();
-                //         break;
-                // }
-                // if (!childElem){
-                //     LogService.d('invalid element type');
-                //     continue;
-                // }
-                //
-                // childElem.fromJsonObj(child);
-                // if (!this.children){
-                //     this.children = [];
-                // }
-                //
-                // childElem.parent = this;
-                // this.children.push(childElem);
-            }
-        }
-
-        return done;
-    }
+    abstract fromJsonObjKey(key: string, value: any, obj: Object):boolean;
 
     unlinkParents(children: Array<VacProjectElem>){
         if (!children){

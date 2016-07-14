@@ -32,7 +32,7 @@ export class DialogService {
         DialogService._alert('fa fa-error', false, content, confirmCallback);
     }
 
-    private static _confirm(icon?:string|boolean, title:string|boolean, content: string, confirmCallback?:()=>void, cancelCallback?:()=>void){
+    private static _confirm(icon:string|boolean, title:string|boolean, content: string, confirmCallback?:()=>void, cancelCallback?:()=>void){
         $.confirm(Object.assign(DialogService.defConfig, {
             icon: icon,
             title: title,
@@ -50,7 +50,7 @@ export class DialogService {
         DialogService._alert('fa fa-info-circle', false, content);
     }
 
-    static _alert(icon?:string|boolean, title:string|boolean, content: string, confirmCallback?:()=>void){
+    static _alert(icon:string|boolean, title:string|boolean, content: string, confirmCallback?:()=>void){
         $.alert(Object.assign(DialogService.defConfig, {
             icon: icon,
             title: title,

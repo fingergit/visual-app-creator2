@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {VacWidgetAttrValue} from "../../../../model/attr-type";
+import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../../../model/attr-type";
 import {ActionService} from "../../../../action/action.service";
 import {EVacButtonAttrStyleRange} from "../../../../model/widgets/button-attr";
 
@@ -19,7 +19,7 @@ export class SwitchComponent implements OnInit, OnChanges{
 
     constructor(private actionService: ActionService
     ){
-        this.attr = new VacWidgetAttrValue('', false);
+        this.attr = new VacWidgetAttrValue('', false, EVacWidgetAttrType.boolSwitch, null);
     }
 
     ngOnInit() {
