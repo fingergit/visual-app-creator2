@@ -890,7 +890,7 @@
                 // remember selected
                 opt.$selected = root.$selected = $this;
 
-                // position sub-menu - do after show so dumb $.ui.position can keep up
+                // position sub-menu - do after show so dumb $.page.position can keep up
                 if (opt.$node) {
                     root.positionSubmenu.call(opt.$node, opt.$menu);
                 }

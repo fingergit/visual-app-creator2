@@ -1,12 +1,9 @@
 import {Injectable} from "@angular/core";
-import {VacProject} from "../model/project.model";
+import {VacProject} from "../model/element/project.model";
 import {LogService} from "../common/log.service";
 import {ClipboardService} from "./clipboard.service";
-import {ActionService} from "../action/action.service";
-import {MathAction, g_result} from "../action/math-action";
-import {EVacProjectElemType} from "../model/project-element";
 import {DialogService} from "../common/dialog.service";
-import {Json} from "@angular/core/esm/src/facade/lang";
+
 /// <reference path="jquery.d.ts" />
 
 @Injectable()

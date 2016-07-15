@@ -1,6 +1,7 @@
 /**
  * template frame中自定义函数。
  */
-interface Window{
-    compileElement(text:string):string;
+interface Sortable{
+    create(elem:HTMLElement, option?:any):string;
 }
+declare var Sortable: Sortable;

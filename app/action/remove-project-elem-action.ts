@@ -1,6 +1,6 @@
 import {VacAction} from "./action";
-import {VacProjectElem, EVacProjectElemType} from "../model/project-element";
-import {VacProject} from "../model/project.model";
+import {VacProjectElem, EVacProjectElemType} from "../model/element/project-element";
+import {VacProject} from "../model/element/project.model";
 /**
  * Created by laj on 2016/7/4.
  */

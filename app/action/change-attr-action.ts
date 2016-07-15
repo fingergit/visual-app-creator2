@@ -1,6 +1,6 @@
 import {VacAction} from "./action";
-import {VacProjectElem, EVacProjectElemType} from "../model/project-element";
-import {VacWidgetAttrValue} from "../model/attr-type";
+import {VacProjectElem, EVacProjectElemType} from "../model/element/project-element";
+import {VacWidgetAttrValue} from "../model/widget-attr/widget-attr-type";
 /**
  * Created by laj on 2016/7/4.
  */

@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
-import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { LeftPanelComponent } from '../left-panel/left-panel.component';
 import {ProjectService} from "../project/project.service";
 import {LogService} from "../common/log.service";
 import {ClipboardService} from "../project/clipboard.service";
@@ -11,10 +9,12 @@ import {HotkeyService} from "./hotkey.service";
 import {PlatformService} from "../common/platform.service";
 import {CommandService} from "../common/command.service";
 import {DialogService} from "../common/dialog.service";
-import {VacProjectWidgetTemplateService} from "../project/project-widget-template-service";
-import {EditPanelComponent} from "../edit-panel/edit-panel.component";
-import {RightPanelComponent} from "../right-panel/right-panel.component";
-import {OpenProjectComponent} from "../ui/open-project/open-project.component";
+import {VacProjectWidgetTemplateService} from "../model/widgets/service/project-widget-template-service";
+import {ToolbarComponent} from "../page/home/toolbar/toolbar.component";
+import {LeftPanelComponent} from "../page/home/left-panel/left-panel.component";
+import {EditPanelComponent} from "../page/home/edit-panel/edit-panel.component";
+import {RightPanelComponent} from "../page/home/right-panel/right-panel.component";
+import {OpenProjectComponent} from "../page/home/open-project/open-project.component";
 
 @Component({
     selector: 'my-app'

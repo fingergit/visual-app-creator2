@@ -1,5 +1,5 @@
-import {EVacProjectElemType, VacProjectElem} from "../model/project-element";
-import {VacProjectWidget} from "../model/project-widget";
+import {EVacProjectElemType} from "../model/element/project-element";
+import {VacProjectWidget} from "../model/element/project-widget";
 /**
  * Created by laj on 2016/7/7.
  */

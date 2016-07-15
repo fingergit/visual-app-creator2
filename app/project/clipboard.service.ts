@@ -1,4 +1,4 @@
-import {VacProject} from "../model/project.model";
+import {VacProject} from "../model/element/project.model";
 import {Injectable} from "@angular/core";
 import {LogService} from "../common/log.service";
 /**

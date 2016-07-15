@@ -1,5 +1,5 @@
-import {VacWidgetAttr} from "../widget-attr";
-import {VacAttrEnumComboxItem, EVacWidgetAttrType, VacWidgetAttrValue} from "../attr-type";
+import {VacWidgetAttr} from "../widget-attr/widget-attr";
+import {VacAttrEnumComboxItem, EVacWidgetAttrType, VacWidgetAttrValue} from "../widget-attr/widget-attr-type";
 import {VacMap} from "../../common/map";
 import {EVacButtonAttrStyleRange} from "./button-attr";
 import {LogService} from "../../common/log.service";

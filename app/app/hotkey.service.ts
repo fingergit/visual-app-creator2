@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {CommandService} from "../common/command.service";
-import {LogService} from "../common/log.service";
 import {CommandItem} from "../common/command-item";
 
 declare var key;

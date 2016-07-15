@@ -4,15 +4,15 @@ import {VacAction} from "./action";
 import {ActionManager} from "./action-manager";
 import {AddProjectElemAction} from "./add-project-elem-action";
 import {ProjectService} from "../project/project.service";
-import {EVacProjectElemType, VacProjectElem} from "../model/project-element";
+import {EVacProjectElemType, VacProjectElem} from "../model/element/project-element";
 import {DialogService} from "../common/dialog.service";
-import {VacProject} from "../model/project.model";
+import {VacProject} from "../model/element/project.model";
 import {RemoveProjectElemAction} from "./remove-project-elem-action";
-import {VacWidgetAttrValue} from "../model/attr-type";
+import {VacWidgetAttrValue} from "../model/widget-attr/widget-attr-type";
 import {ChangeAttrAction} from "./change-attr-action";
-import {VacProjectWidget} from "../model/project-widget";
-import {VacProjectPage} from "../model/project-page";
-import {VacProjectGroup} from "../model/project-group";
+import {VacProjectWidget} from "../model/element/project-widget";
+import {VacProjectPage} from "../model/element/project-page";
+import {VacProjectGroup} from "../model/element/project-group";
 /**
  * Created by laj on 2016/7/4.
  */

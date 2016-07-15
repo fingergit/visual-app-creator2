@@ -6884,7 +6884,7 @@ function($scope, $element, $attrs, $compile, $controller, $ionicNavBarDelegate, 
         var releaseSwipeCompletion = getSwipeCompletion(releaseX);
         var velocity = Math.abs(startDrag.x - releaseX) / (now - startDrag.t);
 
-        // private variables because ui-router has no way to pass custom data using $state.go
+        // private variables because page-router has no way to pass custom data using $state.go
         disableRenderStartViewId = backView.viewId;
         disableAnimation = (releaseSwipeCompletion < 0.03 || releaseSwipeCompletion > 0.97);
 

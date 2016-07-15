@@ -51,7 +51,7 @@
     packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
 
     // Individual files (~300 requests):
-    //packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+    //packages['@angular/'+pkgName] = { main: '_index.js', defaultExtension: 'js' };
   });
 
   // No umd for router yet

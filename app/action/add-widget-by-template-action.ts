@@ -1,8 +1,8 @@
 import {VacAction} from "./action";
-import {VacProjectElem, EVacProjectElemType} from "../model/project-element";
-import {VacProject} from "../model/project.model";
-import {VacProjectWidgetTemplate} from "../project/project-widget-template-service";
-import {VacProjectWidget} from "../model/project-widget";
+import {VacProjectElem, EVacProjectElemType} from "../model/element/project-element";
+import {VacProject} from "../model/element/project.model";
+import {VacProjectWidgetTemplate} from "../model/widgets/service/project-widget-template-service";
+import {VacProjectWidget} from "../model/element/project-widget";
 /**
  * Created by laj on 2016/7/4.
  */

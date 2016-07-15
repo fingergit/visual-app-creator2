@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label">{{attr?.name}}</label>
+    <div class="col-sm-10">
+        <ul class="list-group list-attr">
+            <li class="list-group-item" *ngFor="let item of attr.value; let i=index" (mouseover)="showOper($event, true)" (mouseleave)="showOper($event, false)">
+                {{item}}
+                <div class="btn-group item-oper" role="group">
+                    <button type="button" class="btn btn-sm btn-default fa f-toolbar-item fa-edit" title="编辑" (click)="onEdit(i, item)"></button>
+                    <button type="button" class="btn btn-sm btn-default fa f-toolbar-item fa-inbox" title="插入" (click)="onInsert(i, item)"></button>
+                    <button type="button" class="btn btn-sm btn-default fa f-toolbar-item fa-trash" title="删除" (click)="onDelete(i, item)"></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

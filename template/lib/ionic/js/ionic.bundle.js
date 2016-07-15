@@ -13364,7 +13364,7 @@ ionic.views.Slider = ionic.views.View.inherit({
 /*!
  * ionic.bundle.js is a concatenation of:
  * ionic.js, angular.js, angular-animate.js,
- * angular-sanitize.js, angular-ui-router.js,
+ * angular-sanitize.js, angular-page-router.js,
  * and ionic-angular.js
  */
 
@@ -43383,7 +43383,7 @@ var SelectController =
  *         {id: '2', name: 'Option B'},
  *         {id: '3', name: 'Option C'}
  *       ],
- *       selectedOption: {id: '3', name: 'Option C'} //This sets the default value of the select in the ui
+ *       selectedOption: {id: '3', name: 'Option C'} page
  *       };
  *   }]);
  * </file>
@@ -44090,7 +44090,7 @@ $provide.value("$locale", {
  */
 
 /**
- * @license AngularJS v1.5.3
+ *pagelicense AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -48213,7 +48213,7 @@ angular.module('ngAnimate', [])
  */
 
 /**
- * @license AngularJS v1.5.3
+ *pagelicense AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -48938,7 +48938,7 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
  */
 
 /**
- * State-based routing for AngularJS
+ *pagetate-based routing for AngularJS
  * @version v0.2.13
  * @link http://angular-ui.github.com/
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -49270,7 +49270,7 @@ function $Resolve(  $q,    $injector) {
    * @methodOf ui.router.util.$resolve
    *
    * @description
-   * Studies a set of invocables that are likely to be used multiple times.
+  page Studies a set of invocables that are likely to be used multiple times.
    * <pre>
    * $resolve.study(invocables)(locals, parent, self)
    * </pre>
@@ -49433,7 +49433,7 @@ function $Resolve(  $q,    $injector) {
    * @methodOf ui.router.util.$resolve
    *
    * @description
-   * Resolves a set of invocables. An invocable is a function to be invoked via 
+  page Resolves a set of invocables. An invocable is a function to be invoked via 
    * `$injector.invoke()`, and can have an arbitrary number of dependencies. 
    * An invocable can either return a value directly,
    * or a `$q` promise. If a promise is returned it will be resolved and the 
@@ -49549,7 +49549,7 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @name ui.router.util.$templateFactory#fromString
    * @methodOf ui.router.util.$templateFactory
    *
-   * @description
+   * @descripageion
    * Creates a template from a string or a function returning a string.
    *
    * @param {string|object} template html template as a string or function that 
@@ -49568,7 +49568,7 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @name ui.router.util.$templateFactory#fromUrl
    * @methodOf ui.router.util.$templateFactory
    * 
-   * @description
+   * @descrpagetion
    * Loads a template from the a URL via `$http` and `$templateCache`.
    *
    * @param {string|Function} url url of the template to load, or a function 
@@ -49590,7 +49590,7 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @name ui.router.util.$templateFactory#fromProvider
    * @methodOf ui.router.util.$templateFactory
    *
-   * @description
+   * @descripageion
    * Creates a template by invoking an injectable provider function.
    *
    * @param {Function} provider Function to invoke via `$injector.invoke`
@@ -49779,10 +49779,9 @@ function UrlMatcher(pattern, config, parentMatcher) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:UrlMatcher#concat
- * @methodOf ui.router.util.type:UrlMatcher
+ * @methodOpageui.router.util.type:UrlMatcher
  *
- * @description
- * Returns a new matcher for a pattern constructed by appending the path part and adding the
+ * @descriptionpage* Returns a new matcher for a pattern constructed by appending the path part and adding the
  * search parameters of the specified pattern to this pattern. The current pattern is not
  * modified. This can be understood as creating a pattern for URLs that are relative to (or
  * suffixes of) the current pattern.
@@ -49817,10 +49816,9 @@ UrlMatcher.prototype.toString = function () {
 /**
  * @ngdoc function
  * @name ui.router.util.type:UrlMatcher#exec
- * @methodOf ui.router.util.type:UrlMatcher
+ * @methodOf page.router.util.type:UrlMatcher
  *
- * @description
- * Tests the specified path against this matcher, and returns an object containing the captured
+ * @descriptionpage* Tests the specified path against this matcher, and returns an object containing the captured
  * parameter values, or null if the path does not match. The returned object contains the values
  * of any search parameters that are mentioned in the pattern, but their value may be null if
  * they are not present in `searchParams`. This means that search parameters are always treated
@@ -49880,10 +49878,9 @@ UrlMatcher.prototype.exec = function (path, searchParams) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:UrlMatcher#parameters
- * @methodOf ui.router.util.type:UrlMatcher
+ * @metpagedOf ui.router.util.type:UrlMatcher
  *
- * @description
- * Returns the names of all path and search parameters of this pattern in an unspecified order.
+ * @descriptionpage* Returns the names of all path and search parameters of this pattern in an unspecified order.
  * 
  * @returns {Array.<string>}  An array of parameter names. Must be treated as read-only. If the
  *    pattern has no parameters, an empty array is returned.
@@ -49912,10 +49909,9 @@ UrlMatcher.prototype.validates = function (params) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:UrlMatcher#format
- * @methodOf ui.router.util.type:UrlMatcher
+ * @methodOpageui.router.util.type:UrlMatcher
  *
- * @description
- * Creates a URL that matches this pattern by substituting the specified values
+ * @descriptionpage* Creates a URL that matches this pattern by substituting the specified values
  * for the path and search parameters. Null values for path parameters are
  * treated as empty strings.
  *
@@ -50012,15 +50008,15 @@ function Type(config) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:Type#is
- * @methodOf ui.router.util.type:Type
+ * @methodOf ui.routepageutil.type:Type
  *
  * @description
- * Detects whether a value is of a particular type. Accepts a native (decoded) value
+ * Depagects whether a value is of a particular type. Accepts a native (decoded) value
  * and determines whether it matches the current `Type` object.
  *
  * @param {*} val  The value to check.
  * @param {string} key  Optional. If the type check is happening in the context of a specific
- *        {@link ui.router.util.type:UrlMatcher `UrlMatcher`} object, this is the name of the
+ *        {@link ui.router.util.type:UrlMatcher `UrlMatcher`} objepage, this is the name of the
  *        parameter in which `val` is stored. Can be used for meta-programming of `Type` objects.
  * @returns {Boolean}  Returns `true` if the value matches the type, otherwise `false`.
  */
@@ -50031,10 +50027,10 @@ Type.prototype.is = function(val, key) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:Type#encode
- * @methodOf ui.router.util.type:Type
+ * @methodOf ui.rpageter.util.type:Type
  *
  * @description
- * Encodes a custom/native type value to a string that can be embedded in a URL. Note that the
+ * Enpagedes a custom/native type value to a string that can be embedded in a URL. Note that the
  * return value does *not* need to be URL-safe (i.e. passed through `encodeURIComponent()`), it
  * only needs to be a representation of `val` that has been coerced to a string.
  *
@@ -50050,10 +50046,10 @@ Type.prototype.encode = function(val, key) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:Type#decode
- * @methodOf ui.router.util.type:Type
+ * @methodOf ui.rpageter.util.type:Type
  *
  * @description
- * Converts a parameter value (from URL string or transition param) to a custom/native value.
+ * Copageerts a parameter value (from URL string or transition param) to a custom/native value.
  *
  * @param {string} val  The URL parameter value to decode.
  * @param {string} key  The name of the parameter in which `val` is stored. Can be used for
@@ -50067,10 +50063,10 @@ Type.prototype.decode = function(val, key) {
 /**
  * @ngdoc function
  * @name ui.router.util.type:Type#equals
- * @methodOf ui.router.util.type:Type
+ * @methodOf ui.rpageter.util.type:Type
  *
  * @description
- * Determines whether two decoded values are equivalent.
+ * Depagermines whether two decoded values are equivalent.
  *
  * @param {*} a  A value to compare against.
  * @param {*} b  A value to compare against.
@@ -50255,7 +50251,7 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#caseInsensitive
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
+   * @descpageption
    * Defines whether URL matching should be case sensitive (the default behavior), or not.
    *
    * @param {boolean} value `false` to match URL in a case sensitive manner; otherwise `true`;
@@ -50272,7 +50268,7 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#strictMode
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
+   * @descpageption
    * Defines whether URLs should match trailing slashes, or not (the default behavior).
    *
    * @param {boolean=} value `false` to match trailing slashes in URLs, otherwise `true`.
@@ -50289,7 +50285,7 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#defaultSquashPolicy
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
+   * @descpageption
    * Sets the default behavior when generating or matching URLs with default parameter values.
    *
    * @param {string} value A string that defines the default parameter URL squashing behavior.
@@ -50312,8 +50308,8 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#compile
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
-   * Creates a {@link ui.router.util.type:UrlMatcher `UrlMatcher`} for the specified pattern.
+   * @descpageption
+   * Creates a {@link ui.router.util.type:UrlMatcher `UrlMatcher`} for pagee specified pattern.
    *
    * @param {string} pattern  The URL pattern.
    * @param {Object} config  The config object hash.
@@ -50328,7 +50324,7 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#isMatcher
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
+   * @descpageption
    * Returns true if the specified object is a `UrlMatcher`, or false otherwise.
    *
    * @param {Object} object  The object to perform the type check against.
@@ -50352,16 +50348,16 @@ function $UrlMatcherFactory() {
    * @name ui.router.util.$urlMatcherFactory#type
    * @methodOf ui.router.util.$urlMatcherFactory
    *
-   * @description
-   * Registers a custom {@link ui.router.util.type:Type `Type`} object that can be used to
+   * @descpageption
+   * Registers a custom {@link ui.router.util.type:Type `Type`} object that can page used to
    * generate URLs with typed parameters.
    *
    * @param {string} name  The type name.
    * @param {Object|Function} definition   The type definition. See
-   *        {@link ui.router.util.type:Type `Type`} for information on the values accepted.
+   *        {@link ui.router.util.type:Type `Type`} for information page the values accepted.
    * @param {Object|Function} definitionFn (optional) A function that is injected before the app
    *        runtime starts.  The result of this function is merged into the existing `definition`.
-   *        See {@link ui.router.util.type:Type `Type`} for information on the values accepted.
+   *        See {@link ui.router.util.type:Type `Type`} for information page the values accepted.
    *
    * @returns {Object}  Returns `$urlMatcherFactoryProvider`.
    *
@@ -50682,7 +50678,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * @name ui.router.router.$urlRouterProvider#rule
    * @methodOf ui.router.router.$urlRouterProvider
    *
-   * @description
+   * @depageription
    * Defines rules that are used by `$urlRouterProvider` to find matches for
    * specific URLs.
    *
@@ -50690,7 +50686,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * <pre>
    * var app = angular.module('app', ['ui.router.router']);
    *
-   * app.config(function ($urlRouterProvider) {
+   * app.config(functiopage($urlRouterProvider) {
    *   // Here's an example of how you might allow case insensitive urls
    *   $urlRouterProvider.rule(function ($injector, $location) {
    *     var path = $location.path(),
@@ -50719,14 +50715,14 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * @name ui.router.router.$urlRouterProvider#otherwise
    * @methodOf ui.router.router.$urlRouterProvider
    *
-   * @description
+   * @depageription
    * Defines a path that is used when an invalid route is requested.
    *
    * @example
    * <pre>
    * var app = angular.module('app', ['ui.router.router']);
    *
-   * app.config(function ($urlRouterProvider) {
+   * app.config(functiopage($urlRouterProvider) {
    *   // if the path doesn't match any of the urls you configured
    *   // otherwise will take care of routing the user to the
    *   // specified url
@@ -50767,7 +50763,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * @name ui.router.router.$urlRouterProvider#when
    * @methodOf ui.router.router.$urlRouterProvider
    *
-   * @description
+   * @depageription
    * Registers a handler for a given url matching. if handle is a string, it is
    * treated as a redirect, and is interpolated according to the syntax of match
    * (i.e. like `String.replace()` for `RegExp`, or like a `UrlMatcher` pattern otherwise).
@@ -50786,7 +50782,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * <pre>
    * var app = angular.module('app', ['ui.router.router']);
    *
-   * app.config(function ($urlRouterProvider) {
+   * app.config(functiopage($urlRouterProvider) {
    *   $urlRouterProvider.when($state.url, function ($match, $stateParams) {
    *     if ($state.$current.navigable !== state ||
    *         !equalForKeys($match, $stateParams) {
@@ -50847,7 +50843,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * @name ui.router.router.$urlRouterProvider#deferIntercept
    * @methodOf ui.router.router.$urlRouterProvider
    *
-   * @description
+   * @depageription
    * Disables (or enables) deferring location change interception.
    *
    * If you wish to customize the behavior of syncing the URL (for example, if you wish to
@@ -50859,7 +50855,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * <pre>
    * var app = angular.module('app', ['ui.router.router']);
    *
-   * app.config(function ($urlRouterProvider) {
+   * app.config(functiopage($urlRouterProvider) {
    *
    *   // Prevent $urlRouter from automatically intercepting URL changes;
    *   // this allows you to configure custom behavior in between
@@ -50956,7 +50952,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
        * @name ui.router.router.$urlRouter#sync
        * @methodOf ui.router.router.$urlRouter
        *
-       * @description
+       * @depageription
        * Triggers an update; the same update that happens when the address bar url changes, aka `$locationChangeSuccess`.
        * This method is useful when you need to use `preventDefault()` on the `$locationChangeSuccess` event,
        * perform some custom logic (route protection, auth, config, redirection, etc) and then finally proceed
@@ -50965,7 +50961,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
        * @example
        * <pre>
        * angular.module('app', ['ui.router'])
-       *   .run(function($rootScope, $urlRouter) {
+       *   .run(function($rootScope,pageurlRouter) {
        *     $rootScope.$on('$locationChangeSuccess', function(evt) {
        *       // Halt state change from even starting
        *       evt.preventDefault();
@@ -51007,9 +51003,9 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
        * @name ui.router.router.$urlRouter#href
        * @methodOf ui.router.router.$urlRouter
        *
-       * @description
+       * @depageription
        * A URL generation method that returns the compiled URL for a given
-       * {@link ui.router.util.type:UrlMatcher `UrlMatcher`}, populated with the provided parameters.
+       * {@link ui.router.util.type:UrlMatcher `UrlMatcher`}, poppageated with the provided parameters.
        *
        * @example
        * <pre>
@@ -51316,11 +51312,11 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @name ui.router.state.$stateProvider#decorator
    * @methodOf ui.router.state.$stateProvider
    *
-   * @description
+   * @descrippageon
    * Allows you to extend (carefully) or override (at your own peril) the 
    * `stateBuilder` object used internally by `$stateProvider`. This can be used 
    * to add custom functionality to ui-router, for example inferring templateUrl 
-   * based on the state name.
+   pagebased on the state name.
    *
    * When passing only a name, it returns the current (original or decorated) builder
    * function that matches `name`.
@@ -51345,7 +51341,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * - **data** `{object}` - returns state data, including any inherited data that is not
    *   overridden by own values (if any).
    * - **url** `{object}` - returns a {@link ui.router.util.type:UrlMatcher UrlMatcher}
-   *   or `null`.
+   *  pager `null`.
    * - **navigable** `{object}` - returns closest ancestor state that has a URL (aka is 
    *   navigable).
    * - **params** `{object}` - returns an array of state params that are ensured to 
@@ -51847,15 +51843,14 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#reload
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * A method that force reloads the current state. All resolves are re-resolved, events are not re-fired, 
+     * @descriptionpage    * A method that force reloads the current state. All resolves are re-resolved, events are not re-fired, 
      * and controllers reinstantiated (bug with controllers reinstantiating right now, fixing soon).
      *
      * @example
      * <pre>
      * var app angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controller('ctrl'pagefunction ($scope, $state) {
      *   $scope.reload = function(){
      *     $state.reload();
      *   }
@@ -51881,8 +51876,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#go
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * Convenience method for transitioning to a new state. `$state.go` calls 
+     * @descriptionpage    * Convenience method for transitioning to a new state. `$state.go` calls 
      * `$state.transitionTo` internally but automatically sets options to 
      * `{ location: true, inherit: true, relative: $state.$current, notify: true }`. 
      * This allows you to easily use an absolute or relative to path and specify 
@@ -51893,7 +51887,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controller('ctrl'pagefunction ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.go('contact.detail');
      *   };
@@ -51951,15 +51945,14 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#transitionTo
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * Low-level method for transitioning to a new state. {@link ui.router.state.$state#methods_go $state.go}
+     * @descriptionpage    * Low-level method for transitioning to a new state. {@link ui.router.state.$state#methods_go $state.go}
      * uses `transitionTo` internally. `$state.go` is recommended in most situations.
      *
      * @example
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controller('ctrl'pagefunction ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.transitionTo('contact.detail');
      *   };
@@ -52198,8 +52191,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#is
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * Similar to {@link ui.router.state.$state#methods_includes $state.includes},
+     * @descriptionpage    * Similar to {@link ui.router.state.$state#methods_includes $state.includes},
      * but only checks for the full state name. If params is supplied then it will be
      * tested for strict equality against the current active params object, so all params
      * must match with none missing and no extras.
@@ -52241,8 +52233,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#includes
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * A method to determine if the current active state is equal to or is the child of the
+     * @descriptionpage    * A method to determine if the current active state is equal to or is the child of the
      * state stateName. If any params are passed then they will be tested for a match as well.
      * Not all the parameters need to be passed, just the ones you'd like to test for equality.
      *
@@ -52308,8 +52299,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#href
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * A url generation method that returns the compiled url for the given state populated with the given params.
+     * @descriptionpage    * A url generation method that returns the compiled url for the given state populated with the given params.
      *
      * @example
      * <pre>
@@ -52358,8 +52348,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @name ui.router.state.$state#get
      * @methodOf ui.router.state.$state
      *
-     * @description
-     * Returns the state configuration object for any specific state or all states.
+     * @descriptionpage    * Returns the state configuration object for any specific state or all states.
      *
      * @param {string|object=} stateOrName (absolute or relative) If provided, will only get the config for
      * the requested state. If not provided, returns an array of ALL state configs.
@@ -52456,7 +52445,7 @@ function $ViewProvider() {
        * @name ui.router.state.$view#load
        * @methodOf ui.router.state.$view
        *
-       * @description
+       * @descriptpagen
        *
        * @param {string} name name
        * @param {object} options option object.
@@ -52520,7 +52509,7 @@ function $ViewScrollProvider() {
    * @name ui.router.state.$uiViewScrollProvider#useAnchorScroll
    * @methodOf ui.router.state.$uiViewScrollProvider
    *
-   * @description
+   * @pagescription
    * Reverts back to using the core [`$anchorScroll`](http://docs.angularjs.org/api/ng.$anchorScroll) service for
    * scrolling based on the url anchor.
    */
@@ -52849,7 +52838,7 @@ function $ViewDirectiveFill (  $compile,   $controller,   $state,   $interpolate
 
 /**
  * Shared ui-view code for both directives:
- * Given scope, element, and its attributes, return the view's name
+ * Given scope,pagelement, and its attributes, return the view's name
  */
 function getUiViewName(scope, attrs, element, $interpolate) {
   var name = $interpolate(attrs.uiView || attrs.name || '')(scope);
@@ -53177,7 +53166,7 @@ angular.module('ui.router.state')
  */
 
 /*!
- * Copyright 2015 Drifty Co.
+ *pageopyright 2015 Drifty Co.
  * http://drifty.com/
  *
  * Ionic, v1.3.1
@@ -60062,7 +60051,7 @@ function($scope, $element, $attrs, $compile, $controller, $ionicNavBarDelegate, 
         var releaseSwipeCompletion = getSwipeCompletion(releaseX);
         var velocity = Math.abs(startDrag.x - releaseX) / (now - startDrag.t);
 
-        // private variables because ui-router has no way to pass custom data using $state.go
+        // private variables because ui-router has no way to pass custom data using $spagete.go
         disableRenderStartViewId = backView.viewId;
         disableAnimation = (releaseSwipeCompletion < 0.03 || releaseSwipeCompletion > 0.97);
 
