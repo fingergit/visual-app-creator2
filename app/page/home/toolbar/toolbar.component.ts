@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, DynamicComponentLoader} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ToolbarItemGroup} from "./toolbar-item";
 import {OpenProjectComponent} from "../open-project/open-project.component";
@@ -7,16 +7,18 @@ import {ActionService} from "../../../action/action.service";
 import {CommandService} from "../../../common/command.service";
 import {PlatformService, PlatformType} from "../../../common/platform.service";
 import {LogService} from "../../../common/log.service";
+import {DclWrapper, C1} from "../../../common/DclWrapper";
 
 @Component({
     selector: 'vac-toolbar'
     ,templateUrl: 'app/page/home/toolbar/toolbar.component.html'
     ,styleUrls: ['app/page/home/toolbar/toolbar.component.css']
-    ,directives: [OpenProjectComponent]
+    ,directives: [OpenProjectComponent, DclWrapper]
     // ,providers: [HeroService, DialogService]
 })
 export class ToolbarComponent implements OnInit{
     isMac:boolean = false;
+    c1=C1;
     
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
