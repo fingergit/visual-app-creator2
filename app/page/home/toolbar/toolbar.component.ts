@@ -1,4 +1,4 @@
-import {Component, OnInit, DynamicComponentLoader} from '@angular/core';
+import {Component, OnInit, DynamicComponentLoader, ViewChild, AfterViewInit} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ToolbarItemGroup} from "./toolbar-item";
 import {OpenProjectComponent} from "../open-project/open-project.component";
@@ -7,19 +7,19 @@ import {ActionService} from "../../../action/action.service";
 import {CommandService} from "../../../common/command.service";
 import {PlatformService, PlatformType} from "../../../common/platform.service";
 import {LogService} from "../../../common/log.service";
-import {DclWrapper, C1} from "../../../common/DclWrapper";
+import {DclWrapperComponent} from "../../../common/dclwrapper.component";
 
 @Component({
     selector: 'vac-toolbar'
     ,templateUrl: 'app/page/home/toolbar/toolbar.component.html'
     ,styleUrls: ['app/page/home/toolbar/toolbar.component.css']
-    ,directives: [OpenProjectComponent, DclWrapper]
+    ,directives: [OpenProjectComponent, DclWrapperComponent]
     // ,providers: [HeroService, DialogService]
 })
-export class ToolbarComponent implements OnInit{
+export class ToolbarComponent implements OnInit,AfterViewInit{
     isMac:boolean = false;
-    c1=C1;
-    
+    @ViewChild(DclWrapperComponent) viewChild:DclWrapperComponent;
+
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
                 ,private commandService: CommandService
@@ -38,6 +38,13 @@ export class ToolbarComponent implements OnInit{
         }, ()=>{
             LogService.d('subscribe');
         });
+    }
+
+    ngAfterViewInit():any {
+        LogService.d('after init');
+        LogService.d(this.viewChild);
+        this.viewChild.compile();
+        return undefined;
     }
 
     toolItems : ToolbarItemGroup[] = [
