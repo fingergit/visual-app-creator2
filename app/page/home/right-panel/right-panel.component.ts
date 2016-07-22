@@ -7,9 +7,10 @@ import {ActionService} from "../../../action/action.service";
 declare var $;
 
 @Component({
-    selector: 'vac-right-panel'
-    ,templateUrl: 'app/page/home/right-panel/right-panel.component.html'
-    ,styleUrls: ['app/page/home/right-panel/right-panel.component.css']
+    moduleId: module.id
+    ,selector: 'vac-right-panel'
+    ,templateUrl: 'right-panel.component.html'
+    ,styleUrls: ['right-panel.component.css']
     ,directives: [AttrPanelComponent]
     // ,providers: [HeroService, DialogService]
 })

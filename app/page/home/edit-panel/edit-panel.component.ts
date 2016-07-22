@@ -15,6 +15,7 @@ import {DialogService} from "../../../common/dialog.service";
 import {VacProjectWidget} from "../../../model/element/project-widget";
 import {AddWidgetByTemplateAction} from "../../../action/add-widget-by-template-action";
 import {WidgetCompilerType, WidgetCompilerFactory} from "../../../model/widgets/compiler/widget-compiler-factory";
+import {SplashComponent} from "../../../template/widget/splash/splash.component";
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped
 /// <reference path="jquery.d.ts" />
@@ -23,13 +24,17 @@ import {WidgetCompilerType, WidgetCompilerFactory} from "../../../model/widgets/
     selector: 'vac-edit-panel'
     ,templateUrl: 'app/page/home/edit-panel/edit-panel.component.html'
     ,styleUrls: ['app/page/home/edit-panel/edit-panel.component.css']
-    ,directives: []
+    ,directives: [SplashComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class EditPanelComponent implements OnInit{
     containerId: string = 'widget-container';
     $container: JQuery;
     appFrame: HTMLFrameElement;
+    $appFrameBody:JQuery;
+    face: 'a.jpg';
+    slogan: 'b.jpg';
+
     ngOnInit() {
         this.appFrame = window.frames['app-frame'];
 
@@ -68,6 +73,7 @@ export class EditPanelComponent implements OnInit{
     initFrame(appFrame:HTMLFrameElement){
         let $doc:HTMLDocument = appFrame.contentDocument;
         let $appFrameBody:JQuery = $($doc.body);
+        this.$appFrameBody = $appFrameBody;
         this.$container = $appFrameBody.find("#widget-container");
 
         $appFrameBody.on('dragover', (e:JQueryEventObject) => {
@@ -169,6 +175,13 @@ export class EditPanelComponent implements OnInit{
         if (!$container){
             $container = this.$container;
         }
+        if ($container.length == 0){
+            $container = this.$appFrameBody.find("#widget-container");
+        }
+        if ($container.length == 0){
+            LogService.d('invalid widget container.');
+            return;
+        }
 
         for (let idx in children){
             if (!children.hasOwnProperty(idx)){
@@ -190,7 +203,8 @@ export class EditPanelComponent implements OnInit{
             let htmlText = compiler.compileHtml(widget);
 
             // ionic编译
-            let okHtml = this.appFrame.contentWindow.compileElement(htmlText);
+            // let okHtml = this.appFrame.contentWindow.compileElement(htmlText);
+            let okHtml = htmlText;
 
             let $widget:JQuery = $(okHtml);
 
@@ -199,6 +213,7 @@ export class EditPanelComponent implements OnInit{
             }
 
             $container.append($widget);
+            LogService.d(this.$container);
             if (item.children && item.isContainer){
                 this._addElements(item.children, $widget);
             }

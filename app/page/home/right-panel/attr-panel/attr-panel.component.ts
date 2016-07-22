@@ -15,14 +15,16 @@ import {ProjectService} from "../../../../project/project.service";
 import {ActionService} from "../../../../action/action.service";
 import {VacProject} from "../../../../model/element/project.model";
 import {VacProjectWidget} from "../../../../model/element/project-widget";
+import {InputFileComponent} from "./attr-items/input-file/input-file.component";
 
 declare var $;
 
 @Component({
-    selector: 'vac-attr-panel'
-    ,templateUrl: 'app/page/home/right-panel/attr-panel/attr-panel.component.html'
-    ,styleUrls: ['app/page/home/right-panel/attr-panel/attr-panel.component.css']
-    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent]
+    moduleId: module.id
+    ,selector: 'vac-attr-panel'
+    ,templateUrl: 'attr-panel.component.html'
+    ,styleUrls: ['attr-panel.component.css']
+    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent,InputFileComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class AttrPanelComponent implements OnInit{

@@ -129,3 +129,8 @@ label{
   position: absolute;
   right: 0;
 }
+
+/* file upload 框*/
+.file-drop-zone{
+  height: auto;
+}

@@ -8,6 +8,7 @@ import {VacHeaderAttr} from "./header-attr";
 import {LogService} from "../../common/log.service";
 import {VacRefresherAttr} from "./refresher-attr";
 import {VacListViewAttr} from "./list-view-attr";
+import {VacSplashAttr} from "./splash-attr";
 /**
  * Created by laj on 2016/7/4.
  */
@@ -20,6 +21,7 @@ export class VacWidgetType{
     static footer = 'footer';
     static refresher = 'refresher';
     static listView = 'listView';
+    static splash = 'splash';
 }
     
 export class VacCustomAttrFactory{
@@ -43,6 +45,9 @@ export class VacCustomAttrFactory{
                 break;
             case VacWidgetType.listView:
                 attr = new VacListViewAttr();
+                break;
+            case VacWidgetType.splash:
+                attr = new VacSplashAttr();
                 break;
             default:
                 LogService.d('not found custom attr for type: ' + widgetType);

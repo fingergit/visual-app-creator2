@@ -5,9 +5,10 @@ import {LogService} from "../../../../../../common/log.service";
 import {DialogService} from "../../../../../../common/dialog.service";
 
 @Component({
-    selector: 'vac-list-box'
-    ,templateUrl: 'app/page/home/right-panel/attr-panel/attr-items/list-box/list-box.component.html'
-    ,styleUrls: ['app/page/home/right-panel/attr-panel/attr-items/list-box/list-box.component.css']
+    moduleId: module.id
+    ,selector: 'vac-list-box'
+    ,templateUrl: 'list-box.component.html'
+    ,styleUrls: ['list-box.component.css']
     ,directives: []
 })
 export class ListBoxComponent implements OnInit{

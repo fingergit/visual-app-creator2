@@ -23,6 +23,25 @@ export class VacProjectWidgetTemplateService{
     templates:VacMap<VacProjectWidgetTemplate> = new VacMap<VacProjectWidgetTemplate>();
 
     constructor(){
+        this.templates.set(VacWidgetType.splash, new VacProjectWidgetTemplate(
+            new VacProjectWidget(
+                VacWidgetType.splash,
+                '启动',
+                '0',
+                true,
+                `
+<div class="splash">
+    <img class="splash-main" src="{{widget.attrs.custom.face.value}}">
+    <img class="splash-slogan" src="{{widget.attrs.custom.slogan.value}}">
+</div>
+`,
+                WidgetCompilerType.common,
+                VacCustomAttrFactory.createAttr(VacWidgetType.splash)
+            ),
+            false, 0, 0,
+            '', ''
+        ));
+
         this.templates.set(VacWidgetType.button, new VacProjectWidgetTemplate(
             new VacProjectWidget(VacWidgetType.button, '按钮', '0', false,
                 `<button id="{{widget.id}}" class="vac-widget button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,

@@ -11,7 +11,7 @@
                 <div *ngFor="let attr of customAttrs">
                     <span [ngSwitch]="attr.type">
                         <span *ngSwitchCase="EVacWidgetAttrType.text">
-                            <vac-input [attr]="attr"></vac-input>
+                            <vac-input [attr]="attr" [type]="text"></vac-input>
                         </span>
                         <span *ngSwitchCase="EVacWidgetAttrType.enumCombBox">
                             <vac-comb-box [attr]="attr"></vac-comb-box>
@@ -21,6 +21,9 @@
                         </span>
                         <span *ngSwitchCase="EVacWidgetAttrType.textArray">
                             <vac-list-box [attr]="attr"></vac-list-box>
+                        </span>
+                        <span *ngSwitchCase="EVacWidgetAttrType.imgFile">
+                            <vac-input-file [attr]="attr"></vac-input-file>
                         </span>
                     </span>
                 </div>

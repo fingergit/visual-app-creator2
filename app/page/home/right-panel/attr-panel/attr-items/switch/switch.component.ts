@@ -3,9 +3,10 @@ import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../../../../../model/wi
 import {ActionService} from "../../../../../../action/action.service";
 
 @Component({
-    selector: 'vac-switch'
-    ,templateUrl: 'app/page/home/right-panel/attr-panel/attr-items/switch/switch.component.html'
-    ,styleUrls: ['app/page/home/right-panel/attr-panel/attr-items/switch/switch.component.css']
+    moduleId: module.id
+    ,selector: 'vac-switch'
+    ,templateUrl: 'switch.component.html'
+    ,styleUrls: ['switch.component.css']
     ,directives: []
 })
 export class SwitchComponent implements OnInit, OnChanges{

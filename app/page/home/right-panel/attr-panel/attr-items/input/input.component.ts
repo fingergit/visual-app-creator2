@@ -5,14 +5,16 @@ import {ProjectService} from "../../../../../../project/project.service";
 import {ActionService} from "../../../../../../action/action.service";
 
 @Component({
-    selector: 'vac-input'
-    ,templateUrl: 'app/page/home/right-panel/attr-panel/attr-items/input/input.component.html'
-    ,styleUrls: ['app/page/home/right-panel/attr-panel/attr-items/input/input.component.css']
+    moduleId: module.id
+    ,selector: 'vac-input'
+    ,templateUrl: 'input.component.html'
+    ,styleUrls: ['input.component.css']
     ,directives: []
     // ,providers: [HeroService, DialogService]
 })
 export class InputItemComponent implements OnInit{
     @Input() attr: VacWidgetAttrValue;
+    @Input() type: string = 'text';
     
     ngOnInit() {
     }
@@ -24,5 +26,16 @@ export class InputItemComponent implements OnInit{
 
     handleChange($event){
         this.actionService.changAttr(this.attr, $event, false);
+    }
+
+    handleFileChange($event){
+        if (this.type !== 'file'){
+            return;
+        }
+
+        let files:FileList = event.srcElement.files;
+        let file:File = files[0];
+        this.actionService.changAttr(this.attr, file.name, false);
+        console.log(file.name);
     }
 }

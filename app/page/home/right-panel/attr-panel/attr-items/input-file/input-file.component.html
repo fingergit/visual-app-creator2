@@ -1,0 +1,10 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label">{{attr?.name}}</label>
+    <div class="col-sm-10">
+        <div>{{attr.value}}</div>
+        <input type="file" id="{{id}}" class="file-upload" name="{{id}}" placeholder="" (change)="handleChange($event)"
+        (fileuploaderror)="handleFileUploadError($event)"
+        >
+    </div>
+</div>
+

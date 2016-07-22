@@ -6,6 +6,7 @@ import {LogService} from "../../common/log.service";
  */
 export class EVacWidgetAttrType{
     static text = 'text';
+    static imgFile = 'imgFile';
     static enumCombBox = 'enumCombBox';
     static enumButton = 'enumButton';
     static boolSwitch = 'boolSwitch';

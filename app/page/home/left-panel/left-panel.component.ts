@@ -10,9 +10,10 @@ import {ActionService} from "../../../action/action.service";
 declare var $;
 
 @Component({
-    selector: 'vac-left-panel'
-    ,templateUrl: 'app/page/home/left-panel/left-panel.component.html'
-    ,styleUrls: ['app/page/home/left-panel/left-panel.component.css']
+    moduleId: module.id
+    ,selector: 'vac-left-panel'
+    ,templateUrl: 'left-panel.component.html'
+    ,styleUrls: ['left-panel.component.css']
     ,directives: [ProjectTreeComponent,WidgetPanelComponent,OpenProjectComponent]
     // ,providers: [HeroService, DialogService]
 })

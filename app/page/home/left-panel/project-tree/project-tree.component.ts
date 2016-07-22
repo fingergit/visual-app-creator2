@@ -9,9 +9,10 @@ import {ProjectElemUtils} from "../../../../utils/project-elem-utils";
 declare var $;
 
 @Component({
-    selector: 'vac-project-tree'
-    ,templateUrl: 'app/page/home/left-panel/project-tree/project-tree.component.html'
-    ,styleUrls: ['app/page/home/left-panel/project-tree/project-tree.component.css']
+    moduleId: module.id
+    ,selector: 'vac-project-tree'
+    ,templateUrl: 'project-tree.component.html'
+    ,styleUrls: ['project-tree.component.css']
     // ,directives: [ROUTER_DIRECTIVES]
     // ,providers: [HeroService, DialogService]
 })

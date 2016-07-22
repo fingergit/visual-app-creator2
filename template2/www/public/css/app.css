@@ -1,0 +1,19 @@
+.splash {
+  background: white;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0; }
+  .splash .splash-main {
+    width: 100%; }
+  .splash .splash-slogan {
+    position: absolute;
+    width: 100%;
+    background: white;
+    right: 0;
+    bottom: 0; }
+
+/*# sourceMappingURL=app.css.map */

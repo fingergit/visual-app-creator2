@@ -1,6 +1,7 @@
 <div class="form-group">
     <label for="aaa" class="col-sm-2 control-label">{{attr?.name}}</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="aaa" placeholder="" [ngModel]="attr.value" (ngModelChange)="handleChange($event)">
+        <input [type]="type" class="form-control" id="aaa" placeholder="" [ngModel]="attr.value" (ngModelChange)="handleChange($event)"
+        (change)="handleFileChange($event)">
     </div>
 </div>

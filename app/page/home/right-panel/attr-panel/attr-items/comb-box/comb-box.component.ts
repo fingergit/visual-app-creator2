@@ -3,9 +3,10 @@ import {VacWidgetAttrValue} from "../../../../../../model/widget-attr/widget-att
 import {ActionService} from "../../../../../../action/action.service";
 
 @Component({
-    selector: 'vac-comb-box'
-    ,templateUrl: 'app/page/home/right-panel/attr-panel/attr-items/comb-box/comb-box.component.html'
-    ,styleUrls: ['app/page/home/right-panel/attr-panel/attr-items/comb-box/comb-box.component.css']
+    moduleId: module.id
+    ,selector: 'vac-comb-box'
+    ,templateUrl: 'comb-box.component.html'
+    ,styleUrls: ['comb-box.component.css']
     ,directives: []
 })
 export class CombBoxComponent implements OnInit{

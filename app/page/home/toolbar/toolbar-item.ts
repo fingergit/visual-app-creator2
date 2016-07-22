@@ -16,4 +16,9 @@ export class ToolbarItemGroup{
         ,public items: Array<CommandItem>
     ){
     }
+
+    ngAfterViewInit():any {
+        this.viewChild.compile();
+        return undefined;
+    }
 }
