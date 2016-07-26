@@ -16,6 +16,7 @@ import {ActionService} from "../../../../action/action.service";
 import {VacProject} from "../../../../model/element/project.model";
 import {VacProjectWidget} from "../../../../model/element/project-widget";
 import {InputFileComponent} from "./attr-items/input-file/input-file.component";
+import {ColorComponent} from "./attr-items/color/color.component";
 
 declare var $;
 
@@ -24,7 +25,7 @@ declare var $;
     ,selector: 'vac-attr-panel'
     ,templateUrl: 'attr-panel.component.html'
     ,styleUrls: ['attr-panel.component.css']
-    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent,InputFileComponent]
+    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent,InputFileComponent,ColorComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class AttrPanelComponent implements OnInit{

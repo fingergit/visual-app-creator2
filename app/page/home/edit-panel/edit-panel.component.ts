@@ -32,8 +32,6 @@ export class EditPanelComponent implements OnInit{
     $container: JQuery;
     appFrame: HTMLFrameElement;
     $appFrameBody:JQuery;
-    face: 'a.jpg';
-    slogan: 'b.jpg';
 
     ngOnInit() {
         this.appFrame = window.frames['app-frame'];
@@ -163,6 +161,9 @@ export class EditPanelComponent implements OnInit{
     private _updateView(){
         let curProj:VacProject = this.projectService.curProject;
         let curPage:VacProjectPage = curProj.getCurrentPage();
+        if (this.$container.length == 0){
+            this.$container = this.$appFrameBody.find("#widget-container");
+        }
         this.$container.empty();
         if (!curPage){
         }
@@ -172,12 +173,6 @@ export class EditPanelComponent implements OnInit{
     }
 
     private _addElements(children: Array<VacProjectElem>, $container:JQuery){
-        if (!$container){
-            $container = this.$container;
-        }
-        if ($container.length == 0){
-            $container = this.$appFrameBody.find("#widget-container");
-        }
         if ($container.length == 0){
             LogService.d('invalid widget container.');
             return;

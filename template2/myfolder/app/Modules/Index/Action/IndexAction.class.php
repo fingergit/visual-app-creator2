@@ -55,6 +55,7 @@ class IndexAction extends BaseAction {
       $infoFile =  $upload->getUploadFileInfo();
       logInfo('info file: ');
       logInfo($infoFile);
+      $info['url'] = __ROOT__ . C('APP_UPLOAD') . $infoFile['0']['savename'];
 //      $info['initialPreview'] = [
 //        sprintf("<img src='%s' class='file-preview-image' alt='Desert' title='Desert'>", __ROOT__ . C('APP_UPLOAD') . $infoFile['0']['savename'])
 //      ];

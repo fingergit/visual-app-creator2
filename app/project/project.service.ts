@@ -3,6 +3,7 @@ import {VacProject} from "../model/element/project.model";
 import {LogService} from "../common/log.service";
 import {ClipboardService} from "./clipboard.service";
 import {DialogService} from "../common/dialog.service";
+import {EVacProjectElemType} from "../model/element/project-element";
 
 /// <reference path="jquery.d.ts" />
 
@@ -14,6 +15,7 @@ export class ProjectService {
 
     constructor(private clipboard: ClipboardService
         ,private dialog: DialogService){
+        this.curProject.addElement('default', EVacProjectElemType.PAGE, null);
     }
 
     getProjects() {

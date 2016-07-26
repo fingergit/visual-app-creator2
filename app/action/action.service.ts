@@ -114,6 +114,9 @@ export class ActionService {
     }
 
     changAttr(attr: VacWidgetAttrValue, newValue:any, updatePropPanel:boolean){
+        if (attr.value === newValue){
+            return;
+        }
         let action:ChangeAttrAction = new ChangeAttrAction(attr, newValue, updatePropPanel);
         this.addAction(action);
     }

@@ -27,10 +27,10 @@ export class VacProject{
 
         this.root = new VacProjectGroup('root', 'root');
         this.root.state.expanded = true;
-        let page:VacProjectPage = new VacProjectPage('default', this.nextId[EVacProjectElemType.PAGE].toString());
-        this.nextId[EVacProjectElemType.PAGE] ++;
-        this.root.addChild(page, -1);
-        this.setCurrentPage(page);
+        // let page:VacProjectPage = new VacProjectPage('default', this.nextId[EVacProjectElemType.PAGE].toString());
+        // this.nextId[EVacProjectElemType.PAGE] ++;
+        // this.root.addChild(page, -1);
+        // this.setCurrentPage(page);
     }
 
     static fromJson(jsonText: string):VacProject{

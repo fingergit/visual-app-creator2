@@ -27,15 +27,4 @@ export class InputItemComponent implements OnInit{
     handleChange($event){
         this.actionService.changAttr(this.attr, $event, false);
     }
-
-    handleFileChange($event){
-        if (this.type !== 'file'){
-            return;
-        }
-
-        let files:FileList = event.srcElement.files;
-        let file:File = files[0];
-        this.actionService.changAttr(this.attr, file.name, false);
-        console.log(file.name);
-    }
 }

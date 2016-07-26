@@ -11,6 +11,7 @@ export class EVacWidgetAttrType{
     static enumButton = 'enumButton';
     static boolSwitch = 'boolSwitch';
     static textArray = 'textArray';
+    static color = 'color';
 }
 
 export class VacAttrEnumComboxItem{

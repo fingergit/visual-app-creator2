@@ -20,13 +20,16 @@ export class InputFileComponent implements OnInit{
     $emlement: JQuery = null;
     curElem:VacProjectWidget = null;
     id: string = null;
+    handleEvent:boolean = false;
     
     ngOnInit() {
         this.id = 'file-' + this.curElem.id + '-' + this.attr.type + parseInt(Math.random() * 100000000);
         this.$emlement = $(".file-upload");
         this.$emlement.fileinput({
             showCaption: false,
-            uploadUrl: Config.UPLOAD_URL
+            uploadUrl: Config.UPLOAD_URL,
+            showPreview: false,
+            language:'zh'
         });
     }
     constructor(private projectService: ProjectService
@@ -39,13 +42,17 @@ export class InputFileComponent implements OnInit{
     handleChange($event){
         console.log($event);
         this.$emlement = $($event.srcElement || $event.target);
-        this.$emlement.on('fileclear', this.handleClear);
-        this.$emlement.on('filecleared', this.handleCleared);
-        this.$emlement.on('fileloaded', this.handleFileLoaded);
-        this.$emlement.on('filereset', this.handleFileReset);
-        this.$emlement.on('filedeleted', this.handleFileDeleted);
-        this.$emlement.on('fileuploaded', this.handleFileUploaded);
-        this.$emlement.on('fileuploaderror', this.handleFileUploadError);
+        if (!this.handleEvent){
+            this.$emlement.on('fileclear', ($event)=>{this.handleClear($event);});
+            this.$emlement.on('filecleared', ($event)=>{this.handleCleared($event);});
+            this.$emlement.on('fileloaded', ($event)=>{this.handleFileLoaded($event);});
+            this.$emlement.on('filereset', ($event)=>{this.handleFileReset($event);});
+            this.$emlement.on('filedeleted', ($event)=>{this.handleFileDeleted($event);});
+            this.$emlement.on('fileuploaded', ($event, data, previewId, index)=>{this.handleFileUploaded($event, data, previewId, index);});
+            this.$emlement.on('fileuploaderror', ($event)=>{this.handleFileUploadError($event);});
+
+            this.handleEvent = true;
+        }
 
         let files:FileList = event.srcElement.files;
         let file:File = files[0];
@@ -59,8 +66,7 @@ export class InputFileComponent implements OnInit{
     }
 
     handleCleared($event){
-        console.log('handleCleared');
-        console.log($event);
+        this.actionService.changAttr(this.attr, "", false);
     }
     
     handleFileLoaded($event){
@@ -75,12 +81,17 @@ export class InputFileComponent implements OnInit{
 
     handleFileDeleted($event){
         console.log('handleFileDeleted');
-        console.log($event);
+        this.actionService.changAttr(this.attr, "", false);
     }
 
-    handleFileUploaded($event){
+    handleFileUploaded($event, data, previewId, index){
         console.log('handleFileUploaded');
-        console.log($event);
+        console.log(data);
+
+        var form = data.form, files = data.files, extra = data.extra,
+            response = data.response, reader = data.reader;
+
+        this.actionService.changAttr(this.attr, data.response.url, false);
     }
 
     handleFileUploadError($event){

@@ -9,13 +9,15 @@ import {VacContentAttr} from "./content-attr";
  */
 
 export class VacSplashAttr extends VacWidgetAttr{
-    public img: VacWidgetAttrValue;
+    public face: VacWidgetAttrValue;
     public slogan: VacWidgetAttrValue;
+    public back: VacWidgetAttrValue;
 
     constructor(){
         super('启动');
-        this.img = new VacWidgetAttrValue('图像', '', EVacWidgetAttrType.imgFile, null);
-        this.slogan = new VacWidgetAttrValue('图标', '', EVacWidgetAttrType.imgFile, null);
+        this.face = new VacWidgetAttrValue('图像', '/visualapp/public/img/bg800_1280.jpg', EVacWidgetAttrType.imgFile, null);
+        this.slogan = new VacWidgetAttrValue('图标', '/visualapp/public/img/slogan.png', EVacWidgetAttrType.imgFile, null);
+        this.back = new VacWidgetAttrValue('背景', '#fff', EVacWidgetAttrType.color, null);
     }
 
     newInstance(){

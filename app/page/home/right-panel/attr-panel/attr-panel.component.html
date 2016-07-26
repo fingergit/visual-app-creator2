@@ -25,6 +25,9 @@
                         <span *ngSwitchCase="EVacWidgetAttrType.imgFile">
                             <vac-input-file [attr]="attr"></vac-input-file>
                         </span>
+                        <span *ngSwitchCase="EVacWidgetAttrType.color">
+                            <vac-color [attr]="attr" [value]="attr.value"></vac-color>
+                        </span>
                     </span>
                 </div>
             </form>
