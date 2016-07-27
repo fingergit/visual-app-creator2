@@ -18,7 +18,7 @@ export class ToolbarItemGroup{
     }
 
     ngAfterViewInit():any {
-        this.viewChild.compile();
+        // this.viewChild.compile();
         return undefined;
     }
 }

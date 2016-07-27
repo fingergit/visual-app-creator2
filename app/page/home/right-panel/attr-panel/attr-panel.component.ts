@@ -17,6 +17,7 @@ import {VacProject} from "../../../../model/element/project.model";
 import {VacProjectWidget} from "../../../../model/element/project-widget";
 import {InputFileComponent} from "./attr-items/input-file/input-file.component";
 import {ColorComponent} from "./attr-items/color/color.component";
+import {AttrTabPanelComponent} from "./attr-tab/attr-tab-panel.component";
 
 declare var $;
 
@@ -25,15 +26,15 @@ declare var $;
     ,selector: 'vac-attr-panel'
     ,templateUrl: 'attr-panel.component.html'
     ,styleUrls: ['attr-panel.component.css']
-    ,directives: [InputItemComponent,CombBoxComponent,SwitchComponent,ListBoxComponent,InputFileComponent,ColorComponent]
+    ,directives: [AttrTabPanelComponent]
     // ,providers: [HeroService, DialogService]
 })
 export class AttrPanelComponent implements OnInit{
     attrs: VacWidgetAttrs = null;
-    customAttrs: Array<VacWidgetAttrValue> = [];
-    textAttrs: Array<VacWidgetAttrValue> = [];
-    positionAttrs: Array<VacWidgetAttrValue> = [];
-    borderAttrs: Array<VacWidgetAttrValue> = [];
+    // customAttrs: Array<VacWidgetAttrValue> = [];
+    // textAttrs: Array<VacWidgetAttrValue> = [];
+    // positionAttrs: Array<VacWidgetAttrValue> = [];
+    // borderAttrs: Array<VacWidgetAttrValue> = [];
 
     EVacWidgetAttrType = EVacWidgetAttrType;
 
@@ -65,45 +66,45 @@ export class AttrPanelComponent implements OnInit{
         }
         else{
             this.attrs = curWidget.attrs;
-            this.customAttrs = [];
-            this.textAttrs = [];
-            this.positionAttrs = [];
-            this.borderAttrs = [];
-            for (let attrkey in this.attrs){
-                if (!this.attrs.hasOwnProperty(attrkey)){
-                    continue;
-                }
-                let item = this.attrs[attrkey];
-                if (!(item instanceof VacWidgetAttr)){
-                    continue;
-                }
-
-                let ary:Array<VacWidgetAttrValue> = null;
-                if (item instanceof VacWidgetTextAttr){
-                    ary = this.textAttrs;
-                }
-                else if (item instanceof VacWidgetPositionAttr){
-                    ary = this.positionAttrs;
-                }
-                else if (item instanceof VacWidgetBorderAttr){
-                    ary = this.borderAttrs;
-                }
-                else{
-                    ary = this.customAttrs;
-                }
-
-                for (let idx in item){
-                    if (!item.hasOwnProperty(idx)){
-                        continue;
-                    }
-                    let item2 = item[idx];
-                    if (!(item2 instanceof VacWidgetAttrValue)){
-                        continue;
-                    }
-
-                    ary.push(item2);
-                }
-            }
+            // this.customAttrs = [];
+            // this.textAttrs = [];
+            // this.positionAttrs = [];
+            // this.borderAttrs = [];
+            // for (let attrkey in this.attrs){
+            //     if (!this.attrs.hasOwnProperty(attrkey)){
+            //         continue;
+            //     }
+            //     let item = this.attrs[attrkey];
+            //     if (!(item instanceof VacWidgetAttr)){
+            //         continue;
+            //     }
+            //
+            //     let ary:Array<VacWidgetAttrValue> = null;
+            //     if (item instanceof VacWidgetTextAttr){
+            //         ary = this.textAttrs;
+            //     }
+            //     else if (item instanceof VacWidgetPositionAttr){
+            //         ary = this.positionAttrs;
+            //     }
+            //     else if (item instanceof VacWidgetBorderAttr){
+            //         ary = this.borderAttrs;
+            //     }
+            //     else{
+            //         ary = this.customAttrs;
+            //     }
+            //
+            //     for (let idx in item){
+            //         if (!item.hasOwnProperty(idx)){
+            //             continue;
+            //         }
+            //         let item2 = item[idx];
+            //         if (!(item2 instanceof VacWidgetAttrValue)){
+            //             continue;
+            //         }
+            //
+            //         ary.push(item2);
+            //     }
+            // }
         }
     }
 }

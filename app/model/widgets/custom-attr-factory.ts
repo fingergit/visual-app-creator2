@@ -9,12 +9,14 @@ import {LogService} from "../../common/log.service";
 import {VacRefresherAttr} from "./refresher-attr";
 import {VacListViewAttr} from "./list-view-attr";
 import {VacSplashAttr} from "./splash-attr";
+import {VacImageAttr} from "./image-attr";
 /**
  * Created by laj on 2016/7/4.
  */
 export class VacWidgetType{
     static button = 'button'; 
-    static header = 'header'; 
+    static image = 'image';
+    static header = 'header';
     static radio = 'radio'; 
     static range = 'range';
     static content = 'content';
@@ -48,6 +50,9 @@ export class VacCustomAttrFactory{
                 break;
             case VacWidgetType.splash:
                 attr = new VacSplashAttr();
+                break;
+            case VacWidgetType.image:
+                attr = new VacImageAttr();
                 break;
             default:
                 LogService.d('not found custom attr for type: ' + widgetType);

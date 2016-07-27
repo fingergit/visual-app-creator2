@@ -23,7 +23,7 @@ export class InputFileComponent implements OnInit{
     handleEvent:boolean = false;
     
     ngOnInit() {
-        this.id = 'file-' + this.curElem.id + '-' + this.attr.type + parseInt(Math.random() * 100000000);
+        this.id = 'file-' + this.curElem.id + '-' + this.attr.type + parseInt((Math.random() * 100000000).toString());
         this.$emlement = $(".file-upload");
         this.$emlement.fileinput({
             showCaption: false,

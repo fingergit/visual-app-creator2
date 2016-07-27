@@ -30,12 +30,12 @@ export class VacProjectWidgetTemplateService{
                 '0',
                 true,
                 `
-<div class="splash">
+<div class="splash" id="{{widget.id}}">
     <img class="splash-main" src="{{widget.attrs.custom.face.value}}">
     <img class="splash-slogan" src="{{widget.attrs.custom.slogan.value}}">
 </div>
 `,
-                WidgetCompilerType.common,
+                WidgetCompilerType.splash,
                 VacCustomAttrFactory.createAttr(VacWidgetType.splash)
             ),
             false, 0, 0,
@@ -47,6 +47,14 @@ export class VacProjectWidgetTemplateService{
                 `<button id="{{widget.id}}" class="vac-widget button button-{{widget.attrs.custom.style.value.value}}">{{widget.attrs.custom.text.value}}</button>`,
                 WidgetCompilerType.common,
                 VacCustomAttrFactory.createAttr(VacWidgetType.button)),
+            false, 0, 0,
+            '', ''));
+
+        this.templates.set(VacWidgetType.image, new VacProjectWidgetTemplate(
+            new VacProjectWidget(VacWidgetType.image, '图像', '0', false,
+                `<img id="{{widget.id}}" src="{{widget.attrs.custom.img.value}}">`,
+                WidgetCompilerType.common,
+                VacCustomAttrFactory.createAttr(VacWidgetType.image)),
             false, 0, 0,
             '', ''));
 

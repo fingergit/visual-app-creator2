@@ -1,7 +1,7 @@
 <div class="form-group">
-    <label for="comb" class="col-sm-2 control-label">{{attr?.name}}</label>
+    <label class="col-sm-2 control-label">{{attr?.name}}</label>
     <div class="col-sm-10">
-        <select class="form-control" id="comb" [ngModel]="attr?.value.value" (ngModelChange)="handleChange($event)">
+        <select class="form-control" [ngModel]="attr?.value.value" (ngModelChange)="handleChange($event)">
             <option *ngFor="let item of attr?.valueRange.values()" value="{{item.value}}">{{item.name}}</option>
         </select>
     </div>

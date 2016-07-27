@@ -5,3 +5,9 @@ vac-edit-panel{
     display: block;
     position: relative;
 }
+
+vac-edit-panel,vac-right-panel{
+    display: block;
+    position: relative;
+    overflow-y: auto;
+}

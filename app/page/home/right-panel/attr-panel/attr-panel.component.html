@@ -6,37 +6,41 @@
         <li><a href="#attr-border" data-toggle="tab" *ngIf="attrs?.border">{{attrs?.border?.name}}</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="attr-custom" *ngIf="attrs?.custom">
-            <form class="form-horizontal">
-                <div *ngFor="let attr of customAttrs">
-                    <span [ngSwitch]="attr.type">
-                        <span *ngSwitchCase="EVacWidgetAttrType.text">
-                            <vac-input [attr]="attr" [type]="text"></vac-input>
-                        </span>
-                        <span *ngSwitchCase="EVacWidgetAttrType.enumCombBox">
-                            <vac-comb-box [attr]="attr"></vac-comb-box>
-                        </span>
-                        <span *ngSwitchCase="EVacWidgetAttrType.boolSwitch">
-                            <vac-switch [attr]="attr" [value]="attr.value"></vac-switch>
-                        </span>
-                        <span *ngSwitchCase="EVacWidgetAttrType.textArray">
-                            <vac-list-box [attr]="attr"></vac-list-box>
-                        </span>
-                        <span *ngSwitchCase="EVacWidgetAttrType.imgFile">
-                            <vac-input-file [attr]="attr"></vac-input-file>
-                        </span>
-                        <span *ngSwitchCase="EVacWidgetAttrType.color">
-                            <vac-color [attr]="attr" [value]="attr.value"></vac-color>
-                        </span>
-                    </span>
-                </div>
-            </form>
-        </div>
-        <div id="attr-text" class="tab-pane" *ngIf="attrs?.text">
-        </div>
-        <div id="attr-position" class="tab-pane" *ngIf="attrs?.position">
-        </div>
-        <div id="attr-border" class="tab-pane" *ngIf="attrs?.border">
-        </div>
+        <!--<div class="tab-pane active" id="attr-custom" *ngIf="attrs?.custom">-->
+            <!--<form class="form-horizontal">-->
+                <!--<div *ngFor="let attr of customAttrs">-->
+                    <!--<span [ngSwitch]="attr.type">-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.text">-->
+                            <!--<vac-input [attr]="attr" [type]="text"></vac-input>-->
+                        <!--</span>-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.enumCombBox">-->
+                            <!--<vac-comb-box [attr]="attr"></vac-comb-box>-->
+                        <!--</span>-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.boolSwitch">-->
+                            <!--<vac-switch [attr]="attr" [value]="attr.value"></vac-switch>-->
+                        <!--</span>-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.textArray">-->
+                            <!--<vac-list-box [attr]="attr"></vac-list-box>-->
+                        <!--</span>-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.imgFile">-->
+                            <!--<vac-input-file [attr]="attr"></vac-input-file>-->
+                        <!--</span>-->
+                        <!--<span *ngSwitchCase="EVacWidgetAttrType.color">-->
+                            <!--<vac-color [attr]="attr" [value]="attr.value"></vac-color>-->
+                        <!--</span>-->
+                    <!--</span>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+        <!--<div id="attr-text" class="tab-pane" *ngIf="attrs?.text">-->
+        <!--</div>-->
+        <!--<div id="attr-position" class="tab-pane" *ngIf="attrs?.position">-->
+        <!--</div>-->
+        <!--<div id="attr-border" class="tab-pane" *ngIf="attrs?.border">-->
+        <!--</div>-->
+        <vac-attr-tab-panel class="tab-pane active" id="attr-custom" [attr]="attrs?.custom" attrKey="custom"></vac-attr-tab-panel>
+        <vac-attr-tab-panel class="tab-pane" id="attr-text" [attr]="attrs?.text" attrKey="text"></vac-attr-tab-panel>
+        <vac-attr-tab-panel class="tab-pane" id="attr-position" [attr]="attrs?.position" attrKey="position"></vac-attr-tab-panel>
+        <vac-attr-tab-panel class="tab-pane" id="attr-border" [attr]="attrs?.border" attrKey="border"></vac-attr-tab-panel>
     </div>
 </div>

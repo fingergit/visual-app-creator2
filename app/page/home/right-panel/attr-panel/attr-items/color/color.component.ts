@@ -1,10 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges,SimpleChanges} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {VacWidgetAttrValue} from "../../../../../../model/widget-attr/widget-attr-type";
 import {ProjectService} from "../../../../../../project/project.service";
 import {ActionService} from "../../../../../../action/action.service";
 import {VacProjectWidget} from "../../../../../../model/element/project-widget";
-import {Config} from "../../../../../../config/config";
 import {LogService} from "../../../../../../common/log.service";
 
 @Component({
@@ -30,7 +29,7 @@ export class ColorComponent implements OnInit, OnChanges{
     }
 
     ngOnInit() {
-        this.id = 'color-' + this.curElem.id + '-' + this.attr.type + parseInt(Math.random() * 100000000);
+        this.id = 'color-' + this.curElem.id + '-' + this.attr.type + parseInt((Math.random() * 100000000).toString());
         this.$emlement = $(".color-picker");
         var myInterval = setInterval(()=>{
             LogService.d("wait id: " + this.id);

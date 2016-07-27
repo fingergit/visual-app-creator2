@@ -1,6 +1,9 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {VacWidgetAttrValue, EVacWidgetAttrType} from "../../../../../../model/widget-attr/widget-attr-type";
 import {ActionService} from "../../../../../../action/action.service";
+import {VacProjectWidget} from "../../../../../../model/element/project-widget";
+import {LogService} from "../../../../../../common/log.service";
+import {ProjectService} from "../../../../../../project/project.service";
 
 @Component({
     moduleId: module.id
@@ -15,17 +18,35 @@ export class SwitchComponent implements OnInit, OnChanges{
     // 我们需要监听attr.value的改变，来开关switch界面。
     @Input() value: boolean;
 
+    id: string = null;
+    curElem:VacProjectWidget = null;
+
     $checkbox: JQuery;
 
-    constructor(private actionService: ActionService
+    constructor(private projectService: ProjectService,
+                private actionService: ActionService
     ){
         this.attr = new VacWidgetAttrValue('', false, EVacWidgetAttrType.boolSwitch, null);
+        this.curElem = this.projectService.curProject.getCurrentWidget();
     }
 
     ngOnInit() {
+        this.id = 'switch-' + this.curElem.id + '-' + this.attr.type + parseInt((Math.random() * 100000000).toString());
+
         this.$checkbox = $(".switch-checkbox");
-        this.$checkbox.bootstrapSwitch('state', this.attr.value);
-        this.$checkbox.on('switchChange.bootstrapSwitch', (event,state)=>{this.handleChange(state);});
+
+        var myInterval = setInterval(()=>{
+            let $elem = $("#" + this.id);
+            if ($elem.length > 0){
+                clearInterval(myInterval);
+                myInterval = null;
+                LogService.d("2timer killed.");
+                this.$checkbox = $elem;
+                this.$checkbox.bootstrapSwitch('state', this.attr.value);
+                this.$checkbox.on('switchChange.bootstrapSwitch', (event,state)=>{this.handleChange(state);});
+            }
+        },10);
+
     }
     
     ngOnChanges(changes:SimpleChanges) {

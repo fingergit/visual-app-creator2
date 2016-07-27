@@ -30,7 +30,7 @@ export class ToolbarComponent implements OnInit,AfterViewInit{
     ngOnInit(){
         this.isMac = this.platformService.detectOS() === PlatformType.Mac;
         this.actionService.actionChanged.subscribe(() => {
-            LogService.d('generatorOrNext');
+            // LogService.d('generatorOrNext');
             this.commandService.undo.enable = this.actionService.canUndo();
             this.commandService.redo.enable = this.actionService.canRedo();
         }, ()=>{
@@ -41,9 +41,9 @@ export class ToolbarComponent implements OnInit,AfterViewInit{
     }
 
     ngAfterViewInit():any {
-        LogService.d('after init');
+        // LogService.d('after init');
         LogService.d(this.viewChild);
-        this.viewChild.compile();
+        // this.viewChild.compile();
         return undefined;
     }
 

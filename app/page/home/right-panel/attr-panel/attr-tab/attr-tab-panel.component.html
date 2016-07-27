@@ -1,0 +1,24 @@
+<form class="form-horizontal">
+    <div *ngFor="let attrItem of attrItems">
+            <span [ngSwitch]="attrItem.type">
+                <span *ngSwitchCase="EVacWidgetAttrType.text">
+                    <vac-input [attr]="attrItem" [type]="text"></vac-input>
+                </span>
+                <span *ngSwitchCase="EVacWidgetAttrType.enumCombBox">
+                    <vac-comb-box [attr]="attrItem"></vac-comb-box>
+                </span>
+                <span *ngSwitchCase="EVacWidgetAttrType.boolSwitch">
+                    <vac-switch [attr]="attrItem" [value]="attrItem.value"></vac-switch>
+                </span>
+                <span *ngSwitchCase="EVacWidgetAttrType.textArray">
+                    <vac-list-box [attr]="attrItem"></vac-list-box>
+                </span>
+                <span *ngSwitchCase="EVacWidgetAttrType.imgFile">
+                    <vac-input-file [attr]="attrItem"></vac-input-file>
+                </span>
+                <span *ngSwitchCase="EVacWidgetAttrType.color">
+                    <vac-color [attr]="attrItem" [value]="attrItem.value"></vac-color>
+                </span>
+            </span>
+    </div>
+</form>

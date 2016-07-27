@@ -36,15 +36,15 @@ export class LeftPanelComponent implements OnInit{
             }
         });
 
-        let ary:Array<number> = [1, 2, 4, 8];
-        Observable.create((observer:Observer<Array<number>>)=>{
-            observer.next(ary);
-            observer.complete();
-        }).subscribe((x)=>{
-            console.log(x);
-        }, (e) =>{
-            console.log("err");
-        });
+        // let ary:Array<number> = [1, 2, 4, 8];
+        // Observable.create((observer:Observer<Array<number>>)=>{
+        //     observer.next(ary);
+        //     observer.complete();
+        // }).subscribe((x)=>{
+        //     console.log(x);
+        // }, (e) =>{
+        //     console.log("err");
+        // });
     }
     constructor(private projectService: ProjectService
                 ,private actionService: ActionService
